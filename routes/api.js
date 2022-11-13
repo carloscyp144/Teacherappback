@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
-router.use('/public',  require('./public/public'));
-router.use('/private', require('./private/private'));
+const { checkToken } = require('../helpers/token_utils');
+
+router.use('/public', require('./public/public'));
+router.use('/private', checkToken, require('./private/private'));
 
 module.exports = router;

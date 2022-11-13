@@ -1,7 +1,8 @@
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
+const { passwordValidationSchema } = require('./password.validator');
 
-const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetUserName, modelReferenceName) => {
-    const commonFieldsValidationSchema = {
+const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetByUserName, modelReferenceName, creation) => {
+    let commonFieldsValidationSchema = {
         userName: {
             exists: {
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'userName')
@@ -12,9 +13,14 @@ const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetUserName, mode
             },
             custom: {
                 options: async (value) => {
-                    const modelObject = await modelGetUserName(value);
-                    if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese userName`);
-                    Promise.resolve();
+                    // Solo hay que comprobar si existe el userName en el alta
+                    if (creation) {
+                        const modelObject =  await modelGetByUserName(value);
+                        if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese userName`);
+                        Promise.resolve();
+                    } else {
+                        Promise.resolve();
+                    }
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'userName', modelReferenceName)
             },
@@ -33,24 +39,29 @@ const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetUserName, mode
             },
             custom: {
                 options: async (value) => {
-                    const modelObject = await modelGetByEmail(value);                    
-                    if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese email`);
-                    Promise.resolve();
+                    // Solo hay que comprobar si existe el email en el alta
+                    if (creation) {
+                        const modelObject = await modelGetByEmail(value);
+                        if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese email`);
+                        Promise.resolve();
+                    } else {
+                        Promise.resolve();
+                    }
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'email', modelReferenceName)
             },
             trim: true
-        },
-        password: {
-            exists: {
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'password')
-            },
-            isLength: {
-                options: { min: 6 },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MIN_LENGTH_FIELD, 'password', '6')
-            }
-        }
+        }        
     }
+
+    // El password solo tiene que estar en el alta del usuario
+    if (creation) {
+        commonFieldsValidationSchema = {
+            ...commonFieldsValidationSchema,
+            ...passwordValidationSchema
+        };
+    }
+
     return commonFieldsValidationSchema;
 }
 

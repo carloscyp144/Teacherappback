@@ -1,4 +1,5 @@
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
+const { passwordValidationSchema } = require('./password.validator');
 
 const loginValidationSchema = {
     email: {
@@ -14,15 +15,7 @@ const loginValidationSchema = {
         },
         trim: true
     },
-    password: {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'password')
-        },
-        isLength: {
-            options: { min: 6 },
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MIN_LENGTH_FIELD, 'password', '6')
-        }
-    }
+    ...passwordValidationSchema    
 }
 
 module.exports = { loginValidationSchema };

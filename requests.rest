@@ -12,10 +12,10 @@ POST http://localhost:3000/api/public/alumnos/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": " Mario Rodriguez Artalejo ",
-    "userName": "mRodriguez7",
-    "email": "mrodriguez7@gmail.com",
-    "password": "12345a"
+    "nombreCompleto": "Mariano Jiménez 2",
+    "userName": "mjimenez2",
+    "email": "mjimenez2@gmail.com",
+    "password": "123456"
 }
 
 ### ALUMNOS --> POST (login un alumno)
@@ -23,6 +23,30 @@ POST http://localhost:3000/api/public/alumnos/login
 Content-Type: application/json
 
 {
-    "email": "mrodriguez7@gmail.com",
-    "password": "12345a"
+    "email": "mjimenez2@gmail.com",
+    "password": "654321"
+}
+
+
+#########################
+### PRIVADO - ALUMNOS ###
+#########################
+### ALUMNOS --> PUT (actualización de los datos de un alumno que no sean la password - solo lo puede hacer él mismo -)
+PUT http://localhost:3000/api/private/alumnos/update
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjgzOTc0NjAsImlhdCI6MTY2ODM3OTQ2MH0.mz-z8Voh9GL8uJ4bvR3novljBRgPmm5Wa02j-vhWvI0
+
+{
+    "nombreCompleto": "Mario Jiménez Frías 2",
+    "userName": "mjimenez2",
+    "email": "mjimenez2@gmail.com"
+}
+
+### ALUMNOS --> PUT (actualización del password del alumno- solo lo puede hacer él mismo -)
+PUT http://localhost:3000/api/private/alumnos/update/password
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjgzOTc0NjAsImlhdCI6MTY2ODM3OTQ2MH0.mz-z8Voh9GL8uJ4bvR3novljBRgPmm5Wa02j-vhWvI0
+
+{
+    "password": "654321"
 }
