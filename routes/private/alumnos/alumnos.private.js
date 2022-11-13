@@ -1,13 +1,7 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const { checkSchema } = require('express-validator');
 
-const { alumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
-const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { create, getById }        = require('../../../models/alumnos.model');
-const { manageRouterError }      = require('../../../helpers/router_utils');
-
-// Creación de un nuevo alumno.
+// Actualización de los datos de un alumno.
+// (Solo lo puede hacer él mismo)
 router.post(
     '/register', 
     checkSchema(alumnoValidationSchema),
