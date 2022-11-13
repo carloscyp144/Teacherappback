@@ -1,0 +1,5 @@
+### El API está levantada
+http://localhost:3000/
+
+### Documentación del API
+http://localhost:3000/api-docs
