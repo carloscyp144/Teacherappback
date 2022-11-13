@@ -8,10 +8,12 @@ const VALUE_STR = '$$$';
 const ErrorType = {
     ERROR_MANDATORY_FIELD:   `El campo ${FIELD_STR} es obligatorio`,
     ERROR_MAX_LENGTH_FIELD:  `El tamaño máximo del campo ${FIELD_STR} es de ${VALUE_STR} caracteres`,
+    ERROR_MIN_LENGTH_FIELD:  `El tamaño mínimo del campo ${FIELD_STR} es de ${VALUE_STR} caracteres`,
     ERROR_EMAIL_FIELD:       `El campo ${FIELD_STR} no es un correo electrónico válido`,
     ERROR_URL_FIELD:         `El campo ${FIELD_STR} no es una URL válida`,
     ERROR_NO_EXISTS:         `No existe ${VALUE_STR} con la clave indicada en ${FIELD_STR}`,
-    ERROR_DATE_FIELD:        `El campo ${FIELD_STR} no es una fecha válida`
+    ERROR_DATE_FIELD:        `El campo ${FIELD_STR} no es una fecha válida`,
+    ERROR_ALREADY_EXISTS:    `Ya existe un ${VALUE_STR} con el ${FIELD_STR} indicado`
 }
 
 const getErrorFieldStr = (error, fieldName, valueStr) => {

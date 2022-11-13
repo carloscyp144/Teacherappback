@@ -1,55 +1,19 @@
-const { getErrorFieldStr, ErrorType } = require("../errormsg_utils");
+const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
+const { getByEmail, getByUserName } = require('../../models/alumnos.model');
+const { getCommonFieldsValidationSchema } = require('./commonFields.validator');
 
 const alumnoValidationSchema = {
-    /*titulo: {
+    nombreCompleto: {
         exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'titulo')
+            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'nombreCompleto')
         },
         isLength: {
-            options: { max: 100 },
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'titulo', '100')
-        }
+            options: { max: 45 },
+            errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'nombreCompleto', '45')
+        },
+        trim: true
     },
-    descripcion: {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'descripcion')
-        },
-        isLength: {
-            options: { max: 300 },
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'descripcion', '300')
-        }
-    },
-    fecha_creacion: {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'fecha_creacion')
-        },
-        isISO8601: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_DATE_FIELD, 'fecha_creacion')
-        },
-        toDate: true
-    },
-    categoria: {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'categoria')
-        },
-        isLength: {
-            options: { max: 50 },
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'categoria', '50')
-        }
-    },
-    autor_id: {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'autor_id')
-        },
-        custom: {
-            options: async (value) => {
-                const autor = await getById(value);
-                if (autor === null) return Promise.reject('No existe el autor');
-                Promise.resolve();
-            },
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_NO_EXISTS, 'autor_id', 'autor')
-        }
-    }*/
+    ...getCommonFieldsValidationSchema(getByEmail, getByUserName, 'alumno')
 }
 
 module.exports = { alumnoValidationSchema };

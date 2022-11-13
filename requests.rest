@@ -3,3 +3,17 @@ http://localhost:3000/
 
 ### Documentación del API
 http://localhost:3000/api-docs
+
+#########################
+### PUBLICO - ALUMNOS ###
+#########################
+### ALUMNOS --> POST (registro de un alumno)
+POST http://localhost:3000/api/public/alumnos/register
+Content-Type: application/json
+
+{
+    "nombreCompleto": " Mario Rodriguez Artalejo ",
+    "userName": "mRodriguez7",
+    "email": "mrodriguez7@gmail.com",
+    "password": "12345a"
+}
