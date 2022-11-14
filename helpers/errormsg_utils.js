@@ -13,7 +13,11 @@ const ErrorType = {
     ERROR_URL_FIELD:         `El campo ${FIELD_STR} no es una URL válida`,
     ERROR_NO_EXISTS:         `No existe ${VALUE_STR} con la clave indicada en ${FIELD_STR}`,
     ERROR_DATE_FIELD:        `El campo ${FIELD_STR} no es una fecha válida`,
-    ERROR_ALREADY_EXISTS:    `Ya existe un ${VALUE_STR} con el ${FIELD_STR} indicado`
+    ERROR_ALREADY_EXISTS:    `Ya existe un ${VALUE_STR} con el ${FIELD_STR} indicado`,
+    ERROR_MAX_DECIMALS:      `El campo ${FIELD_STR} no puede tener más de ${VALUE_STR} decimales`,
+    ERROR_DECIMAL_MIN_MAX:   `El campo ${FIELD_STR} debe ser un decimal entre ${VALUE_STR}`,
+    ERROR_INT_MIN_MAX:       `El campo ${FIELD_STR} debe ser un entero entre ${VALUE_STR}`,
+    ERROR_INT:               `El campo ${FIELD_STR} debe ser un entero`
 }
 
 const getErrorFieldStr = (error, fieldName, valueStr) => {

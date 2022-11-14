@@ -85,4 +85,4 @@ const rollBack = (db) => {
 
 // <-- Funciones pra transacciones
 
-module.exports = { executeQuery, executeQueryOne, beginTransaction, commit, rollBack };
+module.exports = { executeQuery, executeQueryOne, beginTransaction, executeQueryTrans, executeQueryOneTrans, commit, rollBack };
