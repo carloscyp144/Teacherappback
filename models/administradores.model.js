@@ -16,4 +16,15 @@ const checkIsEmpty = () => {
     return executeQueryOne('SELECT (NOT EXISTS (SELECT 1 FROM administradores)) AS isEmpty');
 }
 
-module.exports = { create, checkIsEmpty };
+const getByEmailWithPassword = (email) => {
+    return executeQueryOne(
+        `select ${columns} from administradores where (email = ?)`, 
+        [ email ]
+    );
+}
+
+module.exports = { 
+    create, 
+    checkIsEmpty,
+    getByEmailWithPassword
+};

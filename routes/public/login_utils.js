@@ -24,12 +24,13 @@ const commonLogin = async (req, res, getByEmailWithPassword, role) => {
             return res.json({ errorMessage: 'El Email y/o la contraseña no son correctos' })
         }
 
-        delete user.password; // Aunque es el hash, mejor no devolverlo al front.
+        delete user.password; // Aunque es el hash, mejor no devolverlo al front.        
 
-        res.json({            
-            token: createToken(user, role),
-            user
-        });
+        const result = {};
+        result.token = createToken(user, role);
+        result[role] = user;
+
+        res.json(result);
     } catch (error) {
         manageRouterError(res, error);
     }
