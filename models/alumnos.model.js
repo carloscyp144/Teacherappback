@@ -27,6 +27,13 @@ const updatePassword = (id, password) => {
     );
 }
 
+const logicDelete = (id) => {
+    return executeQuery(
+        `update alumnos set borrado = 1 where (id = ?)`, 
+        [ id ]
+    );
+}
+
 const getByEmail = (email) => {
     return executeQueryOne(
         `select ${no_password_columns} from alumnos where (email = ?)`, 
@@ -76,7 +83,8 @@ module.exports = {
     getByEmailNotId, 
     getByUserName, 
     getByUserNameNotId, 
-    getById, 
+    getById,
+    logicDelete, 
     updateNotPasswordFields,
     updatePassword
 };

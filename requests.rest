@@ -61,3 +61,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInJvbGUiOiJhbHVt
 {
     "password": "654321"
 }
+
+### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
+DELETE http://localhost:3000/api/private/alumnos/delete/10
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg0MDI1ODMsImlhdCI6MTY2ODM4NDU4M30.HB2O6VpxXupfoEX5rv3_OnhftxTwkT9gLPMWjVMe4d4

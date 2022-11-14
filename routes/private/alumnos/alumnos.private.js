@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { getById, updateNotPasswordFields, getByEmailNotId, getByUserNameNotId, updatePassword } = require('../../../models/alumnos.model');
+const { getById, updateNotPasswordFields, getByEmailNotId, getByUserNameNotId, updatePassword, logicDelete } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
 const { passwordValidationSchema } = require('../../../helpers/validators/password.validator');
@@ -60,6 +60,24 @@ router.put(
             const id = req.user.id;
             const password = bcrypt.hashSync(req.body.password, 8);            
             await updatePassword(id, password);
+
+            res.json({ success: true });
+        } catch (error) {
+            manageRouterError(res, error);
+        }
+    }
+);
+
+// Borrado lógico del usuario.
+// (Solo lo podrá hacer un administrador)
+router.delete(
+    '/delete/:id',
+    checkRole('administrador'),
+    async (req, res) => {
+        try {            
+            const id = req.params.id;
+            
+            await logicDelete(id);
 
             res.json({ success: true });
         } catch (error) {
