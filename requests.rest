@@ -39,6 +39,15 @@ Content-Type: application/json
     "password": "123456"
 }
 
+#######################
+### PUBLICO - RAMAS ###
+#######################
+### RAMAS --> GET (recuperamos todas)
+http://localhost:3000/api/public/ramas/
+
+### RAMAS --> GET (paginadas)
+http://localhost:3000/api/public/ramas/?page=2&limit=2
+
 #########################
 ### PRIVADO - ALUMNOS ###
 #########################
