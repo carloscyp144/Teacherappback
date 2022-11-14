@@ -15,7 +15,7 @@ Deberá crear el fichero .env en la carpeta donde coloque el proyecto. Este fich
 | DB_PASSWORD="db_password" | Clave del usuario para conectar a la base de datos |
 | DB_PORT=3306 | Puerto en el que escucha el servidor de base de datos |
 | DB_DATABASE="db_name" | Nombre de la base de datos |
-| DEFAULT_ADMIN_NOMBRE_COMPLETO="Nombre completo administrador" | Si no administradores, al arrancar se crea uno con este nombre completo |
+| DEFAULT_ADMIN_NOMBRE_COMPLETO="Nombre completo administrador" | Si no hay administradores, al arrancar se crea uno con este nombre completo |
 | DEFAULT_ADMIN_USERNAME="admin" | Si no hay administradores, al arrancar se crea uno con este nombre de usuario |
 | DEFAULT_ADMIN_EMAIL="admin@gmail.com" | Si no hay administradores, al arrancar se crea uno con este correo electrónico |
 | DEFAULT_ADMIN_PASSWORD="123456" | Si no hay administradores, al arrancar se crea uno con esta clave |
