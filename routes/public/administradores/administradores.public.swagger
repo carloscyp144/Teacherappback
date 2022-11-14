@@ -1,0 +1,80 @@
+/**
+ * @openapi
+ * tags:
+ *   - name: Administradores
+ *     description: "Peticiones relacionadas con administradores"
+ *
+ * /api/public/administradores/login:
+ *   post:
+ *     tags:
+ *       - Administradores
+ *     description: Hace el login con el administrador del email y password recibido. Devuelve el JWT que hay que usar en las peticiones a la parte privada, y los datos del administrador logeado.
+ *     requestBody:
+ *       description: Datos para hacer login
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/loginRequest'
+ *     responses:
+ *       200:
+ *         description: El JWT y los datos del usuario logeado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/loginAdministradorResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       401:
+ *         description: El email y/o la contraseña con incorrectos.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ *components:
+ *  schemas:
+ *    loginAdministradorResponse:
+ *      title: LoginAdministradorResponse
+ *      description: Datos devueltos al hacer login (JWT y un objeto administrador)
+ *      type: object
+ *      properties:
+ *        token:
+ *          type: string
+ *          description: JWT para las siguientes peticiones
+ *          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg0MDg0NzgsImlhdCI6MTY2ODM5MDQ3OH0.0g_5ANiw3Xg7jsefRm903wmwk4yKdyqMICZ8EecAcSA
+ *        administrador:
+ *          $ref: '#/components/schemas/administrador'
+ *    administrador:
+ *      title: Administrador
+ *      description: Datos de un administrador
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *          description: Identificador del administrador
+ *          example: 1
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del administrador
+ *          example: Mario Rodríguez Artalejo
+ *        userName:
+ *          type: string
+ *          description: Nombre del usuario en la aplicación
+ *          example: mRodriguez
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del usuario
+ *          example: mRodriguez@gmail.com 
+ */

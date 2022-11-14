@@ -1,0 +1,138 @@
+/**
+ * @openapi
+ * tags:
+ *   - name: Alumnos
+ *     description: "Peticiones relacionadas con alumnos"
+ *
+ * /api/public/alumnos/register:
+ *   post:
+ *     tags:
+ *       - Alumnos
+ *     description: Hace el registro del alumno con los datos recibidos.
+ *     requestBody:
+ *       description: Datos para dar de alta al alumno.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/altaAlumno'
+ *     responses:
+ *       200:
+ *         description: Datos con los que se ha dado de alta el alumno.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/alumnoResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ * /api/public/alumnos/login:
+ *   post:
+ *     tags:
+ *       - Alumnos
+ *     description: Hace el login con el alumno del email y password recibido. Devuelve el JWT que hay que usar en las peticiones a la parte privada, y los datos del alumno logeado.
+ *     requestBody:
+ *       description: Datos para hacer login.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/loginRequest'
+ *     responses:
+ *       200:
+ *         description: El JWT y los datos del usuario logeado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/loginAlumnoResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       401:
+ *         description: El email y/o la contraseña con incorrectos.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ *components:
+ *  schemas:
+ *    altaAlumno:
+ *      title: AltaAlumno
+ *      description: Datos para dar de alta al alumno
+ *      type: object
+ *      properties:
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del alumno
+ *          example: Mario Rodríguez Artalejo
+ *        userName:
+ *          type: string
+ *          description: Nombre del alumno en la aplicación
+ *          example: mRodriguez
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del alumno
+ *          example: mRodriguez@gmail.com
+ *        password:
+ *          type: string
+ *          description: Clave de acceso del alumno
+ *          example: 123456
+ *    loginAlumnoResponse:
+ *      title: LoginAlumnoResponse
+ *      description: Datos devueltos al hacer login (JWT y un objeto alumno)
+ *      type: object
+ *      properties:
+ *        token:
+ *          type: string
+ *          description: JWT para las siguientes peticiones
+ *          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg0MDg0NzgsImlhdCI6MTY2ODM5MDQ3OH0.0g_5ANiw3Xg7jsefRm903wmwk4yKdyqMICZ8EecAcSA
+ *        alumno:
+ *          $ref: '#/components/schemas/alumnoResponse'
+ *    alumnoResponse:
+ *      title: Alumno
+ *      description: Datos de un alumno
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: number
+ *          description: Identificador del alumno
+ *          example: 1
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del alumno
+ *          example: Mario Rodríguez Artalejo
+ *        userName:
+ *          type: string
+ *          description: Nombre del alumno en la aplicación
+ *          example: mRodriguez
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del alumno
+ *          example: mRodriguez@gmail.com
+ *        borrado:
+ *          type: number
+ *          description: Indica si el alumno se ha borrado (borrado lógico)
+ *          example: 1
+ */

@@ -7,12 +7,16 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Actividad 9',
-      description: 'Actividad: Diseño de API con base de datos MySQL. Máster full stack devoloper. UNIR.',
+      title: 'teacherApp API',
+      description: 'TFM: eebApp para la gestión y localización de profesores de clases particulares categorizados. Máster full stack devoloper. UNIR.',
       version: '1.0.0',
-    },
+    }
   },
-  apis: ['./routes/api/*.js']
+  apis: [
+    './routes/api.swagger',
+    './routes/*/*.swagger',
+    './routes/*/*/*.swagger'
+  ]
 };
 
 const swaggerSpec  = swaggerJsdoc(options);

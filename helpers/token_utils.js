@@ -9,7 +9,9 @@ const checkToken = async (req, res, next) => {
                   .json({ errorMessage: 'Debes incluir el token de autenticación' });
     }
 
-    const { authorization: token } = req.headers;    
+    let { authorization: token } = req.headers;    
+
+    token = token.replace('Bearer ', ''); // Para los que vienen de swagger.
 
     let obj;
     try {

@@ -9,19 +9,22 @@ const commonLogin = async (req, res, getByEmailWithPassword, role) => {
         
         const user = await getByEmailWithPassword(email);
         if (!user) {
-            return res.json({ errorMessage: 'El Email y/o la contraseña no son correctos' })
+            return res.status(401)
+                      .json({ errorMessage: 'El email y/o la contraseña no son correctos' })
         }
 
         // Para los alumnos (se pueden borrar)-->        
         if (user.borrado)
         {
-            return res.json({ errorMessage: 'El Email y/o la contraseña no son correctos' })
+            return res.status(401)
+                      .json({ errorMessage: 'El email y/o la contraseña no son correctos' })
         }
         // <-- Para los alumnos
 
         const iguales = bcrypt.compareSync(password, user.password);
         if (!iguales) {
-            return res.json({ errorMessage: 'El Email y/o la contraseña no son correctos' })
+            return res.status(401)
+                      .json({ errorMessage: 'El email y/o la contraseña no son correctos' })
         }
 
         delete user.password; // Aunque es el hash, mejor no devolverlo al front.        

@@ -74,12 +74,19 @@ router.delete(
     '/delete/:id',
     checkRole('administrador'),
     async (req, res) => {
-        try {            
+        try {
+            // Validar el id.
             const id = req.params.id;
             
-            await logicDelete(id);
-
-            res.json({ success: true });
+            const result = await logicDelete(id);
+            console.log(result);
+            if(result.affectedRows == 0){
+                res.status(404)
+                   .json({ messageError: 'No existe el alumno especificado' });
+            }
+            else {
+                res.json({ success: true });
+            }
         } catch (error) {
             manageRouterError(res, error);
         }
