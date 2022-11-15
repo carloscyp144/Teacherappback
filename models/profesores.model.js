@@ -22,14 +22,14 @@ const getById = (id) => {
         [ id ]
     );
 }
-
+/*
 const getByEmail = (email) => {
     return executeQueryOne(
         `select ${no_password_columnsLonLat} from profesores where (email = ?)`, 
         [ email ]
     );
 }
-
+*/
 const getByUserName = (userName) => {    
     return executeQueryOne(
         `select ${no_password_columnsLonLat} from profesores where (userName = ?)`, 
@@ -37,5 +37,5 @@ const getByUserName = (userName) => {
     );
 }
 
-module.exports = { createTrans, getById, getByEmail, getByUserName };
+module.exports = { createTrans, getById/*, getByEmail*/, getByUserName };
 

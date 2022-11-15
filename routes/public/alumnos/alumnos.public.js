@@ -18,8 +18,7 @@ router.post(
         try {
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
-            const result = await create(req.body);
-            const alumno = await getById(result.insertId);
+            const alumno = create(req.body);
             res.json(alumno);
         } catch (error) {
             manageRouterError(res, error);

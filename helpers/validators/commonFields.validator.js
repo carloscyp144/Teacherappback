@@ -1,7 +1,8 @@
+const { getByEmail, getByUserName } = require('../../models/usuarios.model');
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
 const { passwordValidationSchema } = require('./password.validator');
 
-const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetByUserName, modelReferenceName, creation) => {
+const getCommonFieldsValidationSchema = (modelReferenceName, creation) => {
     let commonFieldsValidationSchema = {
         userName: {
             exists: {
@@ -15,7 +16,7 @@ const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetByUserName, mo
                 options: async (value) => {
                     // Solo hay que comprobar si existe el userName en el alta
                     if (creation) {
-                        const modelObject = await modelGetByUserName(value);                        
+                        const modelObject = await getByUserName(value);                        
                         if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese userName`);
                         Promise.resolve();
                     } else {
@@ -41,7 +42,7 @@ const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetByUserName, mo
                 options: async (value) => {
                     // Solo hay que comprobar si existe el email en el alta
                     if (creation) {
-                        const modelObject = await modelGetByEmail(value);
+                        const modelObject = await getByEmail(value);
                         if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese email`);
                         Promise.resolve();
                     } else {
