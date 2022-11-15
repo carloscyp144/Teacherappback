@@ -27,6 +27,35 @@ Content-Type: application/json
     "password": "654321"
 }
 
+############################
+### PUBLICO - PROFESORES ###
+############################
+### PROFESORES --> POST (registro de un profesor)
+POST http://localhost:3000/api/public/profesores/register
+Content-Type: application/json
+
+{
+    "nombreCompleto": "Carlo2",
+    "userName": "carlo2",
+    "email": "carlo2@gmail.com",
+    "password": "123456",
+    "descripcion": "Descripción del profesor", 
+    "precioHora": 999.99, 
+    "experiencia": 1,
+    "latitud": 50.0755381,
+    "longitud": 14.4378005, 
+    "telefono": "TELEFONO",
+    "ramas": [
+        {
+            "ramaId": 1
+        },
+        {
+            "ramaId": 2
+        }
+    ]
+}
+
+
 #################################
 ### PUBLICO - ADMINISTRADORES ###
 #################################

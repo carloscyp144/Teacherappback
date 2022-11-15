@@ -15,14 +15,13 @@ const getProfesorValidationSchema = (creation) => {
             },
             trim: true
         },
-        ...getCommonFieldsValidationSchema(getByEmail, getByUserName, 'profesor', creation),
-        description: {
+        descripcion: {
             exists: {
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'description')
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'descripcion')
             },
             isLength: {
                 options: { max: 200 },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'description', '200')
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'descripcion', '200')
             },
             trim: true
         },
@@ -31,7 +30,7 @@ const getProfesorValidationSchema = (creation) => {
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'precioHora')
             },
             isDecimal: {
-                options: { decimal_digits: ',2' }, // No más de dos decimales.
+                options: { decimal_digits: '0,2' }, // No más de dos decimales.
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_DECIMALS, 'precioHora', '2')
             },
             isFloat: {
@@ -40,6 +39,22 @@ const getProfesorValidationSchema = (creation) => {
                     max: 999.99
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_DECIMAL_MIN_MAX, 'precioHora', '0 y 999.99')
+            }
+        },
+        latitud: {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'latitud')
+            },
+            isDecimal: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_DECIMAL, 'latitud')
+            }
+        },
+        longitud: {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'longitud')
+            },
+            isDecimal: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_DECIMAL, 'longitud')
             }
         },
         experiencia: {
@@ -82,14 +97,15 @@ const getProfesorValidationSchema = (creation) => {
             },
             custom: {
                 options: async (value) => {
-                    const modelObject =  await getByNombre(value);
+                    const modelObject = await getByNombre(value);
                     if (modelObject !== null) return Promise.reject(`Ya existe una rama con ese nombre`);
                         Promise.resolve();
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'nombre', 'rama')
             },
             trim: true                    
-        }
+        },
+        ...getCommonFieldsValidationSchema(getByEmail, getByUserName, 'profesor', creation)
     }
     return profesorValidationSchema;
 }

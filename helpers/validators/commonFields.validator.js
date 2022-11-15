@@ -15,7 +15,7 @@ const getCommonFieldsValidationSchema = (modelGetByEmail, modelGetByUserName, mo
                 options: async (value) => {
                     // Solo hay que comprobar si existe el userName en el alta
                     if (creation) {
-                        const modelObject =  await modelGetByUserName(value);
+                        const modelObject = await modelGetByUserName(value);                        
                         if (modelObject !== null) return Promise.reject(`Ya existe un ${modelReferenceName} con ese userName`);
                         Promise.resolve();
                     } else {

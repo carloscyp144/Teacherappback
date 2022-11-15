@@ -23,7 +23,7 @@ administradores.checkIsEmpty()
                     )
                   }
                 },
-                () => console.log('Error al comprobar si la tabla de administradores está vacía: ', error)
+                () => console.log('Error al comprobar si la tabla de administradores está vacía')
               );
 
 /**

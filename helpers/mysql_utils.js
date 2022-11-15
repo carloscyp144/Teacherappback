@@ -65,9 +65,9 @@ const executeQueryOneTrans = (db, sql, params = []) => {
 
 const commit = (db) => {
     return new Promise((resolve, reject) => {
-        db.commit( (err) => {
+        db.commit((err) => {
             if (err) reject(err);
-            connection.releaseConnection();
+            db.release();
             resolve();
         })
     });
@@ -75,9 +75,9 @@ const commit = (db) => {
 
 const rollBack = (db) => {
     return new Promise((resolve, reject) => {
-        db.rollBack()((err) => {
+        db.rollback((err) => {
             if (err) reject(err);
-            connection.releaseConnection();
+            db.release();
             resolve();
         })
     });

@@ -17,7 +17,8 @@ const ErrorType = {
     ERROR_MAX_DECIMALS:      `El campo ${FIELD_STR} no puede tener más de ${VALUE_STR} decimales`,
     ERROR_DECIMAL_MIN_MAX:   `El campo ${FIELD_STR} debe ser un decimal entre ${VALUE_STR}`,
     ERROR_INT_MIN_MAX:       `El campo ${FIELD_STR} debe ser un entero entre ${VALUE_STR}`,
-    ERROR_INT:               `El campo ${FIELD_STR} debe ser un entero`
+    ERROR_INT:               `El campo ${FIELD_STR} debe ser un entero`,
+    ERROR_DECIMAL:           `El campo ${FIELD_STR} debe ser un decimal`
 }
 
 const getErrorFieldStr = (error, fieldName, valueStr) => {

@@ -6,7 +6,7 @@ const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { commonLogin } = require('../login_utils');
 const { beginTransaction, rollBack, commit } = require('../../../helpers/mysql_utils');
-const { createTrans: createTransProfesor } = require('../../../models/profesores.model');
+const { createTrans: createTransProfesor, getById } = require('../../../models/profesores.model');
 const { createTrans: createTransRama } = require('../../../models/ramas.model');
 const { createTrans: createTransRamaProfesor } = require('../../../models/ramasprofesores.model');
 const { getProfesorValidationSchema } = require('../../../helpers/validators/profesores.validator');
@@ -28,6 +28,7 @@ router.post(
 
                 // Añadimos las ramas existentes al profesor
                 if (req.body.ramas) {
+                    console.log
                     req.body.ramas.forEach(async element => await createTransRamaProfesor(db, profesorId, element.ramaId));
                 }
 
@@ -47,7 +48,7 @@ router.post(
                 throw error;
             }
 
-            profesor = await getById(result.insertId);
+            profesor = await getById(profesorId);
             res.json(profesor);
         } catch (error) {
             manageRouterError(res, error);
