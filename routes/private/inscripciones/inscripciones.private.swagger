@@ -40,5 +40,48 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error' 
+ * /api/private/inscripciones/accept/{inscripcionId}:
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Inscripciones
+ *     description: El profesor cuyo id va en el token acepta la inscripción que viene en el parámetro de la petición. En la cabecera deberá ir el token de un profesor.
+ *     parameters:
+ *        - in: path
+ *          name: inscripcionId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Identificador de la inscripción que se va a aceptar.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       401:
+ *         description: La inscripción pertenece a otro profesor.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       404:
+ *         description: No existe ninguna inscripción con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  *
  */

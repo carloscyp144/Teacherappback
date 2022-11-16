@@ -7,6 +7,7 @@ const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { getByEmailWithPassword } = require('../../../models/usuarios.model');
 const { getRoleName, alumnoRoleId } = require('../../../models/roles.model');
 const { getByUserId: getAlumnoByUserId } = require('../../../models/alumnos.model');
+const { getByUserId: getProfesorByUserId } = require('../../../models/profesores.model');
 const bcrypt = require('bcrypt');
 const dayjs = require('dayjs');
 const jwt = require('jsonwebtoken');

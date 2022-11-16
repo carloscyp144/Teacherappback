@@ -60,4 +60,4 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-module.exports = { validate, getById };
+module.exports = { validate, getById, getByUserId };

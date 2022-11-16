@@ -1,4 +1,4 @@
-const { executeQuery } = require('../helpers/mysql_utils');
+const { executeQuery, executeQueryOne } = require('../helpers/mysql_utils');
 
 const key_columns    = 'id';
 const no_key_columns = 'estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId';
@@ -11,4 +11,18 @@ const create = (alumnoId, profesoresId) => {
     );
 }
 
-module.exports = { create };
+const accept = (id) => {
+    return executeQuery(
+        `update inscripciones set estado = 1 where (id = ?)`,
+        [ id ]
+    );
+}
+
+const getById = (id) => {
+    return executeQueryOne(
+        `select ${columns} from inscripciones where (id = ?)`, 
+        [ id ]
+    );
+}
+
+module.exports = { create, accept, getById };
