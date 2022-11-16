@@ -1,3 +1,4 @@
+const dayjs = require('dayjs');
 const { executeQuery, executeQueryOne } = require('../helpers/mysql_utils');
 
 const key_columns    = 'id';
@@ -18,6 +19,14 @@ const accept = (id) => {
     );
 }
 
+const opinion = ({ id, puntuacion, comentario }) => {
+    console.log(dayjs());
+    return executeQueryOne(
+        `update inscripciones set puntuacion = ?, comentario = ?, fechaPuntuacion = ? where (id = ?)`,
+        [ puntuacion, comentario, dayjs().format('YYYY-MM-DD'), id ]
+    );
+}
+
 const getById = (id) => {
     return executeQueryOne(
         `select ${columns} from inscripciones where (id = ?)`, 
@@ -25,4 +34,4 @@ const getById = (id) => {
     );
 }
 
-module.exports = { create, accept, getById };
+module.exports = { create, accept, getById, opinion };

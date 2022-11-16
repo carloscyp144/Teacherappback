@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mcembellin@gmail.com",
+    "email": "emendoza2@gmail.com",
     "password": "123456"
 }
 
@@ -116,4 +116,15 @@ Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzMsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODY0MTc2MSwiaWF0IjoxNjY4NjIzNzYxfQ.u63HAxcSFN6gfBKlWeDwAGVdxN7mc2-7y6AwikCIXV8
 
 {    
+}
+
+### OPINION INSCRIPCIÓN --> PUT (solo lo puede hacer un alumno, el alumno cuyo id está en el token envía una opinón sobre la inscripción cuyo id está en el cuerpo de la petición)
+PUT http://localhost:3000/api/private/inscripciones/opinion
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg2NDQ2MjYsImlhdCI6MTY2ODYyNjYyNn0.5oE5iAvN0qyHu5xAbqIfXEbt1ckXaDGBHi1FGdJYzQc
+
+{
+    "id": 1,
+    "puntuacion": 2,
+    "comentario": "Bastante mejorable. No repitiría."
 }

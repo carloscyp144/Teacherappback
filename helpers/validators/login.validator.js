@@ -10,7 +10,7 @@ const loginValidationSchema = {
             errorMessage: getErrorFieldStr(ErrorType.ERROR_EMAIL_FIELD, 'email')
         },
         isLength: {
-            options: { max: 50 },
+            options: { max: 45 },
             errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'email', '45')
         },
         trim: true
