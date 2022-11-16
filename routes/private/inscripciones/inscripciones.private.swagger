@@ -83,5 +83,67 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error' 
+ * /api/private/inscripciones/opinion:
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Inscripciones
+ *     description: El alumno cuyo id va en el token, puntúa al profesor en la inscripción cuyo id va en el cuerpo de la petición. En la cabecera deberá ir el token de un alumno (la inscripción debe ser suya).
+ *     requestBody:
+ *       description: Nueva clave del usuario.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/opinion'
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       401:
+ *         description: La inscripción pertenece a otro alumno.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       404:
+ *         description: No existe ninguna inscripción con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'
+ *components:
+ *  schemas:
+ *    opinion:
+ *      title: Opinion
+ *      description: Datos de la opinión (puntuación) de un alumno a un profesor en una inscripción.
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: int
+ *          description: Identificador de la inscripción en la que se va a opinar.
+ *          example: 1
+ *        puntuacion:
+ *          type: int
+ *          description: Puntos que se le asigna al profesor (de 1 a 5 estrellas).
+ *          example: 1
+ *        comentario:
+ *          type: string
+ *          description: Comentario de la opinión
+ *          example: Muy contento, repetiría
  *
  */

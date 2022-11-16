@@ -4,14 +4,15 @@ const { idParamValidator } = require('../../../helpers/validators/idParam.valida
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { alumnoRoleDescription, profesorRoleDescription } = require('../../../models/roles.model');
 const { getByUserId: getAlumnoByUserId } = require('../../../models/alumnos.model');
-const { getByUserId: getProfesorByUserId } = require('../../../models/profesores.model');
+const { getByUserId: getProfesorByUserId, updatePuntuacionTrans, addPuntuacionTrans } = require('../../../models/profesores.model');
 const { checkRole } = require('../../../helpers/token_utils');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getById: getProfesorById } = require('../../../models/profesores.model');
-const { getById: getInscripcionById, accept, create, opinion } = require('../../../models/inscripciones.model');
+const { getById: getInscripcionById, accept, create, opinionTrans } = require('../../../models/inscripciones.model');
 const { success } = require('../../../helpers/success_utils');
 const { opinionValidationSchema } = require('../../../helpers/validators/opinion.validator');
 const { checkSchema } = require('express-validator');
+const { beginTransaction, rollBack, commit } = require('../../../helpers/mysql_utils');
 
 // Inscribirse con un profesor.
 // (Solo lo podrá hacer un alumno)
@@ -86,18 +87,41 @@ router.put(
             const idUsuario   = req.user.id;
             const idAlumno    = (await getAlumnoByUserId(idUsuario)).id;
 
-            const inscripcion = await getInscripcionById(req.body.id);
-            if (inscripcion == null) {
-                return res.status(404)
-                          .json({ messageError: 'No existe la inscripción especificada' });
-            }
+            const db = await beginTransaction();
 
-            if (inscripcion.alumnosId !==  idAlumno) {
-                return res.status(401)
-                          .json({ messageError: 'No tiene acceso a una inscripción de otro alumno' });
-            }
+            try {                
+                const inscripcion = await getInscripcionById(req.body.id);
+                if (inscripcion == null) {
+                    return res.status(404)
+                              .json({ messageError: 'No existe la inscripción especificada' });
+                }
 
-            await opinion(req.body);
+                if (inscripcion.alumnosId !==  idAlumno) {
+                    return res.status(401)
+                              .json({ messageError: 'No tiene acceso a una inscripción de otro alumno' });
+                }
+
+                const profesor = await getProfesorById(inscripcion.profesoresId);
+                if (profesor === null) {
+                    return res.status(401)
+                              .json({ messageError: 'No se pudo recuperar el profesor asociado a la inscripción' });
+                }                
+
+                if (inscripcion.puntuacion !== null) {
+                    const puntuacionVariation = req.body.puntuacion - inscripcion.puntuacion;
+                    await updatePuntuacionTrans(db, profesor, puntuacionVariation);
+                } else {
+                    await addPuntuacionTrans(db, profesor, req.body.puntuacion);
+                }
+
+                await opinionTrans(db, req.body);
+
+                await commit(db);
+            }
+            catch(exception) {
+                await rollBack(db);
+                throw exception;
+            }
 
             res.json(success);
         } catch (error) {

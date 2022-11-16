@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "emendoza2@gmail.com",
+    "email": "agrandes@gmail.com",
     "password": "123456"
 }
 
@@ -121,10 +121,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzMsInJvbGUiOiJwcm9m
 ### OPINION INSCRIPCIÓN --> PUT (solo lo puede hacer un alumno, el alumno cuyo id está en el token envía una opinón sobre la inscripción cuyo id está en el cuerpo de la petición)
 PUT http://localhost:3000/api/private/inscripciones/opinion
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg2NDQ2MjYsImlhdCI6MTY2ODYyNjYyNn0.5oE5iAvN0qyHu5xAbqIfXEbt1ckXaDGBHi1FGdJYzQc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg2NTQ1MjYsImlhdCI6MTY2ODYzNjUyNn0.jopqxBdXxaaDypeVkra-EmQfLWG6O8KA1NXOshPOy0A
 
 {
-    "id": 1,
-    "puntuacion": 2,
-    "comentario": "Bastante mejorable. No repitiría."
+    "id": 2,
+    "puntuacion": 4,
+    "comentario": "Muy satisfecha, contenta con el resultado."
 }

@@ -15,7 +15,7 @@ const opinionValidationSchema = {
             errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'puntuacion')
         },
         isInt: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_INT, 'comentario')
+            errorMessage: getErrorFieldStr(ErrorType.ERROR_INT, 'puntuacion')
         }
     },
     comentario: {

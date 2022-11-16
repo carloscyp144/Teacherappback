@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const { executeQuery, executeQueryOne } = require('../helpers/mysql_utils');
+const { executeQuery, executeQueryOne, executeQueryOneTrans } = require('../helpers/mysql_utils');
 
 const key_columns    = 'id';
 const no_key_columns = 'estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId';
@@ -19,9 +19,9 @@ const accept = (id) => {
     );
 }
 
-const opinion = ({ id, puntuacion, comentario }) => {
-    console.log(dayjs());
-    return executeQueryOne(
+const opinionTrans = (db, { id, puntuacion, comentario }) => {
+    return executeQueryOneTrans(
+        db,
         `update inscripciones set puntuacion = ?, comentario = ?, fechaPuntuacion = ? where (id = ?)`,
         [ puntuacion, comentario, dayjs().format('YYYY-MM-DD'), id ]
     );
@@ -34,4 +34,4 @@ const getById = (id) => {
     );
 }
 
-module.exports = { create, accept, getById, opinion };
+module.exports = { create, accept, getById, opinionTrans };

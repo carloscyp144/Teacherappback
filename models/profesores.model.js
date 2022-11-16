@@ -4,8 +4,8 @@ const { createTransRama } = require('./ramas.model');
 const { profesorRoleId } = require('./roles.model');
 
 const key_columns          = 'id';
-const no_key_columns       = 'descripcion, precioHora, experiencia, coordenadas, telefono, validado, puntuacionMedia, puntacionTotal, numeroPuntuaciones, usuarioId, ramaId';
-const no_key_columnsLonLat = 'descripcion, precioHora, experiencia, ST_X(coordenadas) AS longitud, ST_Y(coordenadas) AS latitud, telefono, validado, puntuacionMedia, usuarioId, ramaId';
+const no_key_columns       = 'descripcion, precioHora, experiencia, coordenadas, telefono, validado, puntuacionMedia, puntuacionTotal, numeroPuntuaciones, usuarioId, ramaId';
+const no_key_columnsLonLat = 'descripcion, precioHora, experiencia, ST_X(coordenadas) AS longitud, ST_Y(coordenadas) AS latitud, telefono, validado, puntuacionMedia, puntuacionTotal, numeroPuntuaciones, usuarioId, ramaId';
 
 const createTransProfesor = (db, { descripcion, precioHora, experiencia, latitud, longitud, telefono, usuarioId, ramaId }) => {    
     return executeQueryTrans(
@@ -60,4 +60,37 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-module.exports = { validate, getById, getByUserId };
+const updatePuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, puntuacionVariation) => {
+    if ((numeroPuntuaciones !== null) && 
+        (numeroPuntuaciones !== 0   ) &&
+        (puntuacionTotal     !== null)) {        
+        const newPuntuacionTotal = puntuacionTotal + puntuacionVariation;
+        const newPuntuacionMedia = newPuntuacionTotal / numeroPuntuaciones;
+        return executeQueryTrans(
+            db,
+            `update profesores set puntuacionTotal = ?, puntuacionMedia = ? where (id = ?)`, 
+            [ newPuntuacionTotal, newPuntuacionMedia, id ]
+        );
+    }
+}
+
+const addPuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, puntuacion) => {
+    let newNumeroPuntuaciones, newPuntuacionTotal, newPuntuacionMedia;
+    if ((numeroPuntuaciones != null) && (puntuacionTotal != null)) {
+        newNumeroPuntuaciones = numeroPuntuaciones + 1;
+        newPuntuacionTotal    = puntuacionTotal + puntuacion;
+        newPuntuacionMedia    = newPuntuacionTotal / newNumeroPuntuaciones;
+    } else {
+        newNumeroPuntuaciones = 1;
+        newPuntuacionTotal    = puntuacion;
+        newPuntuacionMedia    = puntuacion;
+    }
+
+    return executeQueryTrans(
+        db,
+        `update profesores set puntuacionTotal = ?, puntuacionMedia = ?, numeroPuntuaciones = ? where (id = ?)`, 
+        [ newPuntuacionTotal, newPuntuacionMedia, newNumeroPuntuaciones, id ]
+    );
+}
+
+module.exports = { validate, getById, getByUserId, updatePuntuacionTrans, addPuntuacionTrans };
