@@ -4,8 +4,9 @@ const { checkSchema } = require('express-validator');
 
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { create } = require('../../../models/alumnos.model');
+const { create } = require('../../../models/inscripciones.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
+const { success } = require('../../../helpers/success_utils');
 
 // Creación de un nuevo alumno.
 router.post(
@@ -16,8 +17,8 @@ router.post(
         try {
             req.body.password = bcrypt.hashSync(req.body.password, 8);
 
-            const alumno = await create(req.body);
-            res.json(alumno);
+            await create(req.body);
+            res.json(success);
         } catch (error) {
             manageRouterError(res, error);
         }

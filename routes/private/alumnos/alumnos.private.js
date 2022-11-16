@@ -12,12 +12,13 @@ const { checkRole } = require('../../../helpers/token_utils');
 const { completeUser } = require('../../../models/completeUser');
 const { success } = require('../../../helpers/success_utils');
 const { idParamValidator } = require('../../../helpers/validators/idParam.validator');
+const { alumnoRoleDescription, adminRoleDescription } = require('../../../models/roles.model');
 
 // Actualización de los datos de un alumno (menos el password).
 // (Solo lo podrá hacer él mismo)
 router.put(
     '/update/',
-    checkRole('alumno'),
+    checkRole(alumnoRoleDescription),
     checkSchema(getAlumnoValidationSchema(false)),
     checkValidationsResult,
     async (req, res) => {
@@ -54,7 +55,7 @@ router.put(
 // (Solo lo podrá hacer un administrador)
 router.delete(
     '/delete/:id',
-    checkRole('admin'),
+    checkRole(adminRoleDescription),
     idParamValidator,
     checkValidationsResult,
     async (req, res) => {

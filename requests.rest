@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "admin@gmail.com",
+    "email": "achacon@gmail.com",
     "password": "123456"
 }
 
@@ -98,3 +98,14 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVt
 PUT http://localhost:3000/api/private/profesores/validate/10
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc
+
+###############################
+### PRIVADO - INSCRIPCIONES ###
+###############################
+### INSCRIPCIONES --> POST (solo lo puede hacer un alumno, el alumno cuyo id está en el token se inscribe con el profesor cuyo id está en el parámetro)
+POST http://localhost:3000/api/private/inscripciones/signup/7
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg2Mzc1MzUsImlhdCI6MTY2ODYxOTUzNX0.7J7aIZxvxkXrI5tLqEXzaciUkZemFzlxvjC2QwSG8Bg
+
+{    
+}

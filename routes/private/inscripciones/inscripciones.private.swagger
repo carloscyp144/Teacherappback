@@ -1,0 +1,44 @@
+/**
+ * @openapi
+ * 
+ * tags:
+ *   - name: Inscripciones
+ *     description: "Peticiones relacionadas con inscripciones"
+ *
+ * /api/private/inscripciones/signup/{profesorId}:
+ *   post:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Inscripciones
+ *     description: Hace la inscripción el alumno cuyo id va en el token con el profesor cuyo id va en la petición. En la cabecera deberá ir el token de un alumno.
+ *     parameters:
+ *        - in: path
+ *          name: profesorId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Identificador del profesor que se va inscribir.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       404:
+ *         description: No existe ningún profesor con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ *
+ */
