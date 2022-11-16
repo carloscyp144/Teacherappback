@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+/*
 const { checkSchema } = require('express-validator');
 const { loginValidationSchema } = require('../../../helpers/validators/login.validator');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
@@ -15,5 +16,7 @@ router.post(
         commonLogin(req, res, getByEmailWithPassword, 'administrador');
     }
 );
+
+*/
 
 module.exports = router;

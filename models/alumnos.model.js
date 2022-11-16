@@ -1,33 +1,42 @@
-const { executeQuery, executeQueryOne, beginTransaction, commit } = require('../helpers/mysql_utils');
-const { create: createUser } = require('./usuarios.model');
+const { executeQuery, executeQueryOne, executeQueryTrans, beginTransaction, commit, rollBack } = require('../helpers/mysql_utils');
+const { createTransUsuario } = require('./usuarios.model');
 const { alumnoRoleId } = require('./roles.model');
 
 const key_columns    = 'id';
 const no_key_columns = 'borrado, usuariosId';
 const columns        = `${key_columns}, ${no_key_columns}`;
 
-const create = async ({ userName, nombreCompleto, email, password }) => {
-    const db = beginTransaction();
-    let result;
-    try {
-        const userId = (await createUser({userName, nombreCompleto, email, password, alumnoRoleId})).insertId;
-        result = await executeQuery(
-            `insert into alumnos (${no_key_columns}) values (?, ?)`, 
-            [ 0, userId ]
-        );
+const createTransAlumno = (db, borrado, usuariosId) => {    
+    return executeQueryTrans(
+        db,
+        `insert into alumnos (${no_key_columns}) values (?, ?)`, 
+        [ borrado, usuariosId]
+    );
+}
 
-        commit(db);
+const create = async (fields) => {
+    const db = await beginTransaction();
+    let id, usuarioId;
+    try {   
+        usuarioId = (await createTransUsuario(db, {...fields, rolId: alumnoRoleId})).insertId;
+        id        = (await createTransAlumno (db, 0, usuarioId                    )).insertId;
+
+        await commit(db);
     } catch(exception) {
-        rollBack(db);
+        await rollBack(db);
         throw exception;
     }
-    return {
-        id: result.insertId,
-        userName,
-        nombreCompleto,
-        email,
-        borrado: false
-    }
+
+    delete fields.password;
+    
+    return { usuarioId, rolId: alumnoRoleId, id, ...fields, borrado: 0} ;
+}
+
+const getByUserId = (usuariosId) => {
+    return executeQueryOne(
+        `select id, borrado, usuariosId as usuarioId from alumnos where (usuariosId = ?)`, 
+        [ usuariosId ]
+    );
 }
 
 const logicDelete = (id) => {
@@ -39,5 +48,6 @@ const logicDelete = (id) => {
 
 module.exports = { 
     create,
+    getByUserId,
     logicDelete
 };

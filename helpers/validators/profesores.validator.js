@@ -1,20 +1,9 @@
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
-const { getByEmail, getByUserName } = require('../../models/profesores.model');
 const { getCommonFieldsValidationSchema } = require('./commonFields.validator');
-const { getByNombre } = require('../../models/ramas.model');
+const { getByNombre, getById } = require('../../models/ramas.model');
 
 const getProfesorValidationSchema = (creation) => {
     const profesorValidationSchema = {
-        nombreCompleto: {
-            exists: {
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'nombreCompleto')
-            },
-            isLength: {
-                options: { max: 45 },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'nombreCompleto', '45')
-            },
-            trim: true
-        },
         descripcion: {
             exists: {
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'descripcion')
@@ -79,18 +68,21 @@ const getProfesorValidationSchema = (creation) => {
             },
             trim: true
         },
-        "ramas.*.ramaId": {
-            exists: {
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'ramaId')
-            },
+        ramaId: {
+            optional: true,
             isInt: {                        
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_INT, 'ramaId')
+            },
+            custom: {
+                options: async (value) => {                    
+                    const modelObject = await getById(value);
+                    if (modelObject === null) return Promise.reject(`No existe una rama con ese id`);
+                        Promise.resolve();
+                },
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_NO_EXISTS, 'rama', 'ramaId')
             }                    
         },
-        "nuevasRamas.*.nombre": {
-            exists: {
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'nombre')
-            },
+        nombreRamaNueva: {
             isLength: {
                 options: { max: 25 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'nombre', '25')
@@ -101,11 +93,11 @@ const getProfesorValidationSchema = (creation) => {
                     if (modelObject !== null) return Promise.reject(`Ya existe una rama con ese nombre`);
                         Promise.resolve();
                 },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'nombre', 'rama')
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'nombre', 'nombreRamaNueva')
             },
             trim: true                    
         },
-        ...getCommonFieldsValidationSchema(getByEmail, getByUserName, 'profesor', creation)
+        ...getCommonFieldsValidationSchema('profesor', creation)
     }
     return profesorValidationSchema;
 }

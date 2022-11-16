@@ -5,6 +5,18 @@ http://localhost:3000/
 http://localhost:3000/api-docs
 
 #########################
+### PUBLICO - LOGIN ###
+#########################
+### USUARIO --> POST (login de usuario)
+POST http://localhost:3000/api/public/login
+Content-Type: application/json
+
+{
+    "email": "emendoza@gmail.com",
+    "password": "123456"
+}
+
+#########################
 ### PUBLICO - ALUMNOS ###
 #########################
 ### ALUMNOS --> POST (registro de un alumno)
@@ -12,19 +24,10 @@ POST http://localhost:3000/api/public/alumnos/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": "Mariano Jiménez 21",
-    "userName": "mjimenez21",
-    "email": "mjimenez21@gmail.com",
+    "nombreCompleto": "Almudena del Álamo Santamaría",
+    "userName": "aalamo",
+    "email": "aalamo@gmail.com",
     "password": "123456"
-}
-
-### ALUMNOS --> POST (login un alumno)
-POST http://localhost:3000/api/public/alumnos/login
-Content-Type: application/json
-
-{
-    "email": "mjimenez21@gmail.com",
-    "password": "654321"
 }
 
 ############################
@@ -35,37 +38,17 @@ POST http://localhost:3000/api/public/profesores/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": "Carlo2",
-    "userName": "carlo2",
-    "email": "carlo2@gmail.com",
+    "nombreCompleto": "Isaac Albéniz Taylor",
+    "userName": "ialbeniz",
+    "email": "ialbeniz@gmail.com",
     "password": "123456",
-    "descripcion": "Descripción del profesor", 
-    "precioHora": 999.99, 
-    "experiencia": 1,
-    "latitud": 50.0755381,
-    "longitud": 14.4378005, 
-    "telefono": "TELEFONO",
-    "ramas": [
-        {
-            "ramaId": 1
-        },
-        {
-            "ramaId": 2
-        }
-    ]
-}
-
-
-#################################
-### PUBLICO - ADMINISTRADORES ###
-#################################
-### ADMINISTRADOR --> POST (login un adminstrador)
-POST http://localhost:3000/api/public/administradores/login
-Content-Type: application/json
-
-{
-    "email": "admin@gmail.com",
-    "password": "123456"
+    "descripcion": "Análisis numérico a tu alcance", 
+    "precioHora": 22, 
+    "experiencia": 10,
+    "latitud": 51.0754421,
+    "longitud": 12.4878035, 
+    "telefono": "555555555",
+    "ramaId": 4
 }
 
 #######################
@@ -83,24 +66,27 @@ http://localhost:3000/api/public/ramas/?page=2&limit=2
 ### ALUMNOS --> PUT (actualización de los datos de un alumno que no sean la password - solo lo puede hacer él mismo -)
 PUT http://localhost:3000/api/private/alumnos/update
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjgzOTc0NjAsImlhdCI6MTY2ODM3OTQ2MH0.mz-z8Voh9GL8uJ4bvR3novljBRgPmm5Wa02j-vhWvI0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg1ODcwMTYsImlhdCI6MTY2ODU2OTAxNn0.KNke479x1xC-v4GaIHf64f2o7FgAaOqclJZw_IEByDo
 
 {
-    "nombreCompleto": "Mario Jiménez Frías 2",
-    "userName": "mjimenez2",
-    "email": "mjimenez2@gmail.com"
-}
-
-### ALUMNOS --> PUT (actualización del password del alumno- solo lo puede hacer él mismo -)
-PUT http://localhost:3000/api/private/alumnos/update/password
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjgzOTc0NjAsImlhdCI6MTY2ODM3OTQ2MH0.mz-z8Voh9GL8uJ4bvR3novljBRgPmm5Wa02j-vhWvI0
-
-{
-    "password": "654321"
+    "nombreCompleto": " Eduardo Mendoza",
+    "userName": "emendoza",
+    "email": "emendoza@gmail.com"
 }
 
 ### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
 DELETE http://localhost:3000/api/private/alumnos/delete/10
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg0MDI1ODMsImlhdCI6MTY2ODM4NDU4M30.HB2O6VpxXupfoEX5rv3_OnhftxTwkT9gLPMWjVMe4d4
+
+##########################
+### PRIVADO - USUARIOS ###
+##########################
+### ALUMNOS --> PUT (actualización del password del usuario - solo lo puede hacer él mismo -)
+PUT http://localhost:3000/api/private/usuarios/update/password
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg1ODQ2ODksImlhdCI6MTY2ODU2NjY4OX0.z4hRnKy40WM_x6-0N7-uTsa2FnYAKXN2vM0rzUbkwA4
+
+{
+    "password": "123456"
+}

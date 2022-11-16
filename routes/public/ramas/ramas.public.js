@@ -1,6 +1,6 @@
-const { getByPage, getAll } = require('../../../models/ramas.model');
-
 const router = require('express').Router();
+
+const { getByPage, getAll } = require('../../../models/ramas.model');
 
 // Recuperamos todas las ramas o de manera paginada.
 router.get(

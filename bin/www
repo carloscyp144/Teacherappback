@@ -3,26 +3,8 @@
 // Cargamos valores del fichero de entorno.
 require('dotenv').config();
 
-// Creamos el usuario administrador si la tabla está vacía.
-(async function() {
-  const bcrypt = require('bcrypt');
-  try {
-    const usuarios = require('../models/usuarios.model');    
-    if (!usuarios.existsAdministrators()) {
-      {userName, nombreCompleto, email, password, alumnoRoleId}
-      await usuarios.create({
-        nombreCompleto: process.env.DEFAULT_ADMIN_NOMBRE_COMPLETO,
-        userName: process.env.DEFAULT_ADMIN_USERNAME,
-        email: process.env.DEFAULT_ADMIN_EMAIL,
-        password: bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD, 8),
-        alumnoRoleId: require('../models/roles.model').adminRoleId
-      });
-      console.log('Creado administrador por defecto');
-    }
-  } catch (Exception) {
-    console.log('Error al comprobar si la tabla de administradores está vacía')
-  };
-})();
+// Creamos datos por defecto
+require('../helpers/defaultdata_utils').loadDefaultData();
 
 /**
  * Module dependencies.

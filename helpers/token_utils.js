@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const dayjs = require('dayjs');
 
-const { getById } = require('../models/alumnos.model');
+const { getByUserId } = require('../models/alumnos.model');
+const { alumnoRoleDescription } = require('../models/roles.model');
 
 const checkToken = async (req, res, next) => {
     if (!req.headers['authorization']) {
@@ -26,8 +27,8 @@ const checkToken = async (req, res, next) => {
                   .json({ errorMessage: 'El token está caducado' });
     }
 
-    if (obj.role === 'alumno') {
-        const alumno = await getById(obj.id);
+    if (obj.role === alumnoRoleDescription) {
+        const alumno = await getByUserId(obj.id);
         if ((alumno === null) || (alumno.borrado))
         {
             return res.status(401)

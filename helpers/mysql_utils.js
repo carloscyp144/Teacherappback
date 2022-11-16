@@ -73,7 +73,7 @@ const commit = (db) => {
     });
 }
 
-const rollBack = (db) => {
+const rollBack = (db) => {    
     return new Promise((resolve, reject) => {
         db.rollback((err) => {
             if (err) reject(err);

@@ -1,22 +1,30 @@
-const { executeQuery, executeQueryOne } = require('../helpers/mysql_utils');
+const { executeQuery, executeQueryOne, executeQueryTrans } = require('../helpers/mysql_utils');
 const { adminRoleId } = require('./roles.model');
 
 const key_columns         = 'id';
 const no_key_columns      = 'userName, nombreCompleto, email, rolId';
-const password_column     = 'pasword';
+const password_column     = 'password';
 const columns             = `${key_columns}, ${no_key_columns}, ${password_column}`;
 const no_password_columns = `${key_columns}, ${no_key_columns}`;
 
-const create = ({userName, nombreCompleto, email, password, alumnoRoleId}) => {
+const create = ({userName, nombreCompleto, email, password, rolId}) => {
     return executeQuery(
-        `insert into alumnos (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, ?)`, 
-        [ userName, nombreCompleto, email, rolId ]
+        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, ?)`, 
+        [ userName, nombreCompleto, email, rolId, password ]
     );
 }
 
-const existsAdministrators = () => {
-    return executeQuery(
-        `select * from usuarios where (rolId=${adminRoleId}) limmit 1`
+const createTransUsuario = (db, {userName, nombreCompleto, email, password, rolId}) => {
+    return executeQueryTrans(
+        db,
+        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, ?)`, 
+        [ userName, nombreCompleto, email, rolId, password ]
+    );
+}
+
+const getAdministrador = () => {
+    return executeQueryOne(
+        `select * from usuarios where (rolId=${adminRoleId}) limit 1`
     )
 }
 
@@ -78,7 +86,14 @@ const getById = (id) => {
 
 module.exports = {
     create,
-    existsAdministrators,
+    createTransUsuario,
+    getAdministrador,
     getByEmail,
-    getByUserName
+    getByEmailNotId,
+    getByEmailWithPassword,
+    getById,
+    getByUserName,
+    getByUserNameNotId,
+    updatePassword,
+    updateNotPasswordFields
 };

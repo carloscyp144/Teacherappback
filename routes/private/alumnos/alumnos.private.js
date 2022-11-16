@@ -3,12 +3,13 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { getById, updateNotPasswordFields, getByEmailNotId, getByUserNameNotId, updatePassword, logicDelete } = require('../../../models/alumnos.model');
+const { updateNotPasswordFields, getByEmailNotId, getByUserNameNotId, getById } = require('../../../models/usuarios.model');
+const { logicDelete } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
-const { passwordValidationSchema } = require('../../../helpers/validators/password.validator');
 const { getErrorFieldStr, ErrorType } = require('../../../helpers/errormsg_utils');
 const { checkRole } = require('../../../helpers/token_utils');
+const { completeUser } = require('../../../models/completeUser');
 
 // Actualización de los datos de un alumno (menos el password).
 // (Solo lo podrá hacer él mismo)
@@ -23,45 +24,24 @@ router.put(
 
             // Validamos que el email no lo tenga otro usuario con otro id distinto
             // (no sé como pasarlo al validador)
-            let alumno = await getByEmailNotId(req.body.email, id);
-            if (alumno !== null) {                
+            let usuario = await getByEmailNotId(req.body.email, id);
+            if (usuario !== null) {                
                 return res.status(400)
                           .json({ errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'email', 'alumno') });
             }
 
             // Lo mismo para el userName
-            alumno = await getByUserNameNotId(req.body.userName, id);
-            if (alumno !== null) {
+            usuario = await getByUserNameNotId(req.body.userName, id);
+            if (usuario !== null) {
                 return res.status(400)
                           .json({ errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'userName', 'alumno') });
             }
 
-            //req.body.password = bcrypt.hashSync(req.body.password, 8);
-            
             await updateNotPasswordFields(id, req.body);
-            alumno = await getById(id);
+            usuario = await getById(id);
+            const completedUsuario = await completeUser(usuario);
 
-            res.json(alumno);
-        } catch (error) {
-            manageRouterError(res, error);
-        }
-    }
-);
-
-// Actualización del password del usuario.
-// (Solo lo podrá hacer él mismo)
-router.put(
-    '/update/password',
-    checkRole('alumno'),
-    checkSchema(passwordValidationSchema),
-    checkValidationsResult,
-    async (req, res) => {
-        try {
-            const id = req.user.id;
-            const password = bcrypt.hashSync(req.body.password, 8);            
-            await updatePassword(id, password);
-
-            res.json({ success: true });
+            res.json(completedUsuario);
         } catch (error) {
             manageRouterError(res, error);
         }
@@ -72,14 +52,13 @@ router.put(
 // (Solo lo podrá hacer un administrador)
 router.delete(
     '/delete/:id',
-    checkRole('administrador'),
+    checkRole('admin'),
     async (req, res) => {
         try {
             // Validar el id.
             const id = req.params.id;
             
             const result = await logicDelete(id);
-            console.log(result);
             if(result.affectedRows == 0){
                 res.status(404)
                    .json({ messageError: 'No existe el alumno especificado' });

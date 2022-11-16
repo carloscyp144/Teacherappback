@@ -1,0 +1,160 @@
+/**
+ * @openapi
+ * tags:
+ *   - name: Profesores
+ *     description: "Peticiones relacionadas con profesores"
+ *
+ * /api/public/profesores/register:
+ *   post:
+ *     tags:
+ *       - Profesores
+ *     description: Hace el registro del profesor con los datos recibidos.
+ *     requestBody:
+ *       description: Datos para dar de alta al alumno.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/altaProfesor'
+ *     responses:
+ *       200:
+ *         description: Datos con los que se ha dado de alta el profesor.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/profesorResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'  
+ *components:
+ *  schemas:
+ *    altaProfesor:
+ *      title: AltaProfesor
+ *      description: Datos para dar de alta al profesor
+ *      type: object
+ *      properties:
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del profesor
+ *          example: Martín Mata Cabello
+ *        userName:
+ *          type: string
+ *          description: Nombre del profesor en la aplicación
+ *          example: mmata
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del profesor
+ *          example: mmata@gmail.com
+ *        password:
+ *          type: string
+ *          description: Clave de acceso del profesor
+ *          example: 123456 
+ *        descripcion:
+ *          type: string
+ *          description: Texto más largo para que el profesor se venda
+ *          example: Excelentes resultados, todos mis alumnos pasan con nota
+ *        precioHora:
+ *          type: decimal
+ *          description: Precio por hora de la clase
+ *          example: 12.50
+ *        experiencia:
+ *          type: int
+ *          description: Años de experiencia del profesor (entre 0 y 99)
+ *          example: 12
+ *        latitud:
+ *          type: number
+ *          description: Latitud de la localización de profesor
+ *          example: 51.0754321
+ *        longitud:
+ *          type: number
+ *          description: Longitud de la localización de profesor
+ *          example: 12.4878015
+ *        telefono:
+ *          type: string
+ *          description: Teléfono del profesor
+ *          example: 555555555
+ *        ramaId:
+ *          type: int
+ *          description: Si la rama de conocimiento del profesor está ya dada de alta, aquí se pone su identificador.
+ *          example: 2
+ *        nombreRamaNueva:
+ *          type: string
+ *          description: Si la rama de conocimiento del profesor no está ya dada de alta, aquí se pone su nombre.
+ *          example: Matemáticas
+ *    profesorResponse:
+ *      title: ProfesorResponse
+ *      description: Datos de un alumno
+ *      type: object
+ *      properties:
+ *        usuarioId:
+ *          type: int
+ *          description: Número de usuario asignado al profesor
+ *          example: 45
+ *        id:
+ *          type: int
+ *          description: Número de profesor asignado
+ *          example: 12
+ *        rolId:
+ *          type: int
+ *          description: Identificador del rol del usuario
+ *          example: 2
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del profesor
+ *          example: Martín Mata Cabello
+ *        userName:
+ *          type: string
+ *          description: Nombre del profesor en la aplicación
+ *          example: mmata
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del profesor
+ *          example: mmata@gmail.com
+ *        descripción:
+ *          type: string
+ *          description: Texto más largo para que el profesor se venda
+ *          example: Excelentes resultados, todos mis alumnos pasan con nota
+ *        experiencia:
+ *          type: int
+ *          description: Años de experiencia del profesor (entre 0 y 99)
+ *          example: 12
+ *        precioHora:
+ *          type: string
+ *          description: Precio por hora del profesor
+ *          example: "15.50"
+ *        latitud:
+ *          type: number
+ *          description: Latitud de la localización de profesor
+ *          example: 51.0754321
+ *        longitud:
+ *          type: number
+ *          description: Longitud de la localización de profesor
+ *          example: 12.4878015
+ *        telefono:
+ *          type: string
+ *          description: Teléfono del profesor
+ *          example: 555555555
+ *        validado:
+ *          type: integer
+ *          description: Será 0 si el profesor todavía no ha sido validado por administrador, 1 en caso contrario
+ *          example: 0
+ *        ramaId:
+ *          type: int
+ *          description: Identificador de la rama de conocimiento asignada al profesor.
+ *          example: 2
+ *        nombreRama:
+ *          type: string
+ *          description: Nombre de la rama de conocimiento asignada al profesor.
+ *          example: Matemáticas
+ */

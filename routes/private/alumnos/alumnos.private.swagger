@@ -35,42 +35,7 @@
  *         content:
  *           application/json: 
  *             schema: 
- *               $ref: '#/components/schemas/error' 
- * /api/private/alumnos/update/password: 
- *   put:
- *     security:
- *       - Authorization: []
- *     tags:
- *       - Alumnos
- *     description: Cambia la clave de acceso del alumno cuyo token de autorización va en la cabecera.
- *     requestBody:
- *       description: Nueva clave del alumno.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/newPasswordRequest'
- *     responses:
- *       200:
- *         description: Indica que la operación se realizó con éxito.
- *         content: 
- *           application/json: 
- *             schema: 
- *               $ref: '#/components/schemas/successResponse'
- *       400:
- *         description: Alguno de los campos enviados es incorrecto.
- *         content: 
- *           application/json: 
- *             schema: 
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/errorValidation'
- *       500:
- *         description: Error que se ha producido en el servidor.
- *         content:
- *           application/json: 
- *             schema: 
- *               $ref: '#/components/schemas/error' 
+ *               $ref: '#/components/schemas/error'  
  * /api/private/alumnos/delete/{alumnoId}:
  *   delete:
  *     security:

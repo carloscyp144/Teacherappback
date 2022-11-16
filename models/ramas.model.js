@@ -12,7 +12,7 @@ const getByPage = (page, limit) => {
     return executeQuery(`select ${columns} from ramas order by id limit ? offset ?`, [ limit, (page - 1) * limit ]);
 }
 
-const createTrans = (db, nombre) => {
+const createTransRama = (db, nombre) => {
     return executeQueryTrans(db, `insert into ramas (${no_key_columns}) values (?)`, [ nombre ]);
 }
 
@@ -22,4 +22,12 @@ const getByNombre = (nombre) => {
         [ nombre ]
     );
 }
-module.exports = { getAll, getByPage, createTrans, getByNombre };
+
+const getById = (nombre) => {
+    return executeQueryOne(
+        `select ${columns} from ramas where (id = ?)`, 
+        [ nombre ]
+    );
+}
+
+module.exports = { getAll, getByPage, createTransRama, getByNombre, getById };
