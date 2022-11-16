@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `teacherapp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `teacherapp`;
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: teacherapp
@@ -40,7 +38,7 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
-INSERT INTO `alumnos` VALUES (1,0,39),(2,0,40),(3,0,41),(4,0,42),(5,0,43),(6,0,44),(7,0,45),(8,0,46),(9,0,47),(10,0,48),(11,0,49),(12,0,50),(13,0,51),(14,0,52),(15,0,69),(16,0,70),(17,0,76),(18,1,77),(19,0,78),(20,0,79),(21,0,81);
+INSERT INTO `alumnos` VALUES (1,0,39),(2,0,40),(3,0,41),(4,0,42),(5,0,43),(6,0,44),(7,0,45),(8,0,46),(9,0,47),(10,1,48),(11,0,49),(12,0,50),(13,0,51),(14,0,52),(15,0,69),(16,0,70),(17,0,76),(18,1,77),(19,0,78),(20,0,79),(21,0,81);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +62,7 @@ CREATE TABLE `inscripciones` (
   KEY `fk_alumnos_has_profesores_alumnos1_idx` (`alumnosId`),
   CONSTRAINT `fk_inscripciones_alumnos` FOREIGN KEY (`alumnosId`) REFERENCES `alumnos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_inscripciones_profesores` FOREIGN KEY (`profesoresId`) REFERENCES `profesores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +71,7 @@ CREATE TABLE `inscripciones` (
 
 LOCK TABLES `inscripciones` WRITE;
 /*!40000 ALTER TABLE `inscripciones` DISABLE KEYS */;
+INSERT INTO `inscripciones` VALUES (1,1,1,'Nefasto. No ir.','2022-11-16',3,10),(2,1,4,'Muy satisfecha, contenta con el resultado.','2022-11-16',9,10),(3,0,NULL,NULL,NULL,9,2),(6,0,NULL,NULL,NULL,11,7),(7,0,NULL,NULL,NULL,2,8),(8,0,NULL,NULL,NULL,11,7);
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +109,7 @@ CREATE TABLE `profesores` (
 
 LOCK TABLES `profesores` WRITE;
 /*!40000 ALTER TABLE `profesores` DISABLE KEYS */;
-INSERT INTO `profesores` VALUES (2,'Profesor mÃ­tico',999.99,1,_binary '\0\0\0\0\0\0\0KXc\'\ï¿½,@ï¿½ï¿½;ï¿½	I@','555555555',0,NULL,NULL,NULL,62,2),(3,'Profesor con carÃ¡cter',99.99,25,_binary '\0\0\0\0\0\0\0KXc\'\ï¿½(@ï¿½ï¿½;ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,64,4),(4,'Bendita paciencia',92.00,20,_binary '\0\0\0\0\0\0\0\ï¿½ï¿½ï¿½ï¿½ï¿½(@ï¿½ï¿½;ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,65,5),(5,'Gran compaÃ±ero',45.00,15,_binary '\0\0\0\0\0\0\0\ï¿½ï¿½ï¿½ï¿½ï¿½(@\ï¿½\ï¿½Cï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,66,6),(6,'Sigo vivo',42.00,70,_binary '\0\0\0\0\0\0\0\ï¿½ï¿½ï¿½ï¿½ï¿½(@zï¿½	ï¿½ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,67,7),(7,'Un poquito de async y un poquito de await',42.00,70,_binary '\0\0\0\0\0\0\0\ï¿½ï¿½ï¿½ï¿½ï¿½(@ï¿½\ï¿½\ï¿½ï¿½ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,68,8),(8,'Los mejors resultados. Garantizado',22.00,10,_binary '\0\0\0\0\0\0\0&\ï¿½Bï¿½ï¿½(@\ï¿½HQÂ§ï¿½I@','555555555',0,NULL,NULL,NULL,71,9),(9,'Gran resultado en Colina Triste',22.00,10,_binary '\0\0\0\0\0\0\0&\ï¿½Bï¿½ï¿½(@\ï¿½HQÂ§ï¿½I@','555555555',0,NULL,NULL,NULL,72,10),(10,'No sÃ© de que me suena este nombre',22.00,10,_binary '\0\0\0\0\0\0\0&\ï¿½Bï¿½ï¿½(@\ï¿½HQÂ§ï¿½I@','555555555',0,NULL,NULL,NULL,73,11),(11,'Your english will improve a lot!',22.00,10,_binary '\0\0\0\0\0\0\0ï¿½ï¿½^aï¿½ï¿½(@\ï¿½4ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,74,12),(12,'AnÃ¡lisis numÃ©rico a tu alcance',22.00,10,_binary '\0\0\0\0\0\0\0ï¿½ï¿½^aï¿½ï¿½(@\ï¿½4ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,80,4),(13,'Siempre a tu disposiciÃ³n',12.85,12,_binary '\0\0\0\0\0\0\0\ï¿½\ï¿½ï¿½$ï¿½ï¿½(@ï¿½Ä´Ê§ï¿½I@','555555555',0,NULL,NULL,NULL,82,2),(14,'Profesor 10',12.75,4,_binary '\0\0\0\0\0\0\0Cï¿½Yï¿½\ï¿½ï¿½(@\ï¿½4ï¿½ï¿½I@','555555555',0,NULL,NULL,NULL,83,6);
+INSERT INTO `profesores` VALUES (2,'Profesor mÃ­tico',999.99,1,_binary '\0\0\0\0\0\0\0KXc\'\à,@‚;«	I@','555555555',0,NULL,NULL,NULL,62,2),(3,'Profesor con carÃ¡cter',99.99,25,_binary '\0\0\0\0\0\0\0KXc\'\à(@‚;«‰I@','555555555',0,NULL,NULL,NULL,64,4),(4,'Bendita paciencia',92.00,20,_binary '\0\0\0\0\0\0\0\åñ´üÀù(@‚;«‰I@','555555555',0,NULL,NULL,NULL,65,5),(5,'Gran compaÃ±ero',45.00,15,_binary '\0\0\0\0\0\0\0\åñ´üÀù(@\Ş\æC«‰I@','555555555',0,NULL,NULL,NULL,66,6),(6,'Sigo vivo',42.00,70,_binary '\0\0\0\0\0\0\0\åñ´üÀù(@z«	ı§‰I@','555555555',0,NULL,NULL,NULL,67,7),(7,'Un poquito de async y un poquito de await',42.00,70,_binary '\0\0\0\0\0\0\0\åñ´üÀù(@ø\Ì\í¹§‰I@','555555555',0,NULL,NULL,NULL,68,8),(8,'Los mejors resultados. Garantizado',22.00,10,_binary '\0\0\0\0\0\0\0&\áBÁù(@\ÈHQÂ§‰I@','555555555',0,NULL,NULL,NULL,71,9),(9,'Gran resultado en Colina Triste',22.00,10,_binary '\0\0\0\0\0\0\0&\áBÁù(@\ÈHQÂ§‰I@','555555555',0,NULL,NULL,NULL,72,10),(10,'No sÃ© de que me suena este nombre',22.00,10,_binary '\0\0\0\0\0\0\0&\áBÁù(@\ÈHQÂ§‰I@','555555555',1,2.50,5,2,73,11),(11,'Your english will improve a lot!',22.00,10,_binary '\0\0\0\0\0\0\0©¿^aÁù(@\ë4¨‰I@','555555555',0,NULL,NULL,NULL,74,12),(12,'AnÃ¡lisis numÃ©rico a tu alcance',22.00,10,_binary '\0\0\0\0\0\0\0©¿^aÁù(@\ë4¨‰I@','555555555',0,NULL,NULL,NULL,80,4),(13,'Siempre a tu disposiciÃ³n',12.85,12,_binary '\0\0\0\0\0\0\0\Í\İø$Áù(@˜Ä´Ê§‰I@','555555555',0,NULL,NULL,NULL,82,2),(14,'Profesor 10',12.75,4,_binary '\0\0\0\0\0\0\0C’Y½\Ãù(@\ë4¨‰I@','555555555',0,NULL,NULL,NULL,83,6);
 /*!40000 ALTER TABLE `profesores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,4 +203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-16  4:40:13
+-- Dump completed on 2022-11-16 23:24:31
