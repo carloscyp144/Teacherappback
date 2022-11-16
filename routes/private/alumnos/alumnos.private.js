@@ -10,6 +10,8 @@ const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumn
 const { getErrorFieldStr, ErrorType } = require('../../../helpers/errormsg_utils');
 const { checkRole } = require('../../../helpers/token_utils');
 const { completeUser } = require('../../../models/completeUser');
+const { success } = require('../../../helpers/success_utils');
+const { idParamValidator } = require('../../../helpers/validators/idParam.validator');
 
 // Actualización de los datos de un alumno (menos el password).
 // (Solo lo podrá hacer él mismo)
@@ -53,9 +55,10 @@ router.put(
 router.delete(
     '/delete/:id',
     checkRole('admin'),
+    idParamValidator,
+    checkValidationsResult,
     async (req, res) => {
         try {
-            // Validar el id.
             const id = req.params.id;
             
             const result = await logicDelete(id);
@@ -64,7 +67,7 @@ router.delete(
                    .json({ messageError: 'No existe el alumno especificado' });
             }
             else {
-                res.json({ success: true });
+                res.json(success);
             }
         } catch (error) {
             manageRouterError(res, error);

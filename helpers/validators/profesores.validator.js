@@ -80,7 +80,7 @@ const getProfesorValidationSchema = (creation) => {
                         Promise.resolve();
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_NO_EXISTS, 'rama', 'ramaId')
-            }                    
+            }
         },
         nombreRamaNueva: {
             isLength: {

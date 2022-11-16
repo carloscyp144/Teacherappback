@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "emendoza@gmail.com",
+    "email": "admin@gmail.com",
     "password": "123456"
 }
 
@@ -77,7 +77,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVt
 ### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
 DELETE http://localhost:3000/api/private/alumnos/delete/10
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg0MDI1ODMsImlhdCI6MTY2ODM4NDU4M30.HB2O6VpxXupfoEX5rv3_OnhftxTwkT9gLPMWjVMe4d4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc
 
 ##########################
 ### PRIVADO - USUARIOS ###
@@ -90,3 +90,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVt
 {
     "password": "123456"
 }
+
+############################
+### PRIVADO - PROFESORES ###
+############################
+### PROFESORES --> PUT (validación de un profesor - solo lo puede hacer un administrador -)
+PUT http://localhost:3000/api/private/profesores/validate/10
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc

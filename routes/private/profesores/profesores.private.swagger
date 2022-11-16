@@ -1,0 +1,39 @@
+/**
+ * @openapi
+ * 
+ * /api/private/profesores/validate/{profesorId}:
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Profesores
+ *     description: Hace la validación de un profesor. En la cabecera deberá ir el token de un administrador.
+ *     parameters:
+ *        - in: path
+ *          name: profesorId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Identificador del profesor a validar.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       404:
+ *         description: No existe ningún profesor con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ */

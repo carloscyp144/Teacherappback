@@ -1,4 +1,4 @@
-const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit } = require('../helpers/mysql_utils');
+const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit, executeQuery } = require('../helpers/mysql_utils');
 const { createTransUsuario } = require('./usuarios.model');
 const { createTransRama } = require('./ramas.model');
 const { profesorRoleId } = require('./roles.model');
@@ -39,6 +39,13 @@ const create = async (fields) => {
     return profesorId;
 }
 
+const validate = (id) => {    
+    return executeQuery(
+        `update profesores set validado = 1 where (id = ?)`, 
+        [ id ]
+    );
+}
+
 const getById = (id) => {
     return executeQueryOne(
         `select p.id as id, ${no_key_columnsLonLat}, nombre as nombreRama from profesores as p left join ramas as r on (p.ramaId = r.id) where (p.id = ?)`, 
@@ -53,4 +60,4 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-module.exports = { create, getById, getByUserId };
+module.exports = { validate, getById };

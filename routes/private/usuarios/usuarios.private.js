@@ -6,6 +6,7 @@ const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { updatePassword } = require('../../../models/usuarios.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { passwordValidationSchema } = require('../../../helpers/validators/password.validator');
+const { success } = require('../../../helpers/success_utils');
 
 // Actualización del password del usuario.
 // (Solo lo podrá hacer él mismo)
@@ -19,7 +20,7 @@ router.put(
             const password = bcrypt.hashSync(req.body.password, 8);            
             await updatePassword(id, password);
 
-            res.json({ success: true });
+            res.json(success);
         } catch (error) {
             manageRouterError(res, error);
         }
