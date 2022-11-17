@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "agrandes@gmail.com",
+    "email": "ialbenizfisher@gmail.com",
     "password": "123456"
 }
 
@@ -66,12 +66,12 @@ http://localhost:3000/api/public/ramas/?page=2&limit=2
 ### ALUMNOS --> PUT (actualización de los datos de un alumno que no sean la password - solo lo puede hacer él mismo -)
 PUT http://localhost:3000/api/private/alumnos/update
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg1ODcwMTYsImlhdCI6MTY2ODU2OTAxNn0.KNke479x1xC-v4GaIHf64f2o7FgAaOqclJZw_IEByDo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg3MjQ3NjMsImlhdCI6MTY2ODcwNjc2M30.CIXXgwzo9dn0ygdwfPWFvC7oEKI6jt-vSPvVVBGl-1I
 
 {
-    "nombreCompleto": " Eduardo Mendoza",
-    "userName": "emendoza",
-    "email": "emendoza@gmail.com"
+    "nombreCompleto": "Almudena Grandes Hernández",
+    "userName": "agrandeshernandez",
+    "email": "agrandes@gmail.com"
 }
 
 ### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
@@ -98,6 +98,25 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVt
 PUT http://localhost:3000/api/private/profesores/validate/10
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc
+
+### PROFESORES --> PUT (actualización de datos de un profesor - solo lo puede hacer él mismo -)
+PUT http://localhost:3000/api/private/profesores/update
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODcyNjQ4NiwiaWF0IjoxNjY4NzA4NDg2fQ.g8IdwbR3ugVx67lFV2l3QK2WclH-8kaAbv4uc9rMTgM
+
+{
+    "nombreCompleto": "Isaac Albéniz Fisher",
+    "userName": "ialbenizfisher",
+    "email": "ialbenizfisher@gmail.com",
+    "password": "123456",
+    "descripcion": "Análisis numérico a tu alcance. Fisher te lo garantiza.", 
+    "precioHora": 22, 
+    "experiencia": 10,
+    "latitud": 51.0754469,
+    "longitud": 12.4878069, 
+    "telefono": "555555555F",
+    "ramaId": 4
+}
 
 ###############################
 ### PRIVADO - INSCRIPCIONES ###

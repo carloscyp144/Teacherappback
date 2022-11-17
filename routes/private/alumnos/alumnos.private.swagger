@@ -9,7 +9,7 @@
  *       - Alumnos
  *     description: Cambia datos de configuración del alumno cuyo token de autorización va en la cabecera.
  *     requestBody:
- *       description: Nueva clave del alumno.
+ *       description: Nuevos datos de configuración del alumno.
  *       required: true
  *       content:
  *         application/json:

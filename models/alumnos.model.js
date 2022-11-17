@@ -17,7 +17,7 @@ const createTransAlumno = (db, borrado, usuariosId) => {
 const create = async (fields) => {
     const db = await beginTransaction();
     let id, usuarioId;
-    try {   
+    try {        
         usuarioId = (await createTransUsuario(db, {...fields, rolId: alumnoRoleId})).insertId;
         id        = (await createTransAlumno (db, 0, usuarioId                    )).insertId;
 

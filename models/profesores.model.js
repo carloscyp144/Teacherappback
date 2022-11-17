@@ -15,6 +15,22 @@ const createTransProfesor = (db, { descripcion, precioHora, experiencia, latitud
     );
 }
 
+const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora, experiencia, latitud, longitud, telefono, ramaId, nombreRamaNueva }) => {
+    let auxRamaId = 1;
+    if (ramaId) {
+        auxRamaId = ramaId;
+    }
+    if (nombreRamaNueva) {
+        auxRamaId = (await createTransRama(db, fields.nombreRamaNueva)).insertId;
+    }
+
+    return executeQueryTrans(
+        db,
+        `update profesores set descripcion = ?, precioHora = ?, experiencia = ?, coordenadas = POINT(${longitud}, ${latitud}), telefono = ?, ramaId = ? where (id = ?)`, 
+        [  descripcion, precioHora, experiencia, telefono, ramaId, id ]
+    );
+}
+
 const create = async (fields) => {
     let profesorId;
     const db = await beginTransaction();
@@ -93,4 +109,4 @@ const addPuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, pun
     );
 }
 
-module.exports = { validate, getById, getByUserId, updatePuntuacionTrans, addPuntuacionTrans };
+module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans };

@@ -35,5 +35,91 @@
  *         content:
  *           application/json: 
  *             schema: 
- *               $ref: '#/components/schemas/error' 
+ *               $ref: '#/components/schemas/error'
+ * /api/private/profesores/update: 
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Profesores
+ *     description: Cambia datos de configuración del profesor cuyo id va en el token de autorización de la cabecera.
+ *     requestBody:
+ *       description: Nuevos datos de configuraicón del profesor.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/actualizacionProfesor'
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/profesorResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'   
+ *components: 
+ *  schemas:
+ *    actualizacionProfesor:
+ *      title: ActualizacionProfesor
+ *      description: Nuevos datos del profesor
+ *      type: object
+ *      properties:
+ *        nombreCompleto:
+ *          type: string
+ *          description: Nombre completo del profesor
+ *          example: Martín Mata Cabello
+ *        userName:
+ *          type: string
+ *          description: Nombre del profesor en la aplicación
+ *          example: mmata
+ *        email:
+ *          type: string
+ *          description: Correo electrónico del profesor
+ *          example: mmata@gmail.com
+ *        descripcion:
+ *          type: string
+ *          description: Texto más largo para que el profesor se venda
+ *          example: Excelentes resultados, todos mis alumnos pasan con nota
+ *        precioHora:
+ *          type: decimal
+ *          description: Precio por hora de la clase
+ *          example: 12.50
+ *        experiencia:
+ *          type: int
+ *          description: Años de experiencia del profesor (entre 0 y 99)
+ *          example: 12
+ *        latitud:
+ *          type: number
+ *          description: Latitud de la localización de profesor
+ *          example: 51.0754321
+ *        longitud:
+ *          type: number
+ *          description: Longitud de la localización de profesor
+ *          example: 12.4878015
+ *        telefono:
+ *          type: string
+ *          description: Teléfono del profesor
+ *          example: 555555555
+ *        ramaId:
+ *          type: int
+ *          description: Si la rama de conocimiento del profesor está ya dada de alta, aquí se pone su identificador.
+ *          example: 2
+ *        nombreRamaNueva:
+ *          type: string
+ *          description: Si la rama de conocimiento del profesor no está ya dada de alta, aquí se pone su nombre.
+ *          example: Matemáticas
  */

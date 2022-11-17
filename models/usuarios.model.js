@@ -28,7 +28,7 @@ const getAdministrador = () => {
     )
 }
 
-const updateNotPasswordFields = (id, { nombreCompleto, userName, email }) => {
+const updateNotPasswordFieldsTrans = (id, { nombreCompleto, userName, email }) => {
     return executeQuery(
         `update usuarios set nombreCompleto = ?, userName = ?, email = ? where (id = ?)`, 
         [ nombreCompleto, userName, email, id ]
@@ -95,5 +95,5 @@ module.exports = {
     getByUserName,
     getByUserNameNotId,
     updatePassword,
-    updateNotPasswordFields
+    updateNotPasswordFieldsTrans
 };
