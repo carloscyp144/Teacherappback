@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { logicDelete, logicUndelete, search } = require('../../../models/alumnos.model');
+const { logicDelete, logicUndelete, search, seachFields } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
 const { checkRole } = require('../../../helpers/token_utils');
@@ -80,7 +80,7 @@ router.put(
 router.post(
     '/getSearch', 
     checkRole(adminRoleDescription),
-    checkSchema(searchValidationSchema),
+    checkSchema(searchValidationSchema(seachFields)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
     async (req, res) => {        

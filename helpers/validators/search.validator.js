@@ -1,36 +1,54 @@
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
 
-const searchValidationSchema = {
-    'searchConditions.*.column': {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'column')
+const searchValidationSchema = (fields) => {
+    return {
+        'searchConditions.*.column': {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'column')
+            },
+            isIn: {
+                options: [fields],
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_COLUMN_FIELD, 'column')
+            },
+            trim: true
         },
-        trim: true
-    },
-    'searchConditions.*.operator': {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'operator')
+        'searchConditions.*.operator': {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'operator')
+            },
+            isIn: {
+                options: [[ '=', '>', '>=', '<', '<=', '<>', 'like' ]],
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_VALUE_IN_LIST, 'operator', '=, >, >=, <, <=, <>, like')
+            },
+            trim: true
         },
-        trim: true
-    },
-    'searchConditions.*.value': {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'value')
+        'searchConditions.*.value': {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'value')
+            },
+            trim: true
         },
-        trim: true
-    },
-    'orderByConditions.*.column': {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'column')
+        'orderByConditions.*.column': {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'column')
+            },
+            isIn: {
+                options: [fields],
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_COLUMN_FIELD, 'column')
+            },
+            trim: true
         },
-        trim: true
-    },
-    'orderByConditions.*.order': {
-        exists: {
-            errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'order')
-        },
-        trim: true,
-        toLowerCase: true
+        'orderByConditions.*.order': {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'order')
+            },
+            isIn: {
+                options: [[ 'asc', 'desc']],
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_VALUE_IN_LIST, 'operator', 'asc, desc')
+            },
+            trim: true,
+            toLowerCase: true
+        }
     }
 }
 

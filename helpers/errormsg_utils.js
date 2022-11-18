@@ -18,7 +18,9 @@ const ErrorType = {
     ERROR_DECIMAL_MIN_MAX:   `El campo ${FIELD_STR} debe ser un decimal entre ${VALUE_STR}`,
     ERROR_INT_MIN_MAX:       `El campo ${FIELD_STR} debe ser un entero entre ${VALUE_STR}`,
     ERROR_INT:               `El campo ${FIELD_STR} debe ser un entero`,
-    ERROR_DECIMAL:           `El campo ${FIELD_STR} debe ser un decimal`
+    ERROR_DECIMAL:           `El campo ${FIELD_STR} debe ser un decimal`,
+    ERROR_VALUE_IN_LIST:     `Los valores posibles de ${FIELD_STR} son: ${VALUE_STR}`,
+    ERROR_COLUMN_FIELD:      `El valor del campo ${FIELD_STR} debe coincidir con el nombre de una columna en la tabla consultada`
 }
 
 const getErrorFieldStr = (error, fieldName, valueStr) => {

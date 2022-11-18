@@ -41,14 +41,14 @@ const getByUserId = (usuariosId) => {
     );
 }
 
+const seachFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
     const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId'
-    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';
-                         
-    const fields        = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
-    const whereClause   = getWhereClause(fields, searchConditions, 'a.');    
-    const orderByClause = getOrderByClause(fields, orderByConditions, 'a.');
+    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';                         
+    
+    const whereClause   = getWhereClause(seachFields, searchConditions, 'a.');    
+    const orderByClause = getOrderByClause(seachFields, orderByConditions, 'a.');
     const limitClause   = getLimitClause(limit, page);
 
     return Promise.all([
@@ -77,6 +77,7 @@ module.exports = {
     create,
     getByUserId,
     search,
+    seachFields,
     logicDelete,
     logicUndelete
 };
