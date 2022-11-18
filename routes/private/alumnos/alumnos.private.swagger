@@ -71,6 +71,81 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error' 
+ * /api/private/alumnos/undelete/{alumnoId}:
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Alumnos
+ *     description: Reactiva un alumno borrado previamente, cuyo id va en la petición. En la cabecera deberá ir el token de un administrador.
+ *     parameters:
+ *        - in: path
+ *          name: alumnoId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Identificador del alumno a reactivar.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       404:
+ *         description: No existe ningún alumno con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
+ * /api/private/alumnos/getSearch:
+ *   post:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Alumnos
+ *     description: Recupera una lista de alumnos según los criterios especificados (opcionales), con el orden indicadado (opcional) y paginado (también es opcional).
+ *     parameters:
+ *       - $ref: '#/components/parameters/page'
+ *       - $ref: '#/components/parameters/limit'
+ *     requestBody:
+ *       description: Campos para restringir la búsqueda y definir un orden.
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/searchOrderByFields'
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/alumnoResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation' 
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  *components: 
  *  schemas:
  *    newPasswordRequest:

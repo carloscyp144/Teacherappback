@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "ialbenizfisher@gmail.com",
+    "email": "admin@gmail.com",
     "password": "123456"
 }
 
@@ -77,7 +77,104 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVt
 ### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
 DELETE http://localhost:3000/api/private/alumnos/delete/10
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+### ALUMNOS --> PUT (deshace el borrado lógico - solo lo puede hacer un administrador -)
+PUT http://localhost:3000/api/private/alumnos/undelete/10
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+### ALUMNOS --> POST (recoger alumnos - solo lo puede hacer un administrador -)
+POST http://localhost:3000/api/private/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+###         --> Otro ejemplo
+POST http://localhost:3000/api/private/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+{
+    "searchConditions": [
+        {
+            "column": "borrado", 
+            "operator": "=",
+            "value": "1"
+        }
+    ]
+}
+
+###         --> Otro más
+POST http://localhost:3000/api/private/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+{
+    "searchConditions": [
+        {
+            "column": "borrado", 
+            "operator": "=",
+            "value": "0"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "e*"
+        }
+    ]
+}
+
+###         --> El penúltimo
+POST http://localhost:3000/api/private/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+{
+    "searchConditions": [
+        {
+            "column": "borrado", 
+            "operator": "=",
+            "value": "0"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "e*"
+        }
+    ],
+    "orderByConditions": [
+        {
+            "column": "id",
+            "order": "desc"
+        }
+    ]
+}
+
+###         --> El último
+POST http://localhost:3000/api/private/alumnos/getSearch?page=2&limit=2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+
+{
+    "searchConditions": [
+        {
+            "column": "borrado", 
+            "operator": "=",
+            "value": "0"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "e*"
+        }
+    ],
+    "orderByConditions": [
+        {
+            "column": "id",
+            "order": "desc"
+        }
+    ]
+}
 
 ##########################
 ### PRIVADO - USUARIOS ###

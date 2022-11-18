@@ -13,7 +13,7 @@ const options = {
     }
   },
   apis: [
-    './routes/api.swagger',
+    './routes/*.swagger',
     './routes/*/*.swagger',
     './routes/*/*/*.swagger'
   ]

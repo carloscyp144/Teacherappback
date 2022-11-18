@@ -1,5 +1,4 @@
 const { getErrorFieldStr, ErrorType } = require('../errormsg_utils');
-const { passwordValidationSchema } = require('./password.validator');
 
 const opinionValidationSchema = {
     id: {
