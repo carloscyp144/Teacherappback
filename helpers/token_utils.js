@@ -51,4 +51,14 @@ const checkRole = (role) => {
     }
 }
 
-module.exports = { checkToken, checkRole };
+const checkRoles = (roles) => {
+    return (req, res, next) => {        
+        if (!roles.includes(req.user.role)) {
+            return res.status(401)
+                      .json({ errorMessage: `Restringido el acceso. Solo usuarios con rol: ${roles.join(', ')}` });
+        }
+        next();
+    }
+}
+
+module.exports = { checkToken, checkRole, checkRoles };

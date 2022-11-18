@@ -112,7 +112,7 @@
  *       - Authorization: []
  *     tags:
  *       - Alumnos
- *     description: Recupera una lista de alumnos según los criterios especificados (opcionales), con el orden indicadado (opcional) y paginado (también es opcional).
+ *     description: Recupera una lista de alumnos según los criterios especificados (opcionales), con el orden indicadado (opcional) y paginado (también es opcional). Si el token es de un administrador, recupera los alumnos especificados en los criterios de búsqueda. Si el token es de un profesor, recupera sus alumnos que no esté borrados, y aque además cumplan los criterios de búsqueda.
  *     parameters:
  *       - $ref: '#/components/parameters/page'
  *       - $ref: '#/components/parameters/limit'

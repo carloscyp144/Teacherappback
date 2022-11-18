@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "admin@gmail.com",
+    "email": "mgiron@gmail.com",
     "password": "123456"
 }
 
@@ -87,19 +87,19 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ### ALUMNOS --> POST (recoger alumnos - devuelve todos si el token es de un administrador, o los no borrados de un profesor si el token tiene este rol -)
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgwNTA5OSwiaWF0IjoxNjY4Nzg3MDk5fQ.zGYytmuWBO4zbK79pV9zkZNteJUzM31k_Zq61qtKaE8
 
 ###         --> Otro ejemplo
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgwNTA5OSwiaWF0IjoxNjY4Nzg3MDk5fQ.zGYytmuWBO4zbK79pV9zkZNteJUzM31k_Zq61qtKaE8
 
 {
     "searchConditions": [
         {
-            "column": "borrado", 
-            "operator": "=",
-            "value": "1"
+            "column": "id", 
+            "operator": ">",
+            "value": "11"
         }
     ]
 }
@@ -107,7 +107,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> Otro más
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgwNTA5OSwiaWF0IjoxNjY4Nzg3MDk5fQ.zGYytmuWBO4zbK79pV9zkZNteJUzM31k_Zq61qtKaE8
 
 {
     "searchConditions": [
@@ -119,7 +119,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
         {
             "column": "email", 
             "operator": "like",
-            "value": "e*"
+            "value": "*e*"
         }
     ]
 }
@@ -127,7 +127,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> El penúltimo
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgwNTA5OSwiaWF0IjoxNjY4Nzg3MDk5fQ.zGYytmuWBO4zbK79pV9zkZNteJUzM31k_Zq61qtKaE8
 
 {
     "searchConditions": [
@@ -139,7 +139,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
         {
             "column": "email", 
             "operator": "like",
-            "value": "e*"
+            "value": "*e*"
         }
     ],
     "orderByConditions": [
@@ -153,7 +153,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> El último
 POST http://localhost:3000/api/private/alumnos/getSearch?page=2&limit=2
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgwNTA5OSwiaWF0IjoxNjY4Nzg3MDk5fQ.zGYytmuWBO4zbK79pV9zkZNteJUzM31k_Zq61qtKaE8
 
 {
     "searchConditions": [
@@ -165,7 +165,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
         {
             "column": "email", 
             "operator": "like",
-            "value": "e*"
+            "value": "*e*"
         }
     ],
     "orderByConditions": [

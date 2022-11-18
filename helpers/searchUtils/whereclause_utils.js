@@ -1,13 +1,16 @@
 const operators = [ '=', '>', '>=', '<', '<=', '<>', 'like' ];
 const ascdes    = [ 'asc', 'desc' ];
 
-const getWhereClause = (fields, searchConditions, idPrefix) => {
-    const whereClause = (searchConditions == null) 
+const getWhereClause = (fields, searchConditions, idPrefix, moreConditions = '') => {
+    let whereClause = (searchConditions == null) 
                         ? ''
-                        : searchConditions.map(getSearchCondition(fields, idPrefix))
-                                          .reduce((acc, value) => (value === '')
-                                                                    ? acc
-                                                                    : (acc !== '') ? (acc + ' and ' + value) : value, '');
+                        : searchConditions.map(getSearchCondition(fields, idPrefix)).join(' and ');
+
+    if ((moreConditions !== '') && (whereClause !== '')) {
+        whereClause = moreConditions + ' and ' + whereClause;
+    } else { // Alguno de los dos o los dos son la cadena vacía.
+        whereClause = moreConditions + whereClause;
+    }
 
     if (whereClause === '') {
         return '';
@@ -19,10 +22,8 @@ const getWhereClause = (fields, searchConditions, idPrefix) => {
 const getOrderByClause = (fields, orderByConditions, idPrefix) => {    
     const orderByClause = (orderByConditions == null)
                         ? ''
-                        : orderByConditions.map(getOrderByCondition(fields, idPrefix))
-                                           .reduce((acc, value) => (value === '')
-                                                                     ? acc
-                                                                     : (acc !== '') ? (acc + ', ' + value) : value, '');
+                        : orderByConditions.map(getOrderByCondition(fields, idPrefix)).join(', ');
+
     if (orderByClause === '') {
         return '';        
     }
@@ -41,7 +42,7 @@ const getSearchCondition = (fields, idPrefix) => {
                 return '';
             }
 
-            return '(' + getColumnName(column, idPrefix) + ' ' + operator + ' \'' + value.replace('*', '%') + '\'' + ')';
+            return '(' + getColumnName(column, idPrefix) + ' ' + operator + ' \'' + value.replaceAll('*', '%') + '\'' + ')';
         }
     );
 }

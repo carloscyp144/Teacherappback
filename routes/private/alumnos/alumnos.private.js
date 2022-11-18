@@ -3,17 +3,18 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { logicDelete, logicUndelete, search, seachFields } = require('../../../models/alumnos.model');
+const { logicDelete, logicUndelete, search, searchByTeacherId, seachFields, getByUserId } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
-const { checkRole } = require('../../../helpers/token_utils');
+const { checkRole, checkRoles } = require('../../../helpers/token_utils');
 const { success } = require('../../../helpers/success_utils');
 const { idParamValidator } = require('../../../helpers/validators/idParam.validator');
-const { alumnoRoleDescription, adminRoleDescription } = require('../../../models/roles.model');
+const { alumnoRoleDescription, adminRoleDescription, profesorRoleDescription } = require('../../../models/roles.model');
 const { updateUserFields } = require('../updateUserFields');
 const { pageLimitValidationSchema } = require('../../../helpers/validators/pagelimit.validator');
 const { searchValidationSchema } = require('../../../helpers/validators/search.validator');
 const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
+const { getByUserId: getProfesorByUserId } = require('../../../models/profesores.model');
 
 // Actualización de los datos de un alumno (menos el password).
 // (Solo lo podrá hacer él mismo)
@@ -76,10 +77,11 @@ router.put(
 );
 
 // Recuperamos los alumnos (de manera paginada - opcional-, con filtros y group by - opcional -).
-// (Solo lo podrá hacer un administrador)
+// (Solo lo podrá hacer un administrador - se muestran todos los alumnos -, o un profesor
+// - se muestras solo sus alumnos y si no están borrados -),
 router.post(
     '/getSearch', 
-    checkRole(adminRoleDescription),
+    checkRoles([adminRoleDescription, profesorRoleDescription]),
     checkSchema(searchValidationSchema(seachFields)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
@@ -87,7 +89,17 @@ router.post(
         try {
             const { page, limit } = req.query;
 
-            const alumnos = await search(req.body, page, limit);
+            let alumnos;
+            if (req.user.role === adminRoleDescription) {
+                alumnos = await search(req.body, page, limit);
+            } else {
+                const profesor = await getProfesorByUserId(req.user.id);
+                if (profesor === null) {
+                    return res.status(404)
+                              .json({ messageError: 'No existe el profesor especificado en el token' });
+                }
+                alumnos = await searchByTeacherId(req.body, profesor.id, page, limit);
+            }
             
             res.json(formatSearchResult(alumnos));
         } catch (error) {            

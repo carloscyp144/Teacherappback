@@ -44,7 +44,7 @@ const getByUserId = (usuariosId) => {
 const seachFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
-    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId'
+    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId';
     let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';                         
     
     const whereClause   = getWhereClause(seachFields, searchConditions, 'a.');    
@@ -53,6 +53,24 @@ const search = ({ searchConditions, orderByConditions }, page, limit) => {
 
     return Promise.all([
             // No vale, mete comillas --> executeQuery(selectSentence, [fieldsResult]),
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+const searchByTeacherId = ({ searchConditions, orderByConditions }, idProfesor, page, limit) => {    
+
+    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId';
+    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id) '     +
+                                                    'inner join inscripciones as i on (a.id = i.alumnosId) ' +
+                                                    'inner join profesores as p on (p.id = i.profesoresId) ';
+    
+    const whereClause   = getWhereClause(seachFields, searchConditions, 'a.', `(p.id = ${idProfesor}) and (borrado = 0)`);
+    const orderByClause = getOrderByClause(seachFields, orderByConditions, 'a.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
             executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
             limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
                   : { pages: 1 }
@@ -77,6 +95,7 @@ module.exports = {
     create,
     getByUserId,
     search,
+    searchByTeacherId,
     seachFields,
     logicDelete,
     logicUndelete
