@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { logicDelete, logicUndelete, getWithQuery } = require('../../../models/alumnos.model');
+const { logicDelete, logicUndelete, search } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
 const { checkRole } = require('../../../helpers/token_utils');
@@ -13,6 +13,7 @@ const { alumnoRoleDescription, adminRoleDescription } = require('../../../models
 const { updateUserFields } = require('../updateUserFields');
 const { pageLimitValidationSchema } = require('../../../helpers/validators/pagelimit.validator');
 const { searchValidationSchema } = require('../../../helpers/validators/search.validator');
+const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
 
 // Actualización de los datos de un alumno (menos el password).
 // (Solo lo podrá hacer él mismo)
@@ -86,9 +87,9 @@ router.post(
         try {
             const { page, limit } = req.query;
 
-            const ramas = await getWithQuery(req.body, page, limit);
+            const alumnos = await search(req.body, page, limit);
             
-            res.json(ramas);
+            res.json(formatSearchResult(alumnos));
         } catch (error) {            
             manageRouterError(res, error);
         }

@@ -129,9 +129,7 @@
  *         content: 
  *           application/json: 
  *             schema: 
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/alumnoResponse'
+ *               $ref: '#/components/schemas/searcAlumnosResult'
  *       400:
  *         description: Alguno de los campos enviados es incorrecto.
  *         content: 
@@ -174,4 +172,18 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
+ *    searcAlumnosResult:
+ *      title: SearcAlumnosResult
+ *      description: Resultado de una consulta de alumnos
+ *      type: object
+ *      properties:
+ *        rows:
+ *          type: array
+ *          description: Lista con los alumnos recuperados
+ *          items:
+ *            $ref: '#/components/schemas/alumnoResponse' 
+ *        pages:
+ *          type: int
+ *          description: Número de páginas según el límite indicado en la petición
+ *          example: 2
  */

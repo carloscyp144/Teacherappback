@@ -77,22 +77,22 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVt
 ### ALUMNOS --> DELETE (borrado lógico - solo lo puede hacer un administrador -)
 DELETE http://localhost:3000/api/private/alumnos/delete/10
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 ### ALUMNOS --> PUT (deshace el borrado lógico - solo lo puede hacer un administrador -)
 PUT http://localhost:3000/api/private/alumnos/undelete/10
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
-### ALUMNOS --> POST (recoger alumnos - solo lo puede hacer un administrador -)
+### ALUMNOS --> POST (recoger alumnos - devuelve todos si el token es de un administrador, o los no borrados de un profesor si el token tiene este rol -)
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 ###         --> Otro ejemplo
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 {
     "searchConditions": [
@@ -107,7 +107,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> Otro más
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 {
     "searchConditions": [
@@ -127,7 +127,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> El penúltimo
 POST http://localhost:3000/api/private/alumnos/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 {
     "searchConditions": [
@@ -153,7 +153,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ###         --> El último
 POST http://localhost:3000/api/private/alumnos/getSearch?page=2&limit=2
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc0MTUyNywiaWF0IjoxNjY4NzIzNTI3fQ.439gECv-soqWLSo1Hma0WbgcrrLIgvSk4zgjmh5iXos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODc4NTk2NywiaWF0IjoxNjY4NzY3OTY3fQ.0m8Zi9ui2Sc-Hb4biF5VdLjN-RGhEYkDakqF36griEY
 
 {
     "searchConditions": [

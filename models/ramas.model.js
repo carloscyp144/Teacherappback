@@ -1,3 +1,4 @@
+const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
 const { executeQuery, executeQueryOne, executeQueryTrans } = require('../helpers/mysql_utils');
 
 const key_columns    = 'id';
@@ -5,11 +6,17 @@ const no_key_columns = 'nombre';
 const columns        = `${key_columns}, ${no_key_columns}`;
 
 const getAll = () => {
-    return executeQuery(`select ${columns} from ramas`);
+    return Promise.all([
+            executeQuery(`select ${columns} from ramas`),
+            { "pages": 1 }
+    ]);
 }
 
 const getByPage = (page, limit) => {
-    return executeQuery(`select ${columns} from ramas order by id limit ? offset ?`, [ limit, (page - 1) * limit ]);
+    return Promise.all([
+            executeQuery(`select ${columns} from ramas order by id limit ? offset ?`, [ limit, (page - 1) * limit ]),
+            executeQueryOne(`select ${getPagesCountClause(limit)} from ramas`)
+    ]);
 }
 
 const createTransRama = (db, nombre) => {

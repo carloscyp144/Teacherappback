@@ -20,7 +20,7 @@
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/rama' 
+ *                 $ref: '#/components/schemas/ramaResult' 
  *       500:
  *         description: Error que se ha producido en el servidor.
  *         content:
@@ -55,4 +55,18 @@
  *          type: string
  *          description: Nombre de la rama de conocimiento
  *          example: Matemáticas
+ *    ramaResult:
+ *      title: RamaResult
+ *      description: Resultado de una consulta de ramas
+ *      type: object
+ *      properties:
+ *        rows:
+ *          type: array
+ *          description: Lista con las ramas recuperadas
+ *          items:
+ *            $ref: '#/components/schemas/rama' 
+ *        pages:
+ *          type: int
+ *          description: Número de páginas según el límite indicado en la petición
+ *          example: 2
  */

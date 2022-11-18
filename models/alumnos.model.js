@@ -1,7 +1,8 @@
 const { executeQuery, executeQueryOne, executeQueryTrans, beginTransaction, commit, rollBack } = require('../helpers/mysql_utils');
 const { createTransUsuario } = require('./usuarios.model');
 const { alumnoRoleId } = require('./roles.model');
-const { getWhereOrderByLimitClauses } = require('../helpers/whereclause_utils');
+const { getWhereClause, getOrderByClause, getLimitClause } = require('../helpers/searchUtils/whereclause_utils');
+const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
 
 const key_columns    = 'id';
 const no_key_columns = 'borrado, usuariosId';
@@ -40,22 +41,22 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-const getWithQuery = ({ searchConditions, orderByConditions }, page, limit) => {    
+const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
-    let selectSentence = 'select a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId ' +
-                         'from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';
+    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId'
+    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';
                          
     const fields        = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
-    const clauses       = getWhereOrderByLimitClauses(fields, searchConditions, orderByConditions, limit, page);    
-    if (clauses != '') {
-        selectSentence += clauses;
-    }
+    const whereClause   = getWhereClause(fields, searchConditions, 'a.');    
+    const orderByClause = getOrderByClause(fields, orderByConditions, 'a.');
+    const limitClause   = getLimitClause(limit, page);
 
-    return executeQuery(
-        selectSentence, 
-        [ ]
-    );
-
+    return Promise.all([
+            // No vale, mete comillas --> executeQuery(selectSentence, [fieldsResult]),
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
 }
 
 const logicDelete = (id) => {
@@ -75,7 +76,7 @@ const logicUndelete = (id) => {
 module.exports = { 
     create,
     getByUserId,
-    getWithQuery,
+    search,
     logicDelete,
     logicUndelete
 };

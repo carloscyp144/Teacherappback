@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+const { manageRouterError } = require('../../../helpers/router_utils');
+const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
 const { getByPage, getAll } = require('../../../models/ramas.model');
 
 // Recuperamos todas las ramas o de manera paginada.
@@ -17,9 +19,9 @@ router.get(
                 ramas = await getAll();
             }
             
-            res.json(ramas);
+            res.json(formatSearchResult(ramas));
         } catch (error) {            
-            manageError(res, error);
+            manageRouterError(res, error);
         }
     }
 );
