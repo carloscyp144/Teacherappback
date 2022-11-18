@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mgiron@gmail.com",
+    "email": "agrandes@gmail.com",
     "password": "123456"
 }
 
@@ -213,6 +213,118 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAsInJvbGUiOiJwcm9m
     "longitud": 12.4878069, 
     "telefono": "555555555F",
     "ramaId": 4
+}
+
+### PROFESORES --> POST (recoger profesores - devuelve todos si el token es de un administrador, o los validados de un alumno si el token tiene este rol -)
+POST http://localhost:3000/api/private/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4MjY0MTYsImlhdCI6MTY2ODgwODQxNn0.jXsGj_1psjMtHSi18YX4rplu40LhmA0laimMouemCE0
+
+###         --> Otro ejemplo
+POST http://localhost:3000/api/private/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgyNTQ0NCwiaWF0IjoxNjY4ODA3NDQ0fQ.wbWmy5ltw97_s7s7OFIDpKmMNJdafgAo138a7SzoEJc
+
+{
+    "searchConditions": [
+        {
+            "column": "precioHora", 
+            "operator": ">",
+            "value": "5.50"
+        }
+    ]
+}
+
+###         --> Otro más
+POST http://localhost:3000/api/private/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgyNTQ0NCwiaWF0IjoxNjY4ODA3NDQ0fQ.wbWmy5ltw97_s7s7OFIDpKmMNJdafgAo138a7SzoEJc
+
+{
+    "searchConditions": [
+        {
+            "column": "experiencia", 
+            "operator": ">=",
+            "value": "5"
+        },
+        {
+            "column": "experiencia", 
+            "operator": "<=",
+            "value": "15"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "*e*"
+        }
+    ]
+}
+
+###         --> El penúltimo
+POST http://localhost:3000/api/private/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODgyNTQ0NCwiaWF0IjoxNjY4ODA3NDQ0fQ.wbWmy5ltw97_s7s7OFIDpKmMNJdafgAo138a7SzoEJc
+
+{
+    "searchConditions": [
+        {
+            "column": "experiencia", 
+            "operator": ">=",
+            "value": "5"
+        },
+        {
+            "column": "experiencia", 
+            "operator": "<=",
+            "value": "15"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "*e*"
+        },
+        {
+            "column": "validado", 
+            "operator": "=",
+            "value": "1"            
+        }
+    ],
+    "orderByConditions": [
+        {
+            "column": "precioHora",
+            "order": "desc"
+        }
+    ]
+}
+
+###         --> El último
+POST http://localhost:3000/api/private/profesores/getSearch?page=1&limit=2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4MjY0MTYsImlhdCI6MTY2ODgwODQxNn0.jXsGj_1psjMtHSi18YX4rplu40LhmA0laimMouemCE0
+
+{
+    "searchConditions": [
+        {
+            "column": "experiencia", 
+            "operator": ">=",
+            "value": "5"
+        },
+        {
+            "column": "experiencia", 
+            "operator": "<=",
+            "value": "15"
+        },
+        {
+            "column": "email", 
+            "operator": "like",
+            "value": "*e*"
+        }
+    ],
+    "orderByConditions": [
+        {
+            "column": "precioHora",
+            "order": "desc"
+        }
+    ]
 }
 
 ###############################

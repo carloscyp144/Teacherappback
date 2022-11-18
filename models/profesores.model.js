@@ -2,6 +2,8 @@ const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit, 
 const { createTransUsuario } = require('./usuarios.model');
 const { createTransRama } = require('./ramas.model');
 const { profesorRoleId } = require('./roles.model');
+const { getWhereClause, getOrderByClause, getLimitClause } = require('../helpers/searchUtils/whereclause_utils');
+const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
 
 const key_columns          = 'id';
 const no_key_columns       = 'descripcion, precioHora, experiencia, coordenadas, telefono, validado, puntuacionMedia, puntuacionTotal, numeroPuntuaciones, usuarioId, ramaId';
@@ -109,4 +111,42 @@ const addPuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, pun
     );
 }
 
-module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans };
+const searchFields = ['id', 'descripcion', 'precioHora', 'experiencia', 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 
+                     'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId'];
+const search = ({ searchConditions, orderByConditions }, page, limit) => {    
+
+    const fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
+    let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
+                                                       'inner join ramas as r on (p.ramaId = r.id)';
+    
+    const whereClause   = getWhereClause(searchFields, searchConditions, 'p.');    
+    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'p.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+const searchByAlumnoId = ({ searchConditions, orderByConditions }, idAlumno, page, limit) => {    
+
+    const fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
+    let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) '     +
+                                                    'inner join inscripciones as i on (p.id = i.profesoresId) ' +
+                                                    'inner join alumnos as a on (a.id = i.alumnosId) ' +
+                                                    'inner join ramas as r on (p.ramaId = r.id)';
+    
+    const whereClause   = getWhereClause(searchFields, searchConditions, 'a.', `(a.id = ${idAlumno}) and (validado = 1)`);
+    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'a.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchFields };
