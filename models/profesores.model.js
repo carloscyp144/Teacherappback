@@ -138,8 +138,8 @@ const searchByAlumnoId = ({ searchConditions, orderByConditions }, idAlumno, pag
                                                     'inner join alumnos as a on (a.id = i.alumnosId) ' +
                                                     'inner join ramas as r on (p.ramaId = r.id)';
     
-    const whereClause   = getWhereClause(searchFields, searchConditions, 'a.', `(a.id = ${idAlumno}) and (validado = 1)`);
-    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'a.');
+    const whereClause   = getWhereClause(searchFields, searchConditions, 'p.', `(a.id = ${idAlumno}) and (validado = 1)`);
+    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'p.');
     const limitClause   = getLimitClause(limit, page);
 
     return Promise.all([
@@ -149,4 +149,29 @@ const searchByAlumnoId = ({ searchConditions, orderByConditions }, idAlumno, pag
     ]);
 }
 
-module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchFields };
+const searchFieldsPublic = ['id', 'descripcion', 'precioHora', 'experiencia', 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 
+                            'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId', 'distancia'];
+const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, orderByConditions }, bLogged, page, limit) => {    
+
+    let fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama, ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) as distancia `;
+
+    if (!bLogged) { // Estos campos solo aparecen en el resultado si está logeado el usuario.
+        fieldsResult = fieldsResult.replace(', email',    '')
+                                   .replace(', telefono', '');
+    }
+
+    let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
+                                                       'inner join ramas as r on (p.ramaId = r.id)';
+    
+    const whereClause   = getWhereClause(searchFieldsPublic, searchConditions, 'p.', `(ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) <= ${maximaDistancia})`);
+    const orderByClause = getOrderByClause(searchFieldsPublic, orderByConditions, 'p.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, searchFields, searchFieldsPublic };

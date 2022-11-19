@@ -27,6 +27,16 @@ const getCommonFieldsValidationSchema = (modelReferenceName, creation) => {
             },
             trim: true
         },
+        nombreCompleto: {
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'nombreCompleto')
+            },
+            isLength: {
+                options: { max: 50 },
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'nombreCompleto', '50')
+            },
+            trim: true
+        },        
         email: {
             exists: {
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'email')

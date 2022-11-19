@@ -129,7 +129,7 @@
  *         content: 
  *           application/json: 
  *             schema: 
- *               $ref: '#/components/schemas/searcAlumnosResult'
+ *               $ref: '#/components/schemas/searchAlumnosResult'
  *       400:
  *         description: Alguno de los campos enviados es incorrecto.
  *         content: 
@@ -172,8 +172,8 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
- *    searcAlumnosResult:
- *      title: SearcAlumnosResult
+ *    searchAlumnosResult:
+ *      title: SearchAlumnosResult
  *      description: Resultado de una consulta de alumnos
  *      type: object
  *      properties:

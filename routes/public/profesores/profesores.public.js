@@ -1,11 +1,15 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
-const { create, getById } = require('../../../models/profesores.model');
+const { create, getById, searchPublic, searchFieldsPublic } = require('../../../models/profesores.model');
 const { getById: getUsuarioById } = require('../../../models/usuarios.model');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getProfesorValidationSchema } = require('../../../helpers/validators/profesores.validator');
+const { publicTeacherSearchValidationSchema } = require('../../../helpers/validators/profesorespublic_search.validator');
+const { pageLimitValidationSchema } = require('../../../helpers/validators/pagelimit.validator');
+const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
+const { validateToken } = require('../../../helpers/token_utils');
 
 // Creación de un nuevo profesor.
 router.post(
@@ -22,6 +26,32 @@ router.post(
             delete usuario.id;
             res.json({...usuario, ...profesor});
         } catch (error) {
+            manageRouterError(res, error);
+        }
+    }
+);
+
+// Búsqueda de profesores de la parte pública. A diferencia de en la parte privada,
+// aquí se pasa como criterio de búsqueda unas coordenadas y una distancia máxima a
+// ese punto. Por lo demás, se reciben los criterios de búsqueda, ordenación y pagi-
+// nación de cualquier petición de búsqueda.
+// IMPORTANTE: si estamos con un token válido, además podremos ver los datos de
+// contanto del profesor (email y teléfono)
+router.post(
+    '/getSearch', 
+    checkSchema(publicTeacherSearchValidationSchema(searchFieldsPublic)),
+    checkSchema(pageLimitValidationSchema),
+    checkValidationsResult,
+    async (req, res) => {        
+        try {
+            const { page, limit } = req.query;
+
+            const logged = await validateToken(req);
+
+            profesores = await searchPublic(req.body, logged, page, limit);
+            
+            res.json(formatSearchResult(profesores));
+        } catch (error) {            
             manageRouterError(res, error);
         }
     }

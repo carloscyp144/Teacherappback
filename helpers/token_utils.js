@@ -5,9 +5,33 @@ const { getByUserId } = require('../models/alumnos.model');
 const { alumnoRoleDescription } = require('../models/roles.model');
 
 const checkToken = async (req, res, next) => {
+    const { ok, statusCode, message, user } = await validateTokenAux(req);
+
+    if (!ok) {
+        return res.status(statusCode)
+                  .json({ errorMessage: message });
+    }
+
+    req.user = user;
+
+    next();
+}
+
+// Simplemente comprueba si existe y es válido, no devuelve respuesta de error
+// si no es correcto. Se usa para la consulta de profesores de la parte pública
+// (solo si hay token y es bueno, se muestran los datos de contacto de profesor).
+const validateToken = async (req) => {
+    const ok = (await validateTokenAux(req)).ok;    
+    return ok;
+};
+
+const validateTokenAux = async (req) => {
     if (!req.headers['authorization']) {
-        return res.status(401)
-                  .json({ errorMessage: 'Debes incluir el token de autenticación' });
+        return {
+            ok: false,
+            statusCode: 401,
+            message: 'Debes incluir el token de autenticación'
+        }
     }
 
     let { authorization: token } = req.headers;    
@@ -18,27 +42,37 @@ const checkToken = async (req, res, next) => {
     try {
         obj = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
     } catch (error) {
-        return res.status(401)
-                  .json({ errorMessage: 'El token incluido no es válido' });
+        return {
+            ok: false,
+            statusCode: 401,
+            message: 'El token incluido no es válido'
+        }
     }
 
     if (obj.expiration_date < dayjs().unix()) {
-        return res.status(401)
-                  .json({ errorMessage: 'El token está caducado' });
+        return {
+            result: false,
+            statusCode: 401,
+            message: 'El token está caducado'
+        }
     }
 
     if (obj.role === alumnoRoleDescription) {
         const alumno = await getByUserId(obj.id);
         if ((alumno === null) || (alumno.borrado))
         {
-            return res.status(401)
-                      .json({ errorMessage: 'El usuario se ha borrado' });
+            return {
+                ok: false,
+                statusCode: 401,
+                message: 'El usuario se ha borrado'
+            }
         }
     }
 
-    req.user = obj;
-
-    next();
+    return {
+        ok: true,
+        user: obj
+    };
 }
 
 const checkRole = (role) => {
@@ -61,4 +95,4 @@ const checkRoles = (roles) => {
     }
 }
 
-module.exports = { checkToken, checkRole, checkRoles };
+module.exports = { checkToken, checkRole, checkRoles, validateToken };

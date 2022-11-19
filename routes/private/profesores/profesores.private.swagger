@@ -71,6 +71,44 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error'   
+ * /api/private/profesores/getSearch:
+ *   post:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Profesores
+ *     description: Recupera una lista de profesores según los criterios especificados (opcionales), con el orden indicadado (opcional) y paginado (también es opcional). Si el token es de un administrador, recupera los profesores especificados en los criterios de búsqueda. Si el token es de un alumno, recupera sus profesores que estén activos, y aque además cumplan los criterios de búsqueda.
+ *     parameters:
+ *       - $ref: '#/components/parameters/page'
+ *       - $ref: '#/components/parameters/limit'
+ *     requestBody:
+ *       description: Campos para restringir la búsqueda y definir un orden.
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/searchOrderByFields'
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/searchProfesoresResult'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation' 
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  *components: 
  *  schemas:
  *    actualizacionProfesor:
@@ -122,4 +160,18 @@
  *          type: string
  *          description: Si la rama de conocimiento del profesor no está ya dada de alta, aquí se pone su nombre.
  *          example: Matemáticas
+ *    searchProfesoresResult:
+ *      title: SearchProfesoresResult
+ *      description: Resultado de una consulta de profesores
+ *      type: object
+ *      properties:
+ *        rows:
+ *          type: array
+ *          description: Lista con los profesores recuperados
+ *          items:
+ *            $ref: '#/components/schemas/profesorResponse' 
+ *        pages:
+ *          type: int
+ *          description: Número de páginas según el límite indicado en la petición
+ *          example: 2
  */

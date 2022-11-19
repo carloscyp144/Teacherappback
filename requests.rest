@@ -24,7 +24,7 @@ POST http://localhost:3000/api/public/alumnos/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": "Almudena del Álamo Santamaría",
+    
     "userName": "aalamo",
     "email": "aalamo@gmail.com",
     "password": "123456"
@@ -49,6 +49,39 @@ Content-Type: application/json
     "longitud": 12.4878035, 
     "telefono": "555555555",
     "ramaId": 4
+}
+
+### PROFESORES --> POST (búsqueda de profesores) Aquí sin token
+POST http://localhost:3000/api/public/profesores/getSearch
+Content-Type: application/json
+
+{
+    "latitud": 51.0754421,
+    "longitud": 12.4878035, 
+    "maximaDistancia": 1000,
+    "orderByConditions": [
+        {
+            "column": "distancia",
+            "order": "asc"
+        }
+    ]
+}
+
+### PROFESORES --> POST (búsqueda de profesores) Aquí con token
+POST http://localhost:3000/api/public/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4OTA2MjksImlhdCI6MTY2ODg3MjYyOX0.ua1o_pYpx5lAxAX0eiEfnjkgrTVbLWB0xjyeiAm06Pc
+
+{
+    "latitud": 51.0754421,
+    "longitud": 12.4878035, 
+    "maximaDistancia": 100,
+    "orderByConditions": [
+        {
+            "column": "puntuacionMedia",
+            "order": "desc"
+        }
+    ]
 }
 
 #######################
