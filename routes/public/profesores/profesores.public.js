@@ -10,6 +10,7 @@ const { publicTeacherSearchValidationSchema } = require('../../../helpers/valida
 const { pageLimitValidationSchema } = require('../../../helpers/validators/pagelimit.validator');
 const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
 const { validateToken } = require('../../../helpers/token_utils');
+const { opinionesPublicValidationSchema } = require('../../../helpers/validators/opinionespublic.validator');
 
 // Creación de un nuevo profesor.
 router.post(
@@ -31,15 +32,9 @@ router.post(
     }
 );
 
-// Búsqueda de profesores de la parte pública. A diferencia de en la parte privada,
-// aquí se pasa como criterio de búsqueda unas coordenadas y una distancia máxima a
-// ese punto. Por lo demás, se reciben los criterios de búsqueda, ordenación y pagi-
-// nación de cualquier petición de búsqueda.
-// IMPORTANTE: si estamos con un token válido, además podremos ver los datos de
-// contanto del profesor (email y teléfono)
 router.post(
-    '/getSearch', 
-    checkSchema(publicTeacherSearchValidationSchema(searchFieldsPublic)),
+    '/opiniones/get', 
+    checkSchema(opinionesPublicValidationSchema(opinionesSearchFields)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
     async (req, res) => {        
