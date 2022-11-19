@@ -108,4 +108,34 @@ router.post(
     }
 );
 
+// Recuperar las opiniones de un alumno (por si las quiere modificar)
+router.post(
+    '/opiniones/', 
+    checkRoles([adminRoleDescription, profesorRoleDescription]),
+    checkSchema(searchValidationSchema(seachFields)),
+    checkSchema(pageLimitValidationSchema),
+    checkValidationsResult,
+    async (req, res) => {        
+        try {
+            const { page, limit } = req.query;
+
+            let alumnos;
+            if (req.user.role === adminRoleDescription) {
+                alumnos = await search(req.body, page, limit);
+            } else {
+                const profesor = await getProfesorByUserId(req.user.id);
+                if (profesor === null) {
+                    return res.status(404)
+                              .json({ messageError: 'No existe el profesor especificado en el token' });
+                }
+                alumnos = await searchByTeacherId(req.body, profesor.id, page, limit);
+            }
+            
+            res.json(formatSearchResult(alumnos));
+        } catch (error) {            
+            manageRouterError(res, error);
+        }
+    }
+);
+
 module.exports = router;
