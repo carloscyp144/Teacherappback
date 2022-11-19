@@ -11,6 +11,7 @@ const { pageLimitValidationSchema } = require('../../../helpers/validators/pagel
 const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
 const { validateToken } = require('../../../helpers/token_utils');
 const { opinionesPublicValidationSchema } = require('../../../helpers/validators/opinionespublic.validator');
+const { searchOpiniones, searchFields: opinionesSearchFields } = require('../../../models/inscripciones.model');
 
 // Creación de un nuevo profesor.
 router.post(
@@ -32,9 +33,15 @@ router.post(
     }
 );
 
+// Búsqueda de profesores de la parte pública. A diferencia de en la parte privada,
+// aquí se pasa como criterio de búsqueda unas coordenadas y una distancia máxima a
+// ese punto. Por lo demás, se reciben los criterios de búsqueda, ordenación y pagi-
+// nación de cualquier petición de búsqueda.
+// IMPORTANTE: si estamos con un token válido, además podremos ver los datos de
+// contanto del profesor (email y teléfono)
 router.post(
-    '/opiniones/get', 
-    checkSchema(opinionesPublicValidationSchema(opinionesSearchFields)),
+    '/getSearch', 
+    checkSchema(publicTeacherSearchValidationSchema(searchFieldsPublic)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
     async (req, res) => {        
@@ -46,6 +53,25 @@ router.post(
             profesores = await searchPublic(req.body, logged, page, limit);
             
             res.json(formatSearchResult(profesores));
+        } catch (error) {            
+            manageRouterError(res, error);
+        }
+    }
+);
+
+// Opiniones de un profesor.
+router.post(
+    '/opiniones/get', 
+    checkSchema(opinionesPublicValidationSchema(opinionesSearchFields)),
+    checkSchema(pageLimitValidationSchema),
+    checkValidationsResult,
+    async (req, res) => {        
+        try {
+            const { page, limit } = req.query;
+
+            const opiniones = await searchOpiniones(req.body, page, limit);
+            
+            res.json(formatSearchResult(opiniones));
         } catch (error) {            
             manageRouterError(res, error);
         }

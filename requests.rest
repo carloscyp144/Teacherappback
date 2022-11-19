@@ -84,6 +84,24 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVt
     ]
 }
 
+### PROFESORES/OPINIONES --> POST Recuperar opiniones del profesor
+POST http://localhost:3000/api/public/profesores/opiniones/get
+Content-Type: application/json
+
+{
+    "id": 7,
+    "orderByConditions": [
+        {
+            "column": "puntuacion",
+            "order": "asc"
+        },
+        {
+            "column": "fechaPuntuacion",
+            "order": "desc"
+        }
+    ]
+}
+
 #######################
 ### PUBLICO - RAMAS ###
 #######################

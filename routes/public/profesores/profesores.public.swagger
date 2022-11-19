@@ -75,6 +75,42 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error' 
+ * /api/public/profesores/opiniones/get:
+ *   post:
+ *     tags:
+ *       - Opiniones
+ *     description: Recupera una lista de opiniones sobre un profesor.
+ *     parameters:
+ *       - $ref: '#/components/parameters/page'
+ *       - $ref: '#/components/parameters/limit'
+ *     requestBody:
+ *       description: Campos para restringir la búsqueda y definir un orden.
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/searchOpinionesRequest'
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/searchOpinionesResponse'
+ *       400:
+ *         description: Alguno de los campos enviados es incorrecto.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation' 
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  *components:
  *  schemas:
  *    altaProfesor:
@@ -305,4 +341,42 @@
  *          type: number
  *          description: Distancia del profesor a la localización indicada en la petición.
  *          example: 0
+ *    searchOpinionesRequest:
+ *      title: SearchOpinionesRequest
+ *      description: Criterios para filtrar (se aplica un and si hay más de uno) y ordenar los resultados de la búsqueda de opiniones de un profesor.
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: int
+ *          description: Identificador del profesor del que vamos a recuperar opiniones.
+ *          example: 7
+ *        searchConditions:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/searchCondition'
+ *          description: Condiciones de búsqueda
+ *        orderByConditions:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/orderByCondition'
+ *          description: Criterios de ordenación (se hay más de uno, se aplican por el orden indicado).
+ *    searchOpinionesResponse:
+ *      title: SearchOpinionesResponse
+ *      description: Opiniones de un profesor.
+ *      type: object
+ *      properties:
+ *        puntuacion:
+ *          type: int
+ *          description: Puntuación de la opinión.
+ *          example: 4
+ *        comentario:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/searchCondition'
+ *          description: Condiciones de búsqueda
+ *        fechaPuntuacion:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/orderByCondition'
+ *          description: Criterios de ordenación (se hay más de uno, se aplican por el orden indicado).
  */

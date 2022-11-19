@@ -9,7 +9,6 @@ const dbPool = mysql.createPool({
 });
 
 const executeQuery = (sql, params = []) => {
-    console.log(sql);
     return new Promise((resolve, reject) => {
         dbPool.query(sql, params, (err, result) => {
             if (err) return reject(err);
