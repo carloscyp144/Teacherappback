@@ -41,14 +41,14 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-const seachFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
+const searchFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
     const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId';
     let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';                         
     
-    const whereClause   = getWhereClause(seachFields, searchConditions, 'a.');    
-    const orderByClause = getOrderByClause(seachFields, orderByConditions, 'a.');
+    const whereClause   = getWhereClause(searchFields, searchConditions, 'a.');    
+    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'a.');
     const limitClause   = getLimitClause(limit, page);
 
     return Promise.all([
@@ -66,8 +66,8 @@ const searchByTeacherId = ({ searchConditions, orderByConditions }, idProfesor, 
                                                     'inner join inscripciones as i on (a.id = i.alumnosId) ' +
                                                     'inner join profesores as p on (p.id = i.profesoresId) ';
     
-    const whereClause   = getWhereClause(seachFields, searchConditions, 'a.', `(p.id = ${idProfesor}) and (borrado = 0)`);
-    const orderByClause = getOrderByClause(seachFields, orderByConditions, 'a.');
+    const whereClause   = getWhereClause(searchFields, searchConditions, 'a.', `(p.id = ${idProfesor}) and (borrado = 0)`);
+    const orderByClause = getOrderByClause(searchFields, orderByConditions, 'a.');
     const limitClause   = getLimitClause(limit, page);
 
     return Promise.all([
@@ -96,7 +96,7 @@ module.exports = {
     getByUserId,
     search,
     searchByTeacherId,
-    seachFields,
+    searchFields,
     logicDelete,
     logicUndelete
 };

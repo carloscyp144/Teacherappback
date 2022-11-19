@@ -24,9 +24,9 @@ POST http://localhost:3000/api/public/alumnos/register
 Content-Type: application/json
 
 {
-    
-    "userName": "aalamo",
-    "email": "aalamo@gmail.com",
+    "nombreCompleto": "Ken Follet",
+    "userName": "kfollet",
+    "email": "kfollet@gmail.com",
     "password": "123456"
 }
 
@@ -269,7 +269,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAsInJvbGUiOiJwcm9m
 ### PROFESORES --> POST (recoger profesores - devuelve todos si el token es de un administrador, o los validados de un alumno si el token tiene este rol -)
 POST http://localhost:3000/api/private/profesores/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4MjY0MTYsImlhdCI6MTY2ODgwODQxNn0.jXsGj_1psjMtHSi18YX4rplu40LhmA0laimMouemCE0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4OTkwODQsImlhdCI6MTY2ODg4MTA4NH0.cHBIKHbI5F9loOjb8zKRBHyeHKcjfFbYnpGO_-m1EZ0
 
 ###         --> Otro ejemplo
 POST http://localhost:3000/api/private/profesores/getSearch
@@ -384,7 +384,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVt
 ### INSCRIPCIONES --> POST (solo lo puede hacer un alumno, el alumno cuyo id está en el token se inscribe con el profesor cuyo id está en el parámetro)
 POST http://localhost:3000/api/private/inscripciones/signup/7
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg2Mzc1MzUsImlhdCI6MTY2ODYxOTUzNX0.7J7aIZxvxkXrI5tLqEXzaciUkZemFzlxvjC2QwSG8Bg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4OTkwODQsImlhdCI6MTY2ODg4MTA4NH0.cHBIKHbI5F9loOjb8zKRBHyeHKcjfFbYnpGO_-m1EZ0
 
 {    
 }
@@ -406,4 +406,42 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVt
     "id": 2,
     "puntuacion": 4,
     "comentario": "Muy satisfecha, contenta con el resultado."
+}
+
+### INSCRIPCIONES DE ALUMNO --> POST (Devuelve las inscripciones del alumno cuyo id va en el token. Permite parámetros de búsqueda/ordenación/paginación)
+POST http://localhost:3000/api/private/inscripciones/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg5MTQ5NDIsImlhdCI6MTY2ODg5Njk0Mn0.7WRywMRtWaBBu0PvZN6j5fbr2ERceFDrcRpESGQD7IE
+
+###         --> Otro ejemplo
+POST http://localhost:3000/api/private/inscripciones/alumnos/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg5MTQ5NDIsImlhdCI6MTY2ODg5Njk0Mn0.7WRywMRtWaBBu0PvZN6j5fbr2ERceFDrcRpESGQD7IE
+
+{
+    "orderByConditions": [
+        {
+            "column": "nombreCompleto", 
+            "order": "asc"
+        }
+    ]
+}
+
+### INSCRIPCIONES A PROFESOR --> POST (Devuelve las inscripciones al proefesor cuyo id va en el token. Permite parámetros de búsqueda/ordenación/paginación)
+POST http://localhost:3000/api/private/inscripciones/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODkxNDI5NCwiaWF0IjoxNjY4ODk2Mjk0fQ.9cNDK26ZiVN1-rayeS_rWI0jHtVvsb7X3HBMxqPWib4
+
+###         --> Otro ejemplo
+POST http://localhost:3000/api/private/inscripciones/profesores/getSearch
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODkxNDI5NCwiaWF0IjoxNjY4ODk2Mjk0fQ.9cNDK26ZiVN1-rayeS_rWI0jHtVvsb7X3HBMxqPWib4
+
+{
+    "orderByConditions": [
+        {
+            "column": "nombreCompleto", 
+            "order": "asc"
+        }
+    ]
 }

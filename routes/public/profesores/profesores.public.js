@@ -11,7 +11,7 @@ const { pageLimitValidationSchema } = require('../../../helpers/validators/pagel
 const { formatSearchResult } = require('../../../helpers/searchUtils/searchresult_utils');
 const { validateToken } = require('../../../helpers/token_utils');
 const { opinionesPublicValidationSchema } = require('../../../helpers/validators/opinionespublic.validator');
-const { searchOpiniones, searchFields: opinionesSearchFields } = require('../../../models/inscripciones.model');
+const { searchOpiniones, searchOpinionesFields } = require('../../../models/inscripciones.model');
 
 // Creación de un nuevo profesor.
 router.post(
@@ -62,7 +62,7 @@ router.post(
 // Opiniones de un profesor.
 router.post(
     '/opiniones/get', 
-    checkSchema(opinionesPublicValidationSchema(opinionesSearchFields)),
+    checkSchema(opinionesPublicValidationSchema(searchOpinionesFields)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
     async (req, res) => {        

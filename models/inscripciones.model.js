@@ -35,22 +35,64 @@ const getById = (id) => {
     );
 }
 
-const searchFields = [ 'puntuacion', 'comentario', 'fechaPuntuacion',];
+const searchOpinionesFields = [ 'puntuacion', 'comentario', 'fechaPuntuacion',];
 const searchOpiniones = ({ searchConditions, orderByConditions, id: idProfesor }, page, limit) => {    
 
     const fieldsResult = 'puntuacion, comentario, fechaPuntuacion';
     let selectSentence = 'select ? from inscripciones';                         
     
-    const whereClause   = getWhereClause(searchFields, searchConditions, '', `(profesoresId = ${idProfesor}) and (puntuacion is not null)`);
-    const orderByClause = getOrderByClause(searchFields, orderByConditions, '');
+    const whereClause   = getWhereClause(searchOpinionesFields, searchConditions, '', `(profesoresId = ${idProfesor}) and (puntuacion is not null)`);
+    const orderByClause = getOrderByClause(searchOpinionesFields, orderByConditions, '');
     const limitClause   = getLimitClause(limit, page);
 
     return Promise.all([
-            // No vale, mete comillas --> executeQuery(selectSentence, [fieldsResult]),
             executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
             limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
                   : { pages: 1 }
     ]);
 }
 
-module.exports = { create, accept, getById, opinionTrans, searchOpiniones, searchFields };
+const searchByProfesorIdFields = ['id', 'estado', 'puntuacion', 'comentario', 'fechaPuntuacion', 'alumnosId', 'profesoresId',
+                                  'borrado', 'userName', 'nombreCompleto', 'email', 'rolId' ];
+const searchInscripcionesByProfesorId = ({ searchConditions, orderByConditions}, idProfesor, page, limit) => {    
+    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, borrado, userName, nombreCompleto, email, rolId';
+    let selectSentence = 'select ? from inscripciones as i inner join alumnos as a on (i.alumnosId = a.id)' +
+                                                          'inner join usuarios as u on (a.usuariosId = u.id)';
+    
+    const whereClause   = getWhereClause(searchByProfesorIdFields, searchConditions, 'i.', `(profesoresId = ${idProfesor}) and (a.borrado = 0)`);
+    const orderByClause = getOrderByClause(searchByProfesorIdFields, orderByConditions, 'i.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+const searchByAlumnoIdFields = [ 'id', 'estado', 'puntuacion', 'comentario', 'fechaPuntuacion', 'alumnosId', 'profesoresId', 
+                                 'userName', 'nombreCompleto', 'email', 'rolId', 'descripcion', 'precioHora', 'experiencia', 
+                                 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 'numeroPuntuaciones',
+                                 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId', 'nombreRama'];
+const searchInscripcionesByAlumnoId = ({ searchConditions, orderByConditions}, idAlumno, page, limit) => {    
+    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, userName, nombreCompleto, email, rolId, ' +
+                         'descripcion, precioHora, experiencia, telefono, validado, puntuacionMedia, puntuacionTotal, ' +
+                         'numeroPuntuaciones, ramaId, userName, nombreCompleto, email, rolId, nombre as nombreRama';
+    let selectSentence = 'select ? from inscripciones as i inner join profesores as p on (i.profesoresId = p.id)' +
+                                                          'inner join usuarios as u on (p.usuarioId = u.id)' +
+                                                          'inner join ramas as r on (p.ramaId = r.id)';
+    
+    const whereClause   = getWhereClause(searchByAlumnoIdFields, searchConditions, 'i.', `(alumnosId = ${idAlumno}) and (p.validado = 1)`);
+    const orderByClause = getOrderByClause(searchByAlumnoIdFields, orderByConditions, 'i.');
+    const limitClause   = getLimitClause(limit, page);
+
+    return Promise.all([
+            executeQuery(selectSentence.replace('?', fieldsResult) + whereClause + orderByClause + limitClause, []),
+            limit ? executeQueryOne(selectSentence.replace('?', getPagesCountClause(limit)) + whereClause, [])
+                  : { pages: 1 }
+    ]);
+}
+
+module.exports = { create, accept, getById, opinionTrans, searchOpiniones, searchOpinionesFields,
+                   searchInscripcionesByProfesorId, searchByProfesorIdFields, searchInscripcionesByAlumnoId, 
+                   searchByAlumnoIdFields};

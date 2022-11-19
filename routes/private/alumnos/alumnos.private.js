@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { logicDelete, logicUndelete, search, searchByTeacherId, seachFields, getByUserId } = require('../../../models/alumnos.model');
+const { logicDelete, logicUndelete, search, searchByTeacherId, searchFields, getByUserId } = require('../../../models/alumnos.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getAlumnoValidationSchema } = require('../../../helpers/validators/alumnos.validator');
 const { checkRole, checkRoles } = require('../../../helpers/token_utils');
@@ -82,37 +82,7 @@ router.put(
 router.post(
     '/getSearch', 
     checkRoles([adminRoleDescription, profesorRoleDescription]),
-    checkSchema(searchValidationSchema(seachFields)),
-    checkSchema(pageLimitValidationSchema),
-    checkValidationsResult,
-    async (req, res) => {        
-        try {
-            const { page, limit } = req.query;
-
-            let alumnos;
-            if (req.user.role === adminRoleDescription) {
-                alumnos = await search(req.body, page, limit);
-            } else {
-                const profesor = await getProfesorByUserId(req.user.id);
-                if (profesor === null) {
-                    return res.status(404)
-                              .json({ messageError: 'No existe el profesor especificado en el token' });
-                }
-                alumnos = await searchByTeacherId(req.body, profesor.id, page, limit);
-            }
-            
-            res.json(formatSearchResult(alumnos));
-        } catch (error) {            
-            manageRouterError(res, error);
-        }
-    }
-);
-
-// Recuperar las opiniones de un alumno (por si las quiere modificar)
-router.post(
-    '/opiniones/', 
-    checkRoles([adminRoleDescription, profesorRoleDescription]),
-    checkSchema(searchValidationSchema(seachFields)),
+    checkSchema(searchValidationSchema(searchFields)),
     checkSchema(pageLimitValidationSchema),
     checkValidationsResult,
     async (req, res) => {        
