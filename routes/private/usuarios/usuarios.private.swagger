@@ -39,6 +39,43 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error' 
+ * /api/private/usuarios/update/imagen: 
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Usuarios
+ *     description: Actualiza la imagen del usuario.
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               imagen:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       400:
+ *         description: El fichero es demasiado grande, o su extensión no corresponde a una imagen.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  *components: 
  *  schemas:
  *    newPasswordRequest:

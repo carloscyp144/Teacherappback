@@ -56,6 +56,10 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: Imagen del alumno
+ *          example: null
  *        password:
  *          type: string
  *          description: Clave de acceso del alumno
@@ -89,6 +93,10 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: Imagen del alumno
+ *          example: null
  *        borrado:
  *          type: number
  *          description: Indica si el alumno se ha borrado (borrado lógico)

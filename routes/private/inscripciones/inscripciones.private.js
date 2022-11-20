@@ -98,9 +98,14 @@ router.put(
                               .json({ messageError: 'No existe la inscripción especificada' });
                 }
 
-                if (inscripcion.alumnosId !==  idAlumno) {
+                if (inscripcion.alumnosId !== idAlumno) {
                     return res.status(401)
                               .json({ messageError: 'No tiene acceso a una inscripción de otro alumno' });
+                }
+
+                if (inscripcion.estado === 0) {
+                    return res.status(401)
+                              .json({ messageError: 'La inscripción todavía no está aceptada' });
                 }
 
                 const profesor = await getProfesorById(inscripcion.profesoresId);

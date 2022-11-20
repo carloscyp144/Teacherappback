@@ -112,10 +112,10 @@ const addPuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, pun
 }
 
 const searchFields = ['id', 'descripcion', 'precioHora', 'experiencia', 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 
-                     'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId'];
+                     'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
-    const fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
+    const fieldsResult = `p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
     let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
                                                        'inner join ramas as r on (p.ramaId = r.id)';
     
@@ -132,7 +132,7 @@ const search = ({ searchConditions, orderByConditions }, page, limit) => {
 
 const searchByAlumnoId = ({ searchConditions, orderByConditions }, idAlumno, page, limit) => {    
 
-    const fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
+    const fieldsResult = `p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama`;
     let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) '     +
                                                     'inner join inscripciones as i on (p.id = i.profesoresId) ' +
                                                     'inner join alumnos as a on (a.id = i.alumnosId) ' +
@@ -150,10 +150,10 @@ const searchByAlumnoId = ({ searchConditions, orderByConditions }, idAlumno, pag
 }
 
 const searchFieldsPublic = ['id', 'descripcion', 'precioHora', 'experiencia', 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 
-                            'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId', 'distancia'];
+                            'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId', 'distancia'];
 const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, orderByConditions }, bLogged, page, limit) => {    
 
-    let fieldsResult = `p.id, userName, nombreCompleto, email, rolId, ${no_key_columnsLonLat}, nombre as nombreRama, ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) as distancia `;
+    let fieldsResult = `p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama, ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) as distancia `;
 
     if (!bLogged) { // Estos campos solo aparecen en el resultado si está logeado el usuario.
         fieldsResult = fieldsResult.replace(', email',    '')
@@ -163,7 +163,7 @@ const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, or
     let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
                                                        'inner join ramas as r on (p.ramaId = r.id)';
     
-    const whereClause   = getWhereClause(searchFieldsPublic, searchConditions, 'p.', `(ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) <= ${maximaDistancia})`);
+    const whereClause   = getWhereClause(searchFieldsPublic, searchConditions, 'p.', `(validado = 1) and (ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) <= ${maximaDistancia})`);
     const orderByClause = getOrderByClause(searchFieldsPublic, orderByConditions, 'p.');
     const limitClause   = getLimitClause(limit, page);
 

@@ -24,4 +24,8 @@
  *          type: string
  *          description: Correo electrónico del administrador
  *          example: admin@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: Imagen del administrador
+ *          example: 4.png
  */

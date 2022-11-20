@@ -38,7 +38,7 @@ router.post(
 // ese punto. Por lo demás, se reciben los criterios de búsqueda, ordenación y pagi-
 // nación de cualquier petición de búsqueda.
 // IMPORTANTE: si estamos con un token válido, además podremos ver los datos de
-// contanto del profesor (email y teléfono)
+// contacto del profesor (email y teléfono)
 router.post(
     '/getSearch', 
     checkSchema(publicTeacherSearchValidationSchema(searchFieldsPublic)),

@@ -128,6 +128,10 @@
  *          type: string
  *          description: Correo electrónico del profesor
  *          example: mmata@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: Imagen del profesor
+ *          example: 76.gif
  *        descripcion:
  *          type: string
  *          description: Texto más largo para que el profesor se venda

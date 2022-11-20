@@ -284,6 +284,10 @@
  *          type: string
  *          description: Correo electrónico del profesor
  *          example: mmata@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: imagen del profesor
+ *          example: 34.png
  *        descripción:
  *          type: string
  *          description: Texto más largo para que el profesor se venda
@@ -383,6 +387,10 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
+ *        imagen:
+ *          type: string
+ *          description: Imagen del alumno
+ *          example: 47.jpg
  *        borrado:
  *          type: number
  *          description: Indica si el alumno se ha borrado (borrado lógico)

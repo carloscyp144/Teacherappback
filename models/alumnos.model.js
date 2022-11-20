@@ -41,10 +41,10 @@ const getByUserId = (usuariosId) => {
     );
 }
 
-const searchFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId'];
+const searchFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId', 'imagen'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
-    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId';
+    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId, imagen';
     let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';                         
     
     const whereClause   = getWhereClause(searchFields, searchConditions, 'a.');    
@@ -61,7 +61,7 @@ const search = ({ searchConditions, orderByConditions }, page, limit) => {
 
 const searchByTeacherId = ({ searchConditions, orderByConditions }, idProfesor, page, limit) => {    
 
-    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId';
+    const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId, imagen';
     let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id) '     +
                                                     'inner join inscripciones as i on (a.id = i.alumnosId) ' +
                                                     'inner join profesores as p on (p.id = i.profesoresId) ';

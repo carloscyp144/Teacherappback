@@ -2,14 +2,14 @@ const { executeQuery, executeQueryOne, executeQueryTrans } = require('../helpers
 const { adminRoleId } = require('./roles.model');
 
 const key_columns         = 'id';
-const no_key_columns      = 'userName, nombreCompleto, email, rolId';
+const no_key_columns      = 'userName, nombreCompleto, email, rolId, imagen';
 const password_column     = 'password';
 const columns             = `${key_columns}, ${no_key_columns}, ${password_column}`;
 const no_password_columns = `${key_columns}, ${no_key_columns}`;
 
 const create = ({userName, nombreCompleto, email, password, rolId}) => {
     return executeQuery(
-        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, ?)`, 
+        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, null, ?)`, 
         [ userName, nombreCompleto, email, rolId, password ]
     );
 }
@@ -17,7 +17,7 @@ const create = ({userName, nombreCompleto, email, password, rolId}) => {
 const createTransUsuario = (db, {userName, nombreCompleto, email, password, rolId}) => {
     return executeQueryTrans(
         db,
-        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, ?)`, 
+        `insert into usuarios (${no_key_columns}, ${password_column}) values (?, ?, ?, ?, null, ?)`, 
         [ userName, nombreCompleto, email, rolId, password ]
     );
 }
@@ -39,6 +39,13 @@ const updatePassword = (id, password) => {
     return executeQuery(
         `update usuarios set password = ? where (id = ?)`, 
         [ password, id ]
+    );
+}
+
+const updateImage = (id, imagen) => {
+    return executeQuery(
+        `update usuarios set imagen = ? where (id = ?)`, 
+        [ imagen, id ]
     );
 }
 
@@ -95,5 +102,6 @@ module.exports = {
     getByUserName,
     getByUserNameNotId,
     updatePassword,
-    updateNotPasswordFieldsTrans
+    updateNotPasswordFieldsTrans,
+    updateImage
 };

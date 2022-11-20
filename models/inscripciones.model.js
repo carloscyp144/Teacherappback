@@ -53,9 +53,9 @@ const searchOpiniones = ({ searchConditions, orderByConditions, id: idProfesor }
 }
 
 const searchByProfesorIdFields = ['id', 'estado', 'puntuacion', 'comentario', 'fechaPuntuacion', 'alumnosId', 'profesoresId',
-                                  'borrado', 'userName', 'nombreCompleto', 'email', 'rolId' ];
+                                  'borrado', 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId' ];
 const searchInscripcionesByProfesorId = ({ searchConditions, orderByConditions}, idProfesor, page, limit) => {    
-    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, borrado, userName, nombreCompleto, email, rolId';
+    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, borrado, userName, nombreCompleto, email, imagen, rolId';
     let selectSentence = 'select ? from inscripciones as i inner join alumnos as a on (i.alumnosId = a.id)' +
                                                           'inner join usuarios as u on (a.usuariosId = u.id)';
     
@@ -71,13 +71,13 @@ const searchInscripcionesByProfesorId = ({ searchConditions, orderByConditions},
 }
 
 const searchByAlumnoIdFields = [ 'id', 'estado', 'puntuacion', 'comentario', 'fechaPuntuacion', 'alumnosId', 'profesoresId', 
-                                 'userName', 'nombreCompleto', 'email', 'rolId', 'descripcion', 'precioHora', 'experiencia', 
+                                 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId', 'descripcion', 'precioHora', 'experiencia', 
                                  'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 'numeroPuntuaciones',
-                                 'ramaId', 'userName', 'nombreCompleto', 'email', 'rolId', 'nombreRama'];
+                                 'ramaId', 'rolId', 'nombreRama'];
 const searchInscripcionesByAlumnoId = ({ searchConditions, orderByConditions}, idAlumno, page, limit) => {    
-    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, userName, nombreCompleto, email, rolId, ' +
+    const fieldsResult = 'i.id, estado, puntuacion, comentario, fechaPuntuacion, alumnosId, profesoresId, userName, nombreCompleto, email, imagen, rolId, ' +
                          'descripcion, precioHora, experiencia, telefono, validado, puntuacionMedia, puntuacionTotal, ' +
-                         'numeroPuntuaciones, ramaId, userName, nombreCompleto, email, rolId, nombre as nombreRama';
+                         'numeroPuntuaciones, ramaId, rolId, nombre as nombreRama';
     let selectSentence = 'select ? from inscripciones as i inner join profesores as p on (i.profesoresId = p.id)' +
                                                           'inner join usuarios as u on (p.usuarioId = u.id)' +
                                                           'inner join ramas as r on (p.ramaId = r.id)';
