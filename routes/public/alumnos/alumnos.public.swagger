@@ -56,10 +56,6 @@
  *          type: string
  *          description: Correo electrónico del alumno
  *          example: mRodriguez@gmail.com
- *        imagen:
- *          type: string
- *          description: Imagen del alumno
- *          example: null
  *        password:
  *          type: string
  *          description: Clave de acceso del alumno
