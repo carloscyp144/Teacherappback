@@ -21,6 +21,12 @@ Deberá crear el fichero .env en la carpeta donde coloque el proyecto. Este fich
 | DEFAULT_ADMIN_PASSWORD="123456" | Si no hay administradores, al arrancar se crea uno con esta clave |
 | TOKEN_SECRET_KEY="aADfji34%$jPm34DdM" | Clave utilizada para la generación de los JWT |
 | TOKEN_EXPIRATION_HOURS=5 | Horas que tardan en expirar los JWT generados |
+| EMAIL_ENABLED=0 | Indica si se realizará el envío de correos electronicos (0 no, 1 sí). |
+| EMAIL_USER="proyecto.tfm.unir.grupo.c@gmail.com" | Usuario utilizado par el envío de emails |
+| EMAIL_REFRESH_TOKEN="XXXX-XXXXX" | Token inicialmente asignado (OAuth2 google) |
+| EMAIL_CLIENT_ID="XXXX-XXXX" | Client ID (OAuth2 google) |
+| EMAIL_CLIENT_SECRET="XXXX-XXXX" | Client Secret (OAuth2 google) |
+| EMAIL_PENDIENTES_INTERVAL=60 | Cada EMAIL_PENDIENTES_INTERVAL segundos, se reintenta el envío de emails pendientes (aquellos que no se pudieron enviar cuando se generaron) |
 
 Ejecute `npm install` para cargar las dependencias del proyecto. Ejecute `npm start` para arrancar el servidor. Una vez arrancado el servidor, puede consultar la documentación del API en http://localhost:3000/api-docs/.
 

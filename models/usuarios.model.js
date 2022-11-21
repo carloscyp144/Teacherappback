@@ -91,10 +91,18 @@ const getById = (id) => {
     );
 }
 
+const getAdminsEmail = () => {
+    return executeQuery(
+        `select email from usuarios where (rolId = ?)`,
+        [adminRoleId]
+    )
+}
+
 module.exports = {
     create,
     createTransUsuario,
     getAdministrador,
+    getAdminsEmail,
     getByEmail,
     getByEmailNotId,
     getByEmailWithPassword,

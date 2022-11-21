@@ -6,6 +6,9 @@ require('dotenv').config();
 // Creamos datos por defecto
 require('../helpers/defaultdata_utils').loadDefaultData();
 
+// Arrancamos el proceso de envío de emails pendientes.
+require('../helpers/email/email_process').sendMailProcess();
+
 /**
  * Module dependencies.
  */

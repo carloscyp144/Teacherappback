@@ -41,10 +41,9 @@ router.put(
     upload.single('imagen'),
     checkValidationsResult,
     async (req, res) => {
-        try {            
+        try {
             const id = req.user.id;
 
-            console.log(req.file);
             const tmpFile       = req.file.path;
             const fileExtension = path.extname(req.file.originalname).toLowerCase();
 

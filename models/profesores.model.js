@@ -1,9 +1,11 @@
 const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit, executeQuery } = require('../helpers/mysql_utils');
 const { createTransUsuario } = require('./usuarios.model');
 const { createTransRama } = require('./ramas.model');
+const { createTransEmailPendiente, EmailTypes } = require('./emailspendientes.model');
 const { profesorRoleId } = require('./roles.model');
 const { getWhereClause, getOrderByClause, getLimitClause } = require('../helpers/searchUtils/whereclause_utils');
 const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
+const { sendMailDataLoaded } = require('../helpers/email/email_from_model');
 
 const key_columns          = 'id';
 const no_key_columns       = 'descripcion, precioHora, experiencia, coordenadas, telefono, validado, puntuacionMedia, puntuacionTotal, numeroPuntuaciones, usuarioId, ramaId';
@@ -34,7 +36,9 @@ const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora,
 }
 
 const create = async (fields) => {
-    let profesorId;
+    const emailEnabled = process.env.EMAIL_ENABLED;
+
+    let profesorId, emailId;
     const db = await beginTransaction();
     try {         
         let ramaId = 1;
@@ -45,8 +49,11 @@ const create = async (fields) => {
             ramaId = (await createTransRama(db, fields.nombreRamaNueva)).insertId;
         }
 
-        const usuarioId = (await createTransUsuario (db, {...fields, rolId: profesorRoleId})).insertId;
-        profesorId      = (await createTransProfesor(db, {...fields, usuarioId, ramaId    })).insertId;        
+        const usuarioId = (await createTransUsuario (db, {...fields, rolId: profesorRoleId        })).insertId;
+        profesorId      = (await createTransProfesor(db, {...fields, usuarioId, ramaId            })).insertId;
+        if (emailEnabled) {
+            emailId     = (await createTransEmailPendiente(db, EmailTypes.ALTA_PROFESOR, usuarioId )).insertId;
+        }
 
         await commit(db);
     }
@@ -54,6 +61,16 @@ const create = async (fields) => {
         await rollBack(db);
         throw error;
     }
+
+    if (emailEnabled) {
+        // No esperamos la resolución de la promesa, ni tratamos el error aquí
+        // (quedaría anotado en la tabla que está pendiente, y el proceso encargado
+        //  de enviar los pendientes lo hará cuando pueda).
+        sendMailDataLoaded({ id: profesorId, fields })
+            .then()
+            .catch();
+    }
+
     return profesorId;
 }
 
