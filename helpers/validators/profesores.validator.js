@@ -69,7 +69,9 @@ const getProfesorValidationSchema = (creation) => {
             trim: true
         },
         ramaId: {
-            optional: true,
+            exists: {
+                errorMessage: getErrorFieldStr(ErrorType.ERROR_MANDATORY_FIELD, 'ramaId')
+            },
             isInt: {                        
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_INT, 'ramaId')
             },
@@ -81,21 +83,6 @@ const getProfesorValidationSchema = (creation) => {
                 },
                 errorMessage: getErrorFieldStr(ErrorType.ERROR_NO_EXISTS, 'rama', 'ramaId')
             }
-        },
-        nombreRamaNueva: {
-            isLength: {
-                options: { max: 25 },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_MAX_LENGTH_FIELD, 'nombre', '25')
-            },
-            custom: {
-                options: async (value) => {
-                    const modelObject = await getByNombre(value);
-                    if (modelObject !== null) return Promise.reject(`Ya existe una rama con ese nombre`);
-                        Promise.resolve();
-                },
-                errorMessage: getErrorFieldStr(ErrorType.ERROR_ALREADY_EXISTS, 'nombre', 'nombreRamaNueva')
-            },
-            trim: true                    
         },
         ...getCommonFieldsValidationSchema('profesor', creation)
     }

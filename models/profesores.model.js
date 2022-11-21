@@ -19,15 +19,7 @@ const createTransProfesor = (db, { descripcion, precioHora, experiencia, latitud
     );
 }
 
-const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora, experiencia, latitud, longitud, telefono, ramaId, nombreRamaNueva }) => {
-    let auxRamaId = 1;
-    if (ramaId) {
-        auxRamaId = ramaId;
-    }
-    if (nombreRamaNueva) {
-        auxRamaId = (await createTransRama(db, fields.nombreRamaNueva)).insertId;
-    }
-
+const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora, experiencia, latitud, longitud, telefono, ramaId }) => {
     return executeQueryTrans(
         db,
         `update profesores set descripcion = ?, precioHora = ?, experiencia = ?, coordenadas = POINT(${longitud}, ${latitud}), telefono = ?, ramaId = ? where (id = ?)`, 
@@ -44,9 +36,6 @@ const create = async (fields) => {
         let ramaId = 1;
         if (fields.ramaId) {
             ramaId = fields.ramaId;
-        }
-        if (fields.nombreRamaNueva) {
-            ramaId = (await createTransRama(db, fields.nombreRamaNueva)).insertId;
         }
 
         const usuarioId = (await createTransUsuario (db, {...fields, rolId: profesorRoleId        })).insertId;

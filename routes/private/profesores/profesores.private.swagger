@@ -158,12 +158,8 @@
  *          example: 555555555
  *        ramaId:
  *          type: int
- *          description: Si la rama de conocimiento del profesor está ya dada de alta, aquí se pone su identificador.
+ *          description: Identificador de la rama de conocimiento a la que quiere pertenecer el profesor.
  *          example: 2
- *        nombreRamaNueva:
- *          type: string
- *          description: Si la rama de conocimiento del profesor no está ya dada de alta, aquí se pone su nombre.
- *          example: Matemáticas
  *    searchProfesoresResult:
  *      title: SearchProfesoresResult
  *      description: Resultado de una consulta de profesores
