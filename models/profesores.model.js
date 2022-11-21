@@ -1,6 +1,5 @@
 const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit, executeQuery } = require('../helpers/mysql_utils');
 const { createTransUsuario } = require('./usuarios.model');
-const { createTransRama } = require('./ramas.model');
 const { createTransEmailPendiente, EmailTypes } = require('./emailspendientes.model');
 const { profesorRoleId } = require('./roles.model');
 const { getWhereClause, getOrderByClause, getLimitClause } = require('../helpers/searchUtils/whereclause_utils');
@@ -82,6 +81,13 @@ const getByUserId = (usuariosId) => {
         `select p.id as id, ${no_key_columnsLonLat}, nombre as nombreRama from profesores as p left join ramas as r on (p.ramaId = r.id) where (p.usuarioId = ?)`, 
         [ usuariosId ]
     );
+}
+
+const getByRamaId = (ramaId) => {
+    return executeQueryOne(
+        `select * from profesores where (ramaId= ?) limit 1`,
+        [ ramaId ]
+    )
 }
 
 const updatePuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, puntuacionVariation) => {
@@ -180,4 +186,4 @@ const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, or
     ]);
 }
 
-module.exports = { create, validate, getById, getByUserId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, searchFields, searchFieldsPublic };
+module.exports = { create, validate, getById, getByUserId, getByRamaId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, searchFields, searchFieldsPublic };

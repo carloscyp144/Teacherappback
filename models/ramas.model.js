@@ -1,5 +1,5 @@
 const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
-const { executeQuery, executeQueryOne, executeQueryTrans } = require('../helpers/mysql_utils');
+const { executeQuery, executeQueryOne } = require('../helpers/mysql_utils');
 
 const key_columns    = 'id';
 const no_key_columns = 'nombre';
@@ -19,8 +19,16 @@ const getByPage = (page, limit) => {
     ]);
 }
 
-const createTransRama = (db, nombre) => {
-    return executeQueryTrans(db, `insert into ramas (${no_key_columns}) values (?)`, [ nombre ]);
+const create = ({ nombre }) => {
+    return executeQuery(`insert into ramas (${no_key_columns}) values (?)`, [ nombre ]);
+}
+
+const update = (id, { nombre }) => {
+    return executeQuery(`update ramas set nombre = ? where (id = ?)`, [ nombre, id ]);
+}
+
+const remove = (id) => {
+    return executeQuery(`delete from ramas where (id = ?)`, [ id ]);
 }
 
 const getByNombre = (nombre) => {
@@ -37,4 +45,4 @@ const getById = (nombre) => {
     );
 }
 
-module.exports = { getAll, getByPage, createTransRama, getByNombre, getById };
+module.exports = { getAll, getByPage, create, update, remove, getByNombre, getById };

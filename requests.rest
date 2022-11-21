@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "agrandes@gmail.com",
+    "email": "mjifrias@yahoo.es",
     "password": "123456"
 }
 
@@ -445,3 +445,29 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9m
         }
     ]
 }
+
+#######################
+### PRIVADO - RAMAS ###
+#######################
+### Ramas --> POST Da de alta una nueva rama (solo lo puede hacer un administrador)
+POST http://localhost:3000/api/private/ramas/
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTA4Nzg4NywiaWF0IjoxNjY5MDY5ODg3fQ.KfrVb5yjb8ssM2PJ66xU5OvryCeAxGKpEPDAz2xCwX8
+
+{
+    "nombre": "Borrable"
+}
+
+### Ramas --> PUT Modificación de una rama (solo lo puede hacer un administrador)
+PUT http://localhost:3000/api/private/ramas/19
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTA4Nzg4NywiaWF0IjoxNjY5MDY5ODg3fQ.KfrVb5yjb8ssM2PJ66xU5OvryCeAxGKpEPDAz2xCwX8
+
+{
+    "nombre": "Modificado"
+}
+
+### Ramas --> Borra una rama (solo lo puede hacer un administrador y si no está ligada a un profesor)
+DELETE http://localhost:3000/api/private/ramas/18
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTA4Nzg4NywiaWF0IjoxNjY5MDY5ODg3fQ.KfrVb5yjb8ssM2PJ66xU5OvryCeAxGKpEPDAz2xCwX8
