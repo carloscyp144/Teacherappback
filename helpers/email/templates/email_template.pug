@@ -1,0 +1,89 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Email de appTeacher
+        style.
+            body {
+                font-family: sans-serif, Arial;
+                color: #27272a;
+                margin: 0;
+                margin-left: 16px;
+                margin-right: 16px;
+            }
+            @media (min-width: 760px) {
+                body {
+                    margin-left: 200px;
+                    margin-right: 200px;
+                }
+            }
+            @media (min-width: 960px) {
+                body {
+                    margin-left: 300px;
+                    margin-right: 300px;
+                }
+            }
+            @media (min-width: 1360px) {
+                body {
+                    margin-left: 400px;
+                    margin-right: 400px;
+                }
+            }
+            .header {            
+                padding-top: 8px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #d4d4d8;
+            }
+            .data-list {
+                list-style: square;
+            }
+            .data-list li {
+                padding-bottom: 4px;
+            }
+            .button-w {
+                display: flex;
+                justify-content: center;
+                padding-bottom: 14px;
+            }
+            .button {            
+                text-decoration: none;
+                display: inline-block;
+                padding: 8px;
+                color: white;
+                border: 1px solid #1e40af;
+                border-radius: 8px;
+                background-color: #1e40af;
+            }
+            .button:hover {
+                background-color: #3b82f6;
+            }
+            .footer {
+                border-top: 1px solid #d4d4d8;
+            }
+            .footer__copyright {
+                text-align: center;
+                font-weight: 800;
+                padding-top: 6px;
+                padding-bottom: 6px;
+            }
+    body
+        header.header
+            h2 appTeacher
+        main
+            article
+                p Se ha registrado un nuevo profesor. Deberá validarlo para que pueda aparecer en las búsquedas de los alumnos. Estos son sus datos:
+                ul.data-list
+                    li
+                        #[em Nombre:] #{nombreCompleto}
+                    li
+                        #[em Rama:] #{nombreRama}
+                    li
+                        #[em Id:] #{id}
+                .button-w
+                    a.button(href="www.google.es")
+                        Validar
+        footer.footer
+            p.footer__copyright
+                TFM - Máster Full Stack Developer - Grupo C
