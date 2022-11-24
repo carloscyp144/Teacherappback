@@ -7,7 +7,7 @@ const { getByUserId: getAlumnoByUserId } = require('../../../models/alumnos.mode
 const { getById: getProfesorById, getByUserId: getProfesorByUserId, updatePuntuacionTrans, addPuntuacionTrans } = require('../../../models/profesores.model');
 const { checkRole } = require('../../../helpers/token_utils');
 const { manageRouterError } = require('../../../helpers/router_utils');
-const { getById: getInscripcionById, accept, create, opinionTrans, searchInscripcionesByProfesorId, searchByProfesorIdFields, searchInscripcionesByAlumnoId, searchByAlumnoIdFields } = require('../../../models/inscripciones.model');
+const { getById: getInscripcionById, accept, create, opinionTrans, searchInscripcionesByProfesorId, searchByProfesorIdFields, searchInscripcionesByAlumnoId, searchByAlumnoIdFields, getByAlumnoIdProfesorId } = require('../../../models/inscripciones.model');
 const { success } = require('../../../helpers/success_utils');
 const { opinionValidationSchema } = require('../../../helpers/validators/opinion.validator');
 const { checkSchema } = require('express-validator');
@@ -25,14 +25,25 @@ router.post(
     checkValidationsResult,
     async (req, res) => {
         try {
-            const idUsuario  = req.user.id;
-            const idAlumno   = (await getAlumnoByUserId(idUsuario)).id;
-            const idProfesor = req.params.id;
+            const idUsuario   = req.user.id;
+            const idAlumno    = (await getAlumnoByUserId(idUsuario)).id;
+            const idProfesor  = req.params.id;
 
-            const profesor   = await getProfesorById(idProfesor);
+            const inscripcion = await getByAlumnoIdProfesorId(idProfesor, idAlumno);
+            if (inscripcion !== null) {
+                return res.status(400)
+                          .json({ messageError: 'Ya existe una inscripción de ese alumno al profesor indicado' });
+            }
+
+            const profesor    = await getProfesorById(idProfesor);
             if (profesor === null) {
                 return res.status(404)
                           .json({ messageError: 'No existe el profesor especificado' });
+            }
+
+            if (profesor.validado === 0) {
+                return res.status(400)
+                          .json({ messageError: 'El profesor indicado todavía no está validado' });
             }
             
             await create(idAlumno, idProfesor);

@@ -35,6 +35,13 @@ const getById = (id) => {
     );
 }
 
+const getByAlumnoIdProfesorId = (profesorId, alumnoId) => {
+    return executeQueryOne(
+        `select ${columns} from inscripciones where (alumnosId = ?) and (profesoresId = ?)`, 
+        [ alumnoId, profesorId ]
+    );
+}
+
 const searchOpinionesFields = [ 'puntuacion', 'comentario', 'fechaPuntuacion',];
 const searchOpiniones = ({ searchConditions, orderByConditions, id: idProfesor }, page, limit) => {    
 
@@ -95,4 +102,4 @@ const searchInscripcionesByAlumnoId = ({ searchConditions, orderByConditions}, i
 
 module.exports = { create, accept, getById, opinionTrans, searchOpiniones, searchOpinionesFields,
                    searchInscripcionesByProfesorId, searchByProfesorIdFields, searchInscripcionesByAlumnoId, 
-                   searchByAlumnoIdFields};
+                   searchByAlumnoIdFields, getByAlumnoIdProfesorId};
