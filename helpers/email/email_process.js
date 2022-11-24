@@ -1,4 +1,5 @@
-const { getMailAltaProfesorOptions } = require('./templates/emailAltaProfesor.template');
+const { getMailAltaProfesorOptions } = require('./templates/email_alta_profesor.template');
+const { getMailNuevoPasswordOptions } = require('./templates/email_nuevo_password.template');
 const { sendMail } = require('./email_utils');
 const { getById } = require('../../models/usuarios.model');
 const { completeUser } = require('../../models/completeUser');
@@ -40,9 +41,12 @@ const sendMailPendiente = async({id, emailType, referenciaId}) => {
 const getMailOptions = async (emailType, referenciaId) => {    
     switch(emailType) {
         case EmailTypes.ALTA_PROFESOR:
-            const usuario         = await getById(referenciaId);
-            const usuarioProfesor = await completeUser(usuario);
+            const usuarioAP       = await getById(referenciaId);
+            const usuarioProfesor = await completeUser(usuarioAP);
             return getMailAltaProfesorOptions(usuarioProfesor);
+        case EmailTypes.NUEVO_PASSWORD:
+            const usuarioNP       = await getById(referenciaId);
+            return getMailNuevoPasswordOptions(usuarioNP);
         default:
             return null;
     }

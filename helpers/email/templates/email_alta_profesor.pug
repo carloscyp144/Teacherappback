@@ -1,0 +1,19 @@
+extends email_template
+
+block content
+    p Se ha registrado un nuevo profesor. Deberá validarlo para que pueda aparecer en las búsquedas de los alumnos. Estos son sus datos:
+    ul.data-list
+        li
+            strong Nombre:
+            |
+            | #{nombreCompleto}
+        li
+            strong Rama:
+            |
+            | #{nombreRama}
+        li
+            strong Id:
+            |
+            | #{id}
+    .button-w
+        a.button(href=url) Validar

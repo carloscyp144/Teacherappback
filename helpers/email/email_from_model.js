@@ -1,9 +1,11 @@
-const { getMailAltaProfesorOptionsDataLoaded } = require('./templates/emailAltaProfesor.template');
+const { getMailAltaProfesorOptions } = require('./templates/email_alta_profesor.template');
+const { getMailNuevoPasswordOptions } = require('./templates/email_nuevo_password.template');
 const { sendMail } = require('./email_utils');
+const { EmailTypes } = require('../../models/emailspendientes.model');
 
 const emailEnabled = process.env.EMAIL_ENABLED;
 
-const sendMailDataLoaded = async(emailType, data) => {
+const sendMailDataLoaded = async(id, emailType, data) => {
     if (emailEnabled) {
         try {
             const mailOptions = await getMailOptionsDataLoaded(emailType, data);
@@ -17,7 +19,9 @@ const sendMailDataLoaded = async(emailType, data) => {
 const getMailOptionsDataLoaded = (emailType, data) => {
     switch(emailType) {
         case EmailTypes.ALTA_PROFESOR:
-            return getMailAltaProfesorOptionsDataLoaded(data);
+            return getMailAltaProfesorOptions(data);
+        case EmailTypes.NUEVO_PASSWORD:
+            return getMailNuevoPasswordOptions(data);
         default:
             return null;
     }

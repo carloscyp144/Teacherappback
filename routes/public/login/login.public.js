@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { checkSchema } = require('express-validator');
 
+const { createToken } = require('../../../helpers/token_utils');
 const { loginValidationSchema } = require('../../../helpers/validators/login.validator');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
@@ -63,15 +64,5 @@ router.post(
         }
     }
 )
-
-const createToken = (user, roleName) => {
-    const obj = {
-        id: user.id,
-        role: roleName,
-        expiration_date: dayjs().add(process.env.TOKEN_EXPIRATION_HOURS, 'hours').unix()
-    }
-
-    return jwt.sign(obj, process.env.TOKEN_SECRET_KEY);
-}
 
 module.exports = router;

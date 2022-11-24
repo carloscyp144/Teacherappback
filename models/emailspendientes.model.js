@@ -1,12 +1,17 @@
-const { executeQueryOne, executeQueryTrans } = require('../helpers/mysql_utils');
+const { executeQuery, executeQueryOne, executeQueryTrans } = require('../helpers/mysql_utils');
 
 const EmailTypes = {
-    ALTA_PROFESOR: 1
+    ALTA_PROFESOR: 1,
+    NUEVO_PASSWORD: 2
 }
 
 const key_columns    = 'id';
 const no_key_columns = 'emailType, referenciaId';
 const columns        = `${key_columns}, ${no_key_columns}`;
+
+const create = (emailType, referenciaId) => {
+    return executeQuery(`insert into emailspendientes (${no_key_columns}) values (?, ?)`, [ emailType, referenciaId ]);
+}
 
 const createTransEmailPendiente = (db, emailType, referenciaId) => {
     return executeQueryTrans(db, `insert into emailspendientes (${no_key_columns}) values (?, ?)`, [ emailType, referenciaId ]);
@@ -27,4 +32,4 @@ const remove = (id) => {
     );
 }
 
-module.exports = { createTransEmailPendiente, getFrom, remove, EmailTypes };
+module.exports = { create, createTransEmailPendiente, getFrom, remove, EmailTypes };

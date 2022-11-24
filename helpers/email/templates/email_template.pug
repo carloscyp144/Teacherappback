@@ -2,8 +2,6 @@ doctype html
 html
     head
         meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Email de appTeacher
         style.
             body {
@@ -43,21 +41,21 @@ html
                 padding-bottom: 4px;
             }
             .button-w {
-                display: flex;
-                justify-content: center;
+                text-align: center;
                 padding-bottom: 14px;
             }
-            .button {            
+            .button { 
+                font-weight: 800;
                 text-decoration: none;
                 display: inline-block;
                 padding: 8px;
-                color: white;
-                border: 1px solid #1e40af;
+                color: #27272a;
+                padding: 8px;
+                border: 1px solid #27272a;
                 border-radius: 8px;
-                background-color: #1e40af;
             }
             .button:hover {
-                background-color: #3b82f6;
+                background-color: #d4d4d8;
             }
             .footer {
                 border-top: 1px solid #d4d4d8;
@@ -73,17 +71,6 @@ html
             h2 appTeacher
         main
             article
-                p Se ha registrado un nuevo profesor. Deberá validarlo para que pueda aparecer en las búsquedas de los alumnos. Estos son sus datos:
-                ul.data-list
-                    li
-                        #[em Nombre:] #{nombreCompleto}
-                    li
-                        #[em Rama:] #{nombreRama}
-                    li
-                        #[em Id:] #{id}
-                .button-w
-                    a.button(href="www.google.es")
-                        Validar
+                block content                
         footer.footer
-            p.footer__copyright
-                TFM - Máster Full Stack Developer - Grupo C
+            p.footer__copyright TFM - Máster Full Stack Developer - Grupo C
