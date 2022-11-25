@@ -34,10 +34,14 @@ const validateTokenAux = async (req) => {
         }
     }
 
-    let { authorization: token } = req.headers;    
+    let { authorization: token } = req.headers;
 
     token = token.replace('Bearer ', ''); // Para los que vienen de swagger.
 
+    return validateTokenStr(token);
+}
+
+const validateTokenStr = async (token) => {
     let obj;
     try {
         obj = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
@@ -105,4 +109,4 @@ const createToken = (user, roleName) => {
     return jwt.sign(obj, process.env.TOKEN_SECRET_KEY);
 }
 
-module.exports = { checkToken, checkRole, checkRoles, createToken, validateToken };
+module.exports = { checkToken, checkRole, checkRoles, createToken, validateToken, validateTokenStr };

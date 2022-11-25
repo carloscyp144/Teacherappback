@@ -170,7 +170,7 @@
  *       - Authorization: []
  *     tags:
  *       - Inscripciones
- *     description: Recupera una lista de inscripciones al alumno del token.
+ *     description: Recupera una lista de inscripciones al profesor del token.
  *     parameters:
  *       - $ref: '#/components/parameters/page'
  *       - $ref: '#/components/parameters/limit'

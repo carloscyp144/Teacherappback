@@ -10,7 +10,7 @@ const getMailAltaProfesorOptions = async (usuarioProfesor) => {
         to: emailTo,
         subject: 'Nueva petición de alta de profesor',
         text: getEmailTxt(usuarioProfesor),
-        html: pug.renderFile(path.join(__dirname, 'emailAltaProfesor.pug'), {...usuarioProfesor, url: process.env.EMAIL_URL_VALIDAR_PROFESOR })
+        html: pug.renderFile(path.join(__dirname, 'email_alta_profesor.pug'), {...usuarioProfesor, url: process.env.EMAIL_URL_VALIDAR_PROFESOR })
     };
 }
 

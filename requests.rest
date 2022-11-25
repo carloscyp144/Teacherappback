@@ -12,8 +12,19 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mjifrias@yahoo.es",
+    "email": "mmayorga@gmail.com",
     "password": "123456"
+}
+
+##########################
+### PUBLICO - USUARIOS ###
+##########################
+### USUARIO --> POST (olvido de clave de usuario)
+POST http://localhost:3000/api/public/usuarios/newpassword
+Content-Type: application/json
+
+{
+    "email": "agutierrez@gmail.com"
 }
 
 #########################
@@ -24,9 +35,9 @@ POST http://localhost:3000/api/public/alumnos/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": "Ken Follet",
-    "userName": "kfollet",
-    "email": "kfollet@gmail.com",
+    "nombreCompleto": "Antonio Gutierrez Márquez",
+    "userName": "agutierrez",
+    "email": "agutierrez@gmail.com",
     "password": "123456"
 }
 
@@ -38,15 +49,15 @@ POST http://localhost:3000/api/public/profesores/register
 Content-Type: application/json
 
 {
-    "nombreCompleto": "Isaac Albéniz Taylor",
-    "userName": "ialbeniz",
-    "email": "ialbeniz@gmail.com",
+    "nombreCompleto": "Martín Mayorga",
+    "userName": "mmayorga",
+    "email": "mmayorga@gmail.com",
     "password": "123456",
-    "descripcion": "Análisis numérico a tu alcance", 
+    "descripcion": "A tu disposición. Mejorarás", 
     "precioHora": 22, 
     "experiencia": 10,
-    "latitud": 51.0754421,
-    "longitud": 12.4878035, 
+    "latitud": 51.0754422,
+    "longitud": 12.4878039, 
     "telefono": "555555555",
     "ramaId": 4
 }
@@ -58,7 +69,7 @@ Content-Type: application/json
 {
     "latitud": 51.0754421,
     "longitud": 12.4878035, 
-    "maximaDistancia": 1000,
+    "maximaDistancia": 100000,
     "orderByConditions": [
         {
             "column": "distancia",
@@ -70,7 +81,7 @@ Content-Type: application/json
 ### PROFESORES --> POST (búsqueda de profesores) Aquí con token
 POST http://localhost:3000/api/public/profesores/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4OTA2MjksImlhdCI6MTY2ODg3MjYyOX0.ua1o_pYpx5lAxAX0eiEfnjkgrTVbLWB0xjyeiAm06Pc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjkzOTk2NTUsImlhdCI6MTY2OTM4MTY1NX0.ZB46JO1tYYtfbkqUwg0EcwATmlh-uyGqH9Wq2jZtoZs
 
 {
     "latitud": 51.0754421,

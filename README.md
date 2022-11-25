@@ -22,12 +22,14 @@ Deberá crear el fichero .env en la carpeta donde coloque el proyecto. Este fich
 | TOKEN_SECRET_KEY="aADfji34%$jPm34DdM" | Clave utilizada para la generación de los JWT |
 | TOKEN_EXPIRATION_HOURS=5 | Horas que tardan en expirar los JWT generados |
 | EMAIL_ENABLED=0 | Indica si se realizará el envío de correos electronicos (0 no, 1 sí). |
-| EMAIL_USER="proyecto.tfm.unir.grupo.c@gmail.com" | Usuario utilizado par el envío de emails |
+| EMAIL_USER="proyecto.tfm.unir.grupo.c@gmail.com" | Usuario utilizado para el envío de emails |
 | EMAIL_REFRESH_TOKEN="XXXX-XXXXX" | Token inicialmente asignado (OAuth2 google) |
 | EMAIL_CLIENT_ID="XXXX-XXXX" | Client ID (OAuth2 google) |
 | EMAIL_CLIENT_SECRET="XXXX-XXXX" | Client Secret (OAuth2 google) |
 | EMAIL_PENDIENTES_INTERVAL=60 | Cada EMAIL_PENDIENTES_INTERVAL segundos, se reintenta el envío de emails pendientes (aquellos que no se pudieron enviar cuando se generaron) |
-| EMAIL_URL_VALIDAR_PROFESOR="http://www.loquesea.com" | URL que estará en el botón de validar del correo electrónico de aviso a los administradores, que se manda cuando se da de alta un nuevo profesor (si está configurado el envío de correos electrónicos). Incluir "http://" para que funcione bien también en clientes de correo web.  |
+| EMAIL_URL_VALIDAR_PROFESOR="http://www.loquesea.com" | URL que estará en el botón de validar del correo electrónico de aviso a los administradores que se manda cuando se da de alta un nuevo profesor (si está configurado el envío de correos electrónicos). Incluir "http://" para que funcione bien también en clientes de correo web.  |
+| BASE_URL="http://www.otroloquesea.com" | URL pública de acceso a este API. (Para componer la URL del botón del email de regeneración del password de un usuario). En desarrollo sería http://localhost:3000 |
+| FRONT_LOGIN_URL="http://www.unloqueseamas.com/login" | URL de la pantalla de login del front. (URL a la que se redirecciona cuando se regenera el password desde el formulario) |
 
 Ejecute `npm install` para cargar las dependencias del proyecto. Ejecute `npm start` para arrancar el servidor. Una vez arrancado el servidor, puede consultar la documentación del API en http://localhost:3000/api-docs/.
 

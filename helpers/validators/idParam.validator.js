@@ -1,4 +1,4 @@
-const { param, exists, isInt } = require('express-validator');
+const { param } = require('express-validator');
 
 const idParamValidator = param('id').exists().isInt();
 

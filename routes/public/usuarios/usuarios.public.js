@@ -1,14 +1,21 @@
 const router = require('express').Router();
 
-const { checkSchema } = require('express-validator');
+const bcrypt = require('bcrypt');
+const { manageRouterError } = require('../../../helpers/router_utils');
+const { checkSchema, param } = require('express-validator');
 const { emailValidationSchema } = require('../../../helpers/validators/email.validator');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
 const { success } = require('../../../helpers/success_utils');
-const { EmailTypes } = require('../../../models/emailspendientes.model');
-const { getByEmail } = require('../../../models/usuarios.model');
+const { create, EmailTypes } = require('../../../models/emailspendientes.model');
+const { getByEmail, updatePassword } = require('../../../models/usuarios.model');
 const { sendMailDataLoaded } = require('../../../helpers/email/email_from_model');
+const { idParamValidator } = require('../../../helpers/validators/idParam.validator');
+const { validateTokenStr } = require('../../../helpers/token_utils');
+const { getNewPasswordHtml } = require('../../../helpers/handlebars_templates/new_password.template');
+const { regeneratePasswordSchema } = require('../../../helpers/validators/regeneratepassword.validator');
 
-// Login de un alumno.
+// Petición de cambio de password de usuario 
+// (envía el correo).
 router.post(
     '/newpassword', 
     checkSchema(emailValidationSchema),
@@ -43,6 +50,66 @@ router.post(
             )
             .then()
             .catch();
+        } catch (error) {
+            manageRouterError(res, error);
+        }
+    }
+);
+
+router.get(
+    '/passwordform/:id/:token',
+    idParamValidator,
+    param('token').exists(),
+    checkValidationsResult,
+    async (req, res) => {
+        try {
+            const token = req.params.token;
+            const id    = req.params.id;
+
+            const validationResult = await validateTokenStr(token);
+            if (!validationResult.ok) {
+                return res.status(401)
+                           .json({ errorMessage: validationResult.message });
+            }
+
+            if (validationResult.user.id != id) { // Ponemos != en lugar de !== porque uno es cadena y el otro número.
+                return res.status(401)
+                           .json({ errorMessage: 'Identificador incorrecto' });
+            }
+
+            const url = process.env.BASE_URL + '/api/public/usuarios/savenewpassword';
+
+            res.send(
+                getNewPasswordHtml({ id, token, url })
+            );
+        } catch (error) {
+            manageRouterError(res, error);
+        }
+    }
+);
+
+router.post(
+    '/savenewpassword',
+    checkSchema(regeneratePasswordSchema),
+    checkValidationsResult,
+    async(req, res) => {
+        try {            
+            const { token, id, password } = req.body;
+
+            const validationResult = await validateTokenStr(token);
+            if (!validationResult.ok) {
+                return res.status(401)
+                           .json({ errorMessage: validationResult.message });
+            }
+
+            if (validationResult.user.id != id) { // Ponemos != en lugar de !== porque uno es cadena y el otro número.
+                return res.status(401)
+                           .json({ errorMessage: 'Identificador incorrecto' });
+            }
+
+            await updatePassword(id, bcrypt.hashSync(req.body.password, 8));
+
+            res.redirect(process.env.FRONT_LOGIN_URL);
         } catch (error) {
             manageRouterError(res, error);
         }
