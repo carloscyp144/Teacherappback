@@ -36,6 +36,41 @@
  *           application/json: 
  *             schema: 
  *               $ref: '#/components/schemas/error'
+ * /api/private/profesores/lock/{profesorId}:
+ *   put:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Profesores
+ *     description: Bloquea a un profesor (pasa a estar sin validar otra vez). En la cabecera deberá ir el token de un administrador.
+ *     parameters:
+ *        - in: path
+ *          name: profesorId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Identificador del profesor a bloquear.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/successResponse'
+ *       404:
+ *         description: No existe ningún profesor con el identificador especificado.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/error'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error'
  * /api/private/profesores/update: 
  *   put:
  *     security:

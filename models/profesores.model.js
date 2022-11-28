@@ -73,6 +73,13 @@ const validate = (id) => {
     );
 }
 
+const lock = (id) => {    
+    return executeQuery(
+        `update profesores set validado = 0 where (id = ?)`, 
+        [ id ]
+    );
+}
+
 const getById = (id) => {
     return executeQueryOne(
         `select p.id as id, ${no_key_columnsLonLat}, nombre as nombreRama from profesores as p left join ramas as r on (p.ramaId = r.id) where (p.id = ?)`, 
@@ -190,4 +197,4 @@ const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, or
     ]);
 }
 
-module.exports = { create, validate, getById, getByUserId, getByRamaId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, searchFields, searchFieldsPublic };
+module.exports = { create, validate, getById, getByUserId, getByRamaId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, lock, searchFields, searchFieldsPublic };

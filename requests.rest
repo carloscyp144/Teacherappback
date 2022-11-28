@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mmayorga@gmail.com",
+    "email": "mprieto@gmail.com",
     "password": "123456"
 }
 
@@ -69,10 +69,10 @@ Content-Type: application/json
 {
     "latitud": 51.0754421,
     "longitud": 12.4878035, 
-    "maximaDistancia": 100000,
+    "maximaDistancia": 10000000,
     "orderByConditions": [
         {
-            "column": "distancia",
+            "column": "id",
             "order": "asc"
         }
     ]
@@ -81,16 +81,16 @@ Content-Type: application/json
 ### PROFESORES --> POST (búsqueda de profesores) Aquí con token
 POST http://localhost:3000/api/public/profesores/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NjkzOTk2NTUsImlhdCI6MTY2OTM4MTY1NX0.ZB46JO1tYYtfbkqUwg0EcwATmlh-uyGqH9Wq2jZtoZs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njk2ODgxNTYsImlhdCI6MTY2OTY3MDE1Nn0.Zn39AqLukdCuVTHqQVNoKESmB69xxymrHJYj-Gmo8Gs
 
 {
     "latitud": 51.0754421,
     "longitud": 12.4878035, 
-    "maximaDistancia": 100,
+    "maximaDistancia": 100000000,
     "orderByConditions": [
         {
-            "column": "puntuacionMedia",
-            "order": "desc"
+            "column": "id",
+            "order": "asc"
         }
     ]
 }
@@ -254,9 +254,14 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsInJvbGUiOiJhbHVt
 ### PRIVADO - PROFESORES ###
 ############################
 ### PROFESORES --> PUT (validación de un profesor - solo lo puede hacer un administrador -)
-PUT http://localhost:3000/api/private/profesores/validate/10
+PUT http://localhost:3000/api/private/profesores/validate/2
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2ODYzMzQzNSwiaWF0IjoxNjY4NjE1NDM1fQ.uphy4WpcDC01sTI1EizOvAra8SB2WKVMdA1ew4FWAVc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTY4Nzg3MSwiaWF0IjoxNjY5NjY5ODcxfQ.xXcLnQiQWn_7i-Kv67TD4qUpsFGopV4qJAqw8svO6Sw
+
+### PROFESORES --> PUT (bloqueo de un profesor, vuelve a estar sin validar - solo lo puede hacer un administrador -)
+PUT http://localhost:3000/api/private/profesores/lock/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTY4Nzg3MSwiaWF0IjoxNjY5NjY5ODcxfQ.xXcLnQiQWn_7i-Kv67TD4qUpsFGopV4qJAqw8svO6Sw
 
 ### PROFESORES --> PUT (actualización de datos de un profesor - solo lo puede hacer él mismo -)
 PUT http://localhost:3000/api/private/profesores/update
@@ -280,7 +285,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODAsInJvbGUiOiJwcm9m
 ### PROFESORES --> POST (recoger profesores - devuelve todos si el token es de un administrador, o los validados de un alumno si el token tiene este rol -)
 POST http://localhost:3000/api/private/profesores/getSearch
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODcsInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njg4OTkwODQsImlhdCI6MTY2ODg4MTA4NH0.cHBIKHbI5F9loOjb8zKRBHyeHKcjfFbYnpGO_-m1EZ0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njk2ODgxNTYsImlhdCI6MTY2OTY3MDE1Nn0.Zn39AqLukdCuVTHqQVNoKESmB69xxymrHJYj-Gmo8Gs
 
 ###         --> Otro ejemplo
 POST http://localhost:3000/api/private/profesores/getSearch
