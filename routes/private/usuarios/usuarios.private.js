@@ -6,14 +6,39 @@ const multer  = require('multer');
 const { checkSchema } = require('express-validator');
 
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
-const { updatePassword, updateImage } = require('../../../models/usuarios.model');
+const { updatePassword, updateImage, getById } = require('../../../models/usuarios.model');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { passwordValidationSchema } = require('../../../helpers/validators/password.validator');
 const { success } = require('../../../helpers/success_utils');
+const { getRoleName } = require('../../../models/roles.model');
+const { completeUser } = require("../../../models/completeUser");
 
 const avatarsDir = path.join(process.cwd(), './public/images/avatars');
 const validFileExtensions = [ '.apng', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg', '.webp']
 const upload = multer({ dest: path.join(avatarsDir + '/tmp') });
+
+router.get(
+    '/mydata',
+    async(req, res) => {
+        try {
+            const user = await getById(req.user.id);
+            if (user === null) {
+                return res.status(401)
+                          .json({ messageError: 'No se pudo recuperar el usuario del token' });
+            }
+
+            const roleName      = getRoleName(user.rolId);
+            const completedUser = await completeUser(user);
+            
+            const result     = {};
+            result[roleName] = completedUser;
+
+            res.json(result);
+        } catch (error) {
+            manageRouterError(res, error);
+        }
+    }
+);
 
 // Actualización del password del usuario.
 // (Solo lo podrá hacer él mismo)

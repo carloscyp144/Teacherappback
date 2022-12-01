@@ -4,6 +4,34 @@
  *   - name: Usuarios
  *     description: "Peticiones que afectan a usuarios de cualquier tipo (administradores, profesores o alumnos)."
  *
+ * /api/private/usuarios/mydata: 
+ *   get:
+ *     security:
+ *       - Authorization: []
+ *     tags:
+ *       - Usuarios
+ *     description: Recupera los datos del usuario cuyo va en la cabecera.
+ *     responses:
+ *       200:
+ *         description: Indica que la operación se realizó con éxito.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/mydataResponse'
+ *       404:
+ *         description: No se pudo recuperar el usuario del token.
+ *         content: 
+ *           application/json: 
+ *             schema: 
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/errorValidation'
+ *       500:
+ *         description: Error que se ha producido en el servidor.
+ *         content:
+ *           application/json: 
+ *             schema: 
+ *               $ref: '#/components/schemas/error' 
  * /api/private/usuarios/update/password: 
  *   put:
  *     security:
@@ -69,7 +97,7 @@
  *             schema: 
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/errorValidation'
+ *                 $ref: '#/components/schemas/error'
  *       500:
  *         description: Error que se ha producido en el servidor.
  *         content:
@@ -87,4 +115,16 @@
  *          type: string
  *          description: Valor del password
  *          example: 123456
+ *    mydataResponse:
+ *      title: LoginAlumnoResponse
+ *      description: Datos devueltos al hacer login (JWT y un objeto alumno)
+ *      required: [ result ]
+ *      type: object
+ *      properties:
+ *        alumno:
+ *          $ref: '#/components/schemas/alumnoResponse'
+ *        profesor:
+ *          $ref: '#/components/schemas/profesorResponse'
+ *        administrador:
+ *          $ref: '#/components/schemas/administradorResponse'
  */

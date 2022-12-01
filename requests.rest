@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mprieto@gmail.com",
+    "email": "mgiron@gmail.com",
     "password": "123456"
 }
 
@@ -241,6 +241,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9m
 ##########################
 ### PRIVADO - USUARIOS ###
 ##########################
+### ALUMNOS --> GET (petición para que un usuario recupere sus datos)
+GET http://localhost:3000/api/private/usuarios/mydata
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTk1NTcwMSwiaWF0IjoxNjY5OTM3NzAxfQ.WsW-jOJWJn7qh9egFHFoimepqllotoHPrQElqmai1-k
+
 ### ALUMNOS --> PUT (actualización del password del usuario - solo lo puede hacer él mismo -)
 PUT http://localhost:3000/api/private/usuarios/update/password
 Content-Type: application/json

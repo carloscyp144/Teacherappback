@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 const { completeUser } = require("../../../models/completeUser");
 
 
-// Login de un alumno.
+// Login de un usuario.
 router.post(
     '/', 
     checkSchema(loginValidationSchema),
