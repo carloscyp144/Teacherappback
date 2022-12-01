@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const bcrypt = require('bcrypt');
-const { manageRouterError } = require('../../../helpers/router_utils');
+const { manageRouterError, manageRouterErrorPasswordHTML } = require('../../../helpers/router_utils');
 const { checkSchema, param } = require('express-validator');
 const { emailValidationSchema } = require('../../../helpers/validators/email.validator');
 const { checkValidationsResult } = require('../../../helpers/validator_utils');
@@ -12,6 +12,7 @@ const { sendMailDataLoaded } = require('../../../helpers/email/email_from_model'
 const { idParamValidator } = require('../../../helpers/validators/idParam.validator');
 const { validateTokenStr } = require('../../../helpers/token_utils');
 const { getNewPasswordHtml } = require('../../../helpers/handlebars_templates/new_password.template');
+const { getErrorPasswordHtml } = require("../../../helpers/handlebars_templates/error_password.template");
 const { regeneratePasswordSchema } = require('../../../helpers/validators/regeneratepassword.validator');
 
 // Petición de cambio de password de usuario 
@@ -56,6 +57,7 @@ router.post(
     }
 );
 
+// Devuelve HTML, la página del cambio del password está en el back.
 router.get(
     '/passwordform/:id/:token',
     idParamValidator,
@@ -68,13 +70,15 @@ router.get(
 
             const validationResult = await validateTokenStr(token);
             if (!validationResult.ok) {
-                return res.status(401)
-                           .json({ errorMessage: validationResult.message });
+                return res.send(
+                            getErrorPasswordHtml({ errorTxt: validationResult.message, url: process.env.FRONT_LOGIN_URL })
+                       );
             }
 
             if (validationResult.user.id != id) { // Ponemos != en lugar de !== porque uno es cadena y el otro número.
-                return res.status(401)
-                           .json({ errorMessage: 'Identificador incorrecto' });
+                return res.send(
+                            getErrorPasswordHtml({ errorTxt: 'Identificador incorrecto', url: process.env.FRONT_LOGIN_URL })
+                       );
             }
 
             const url = process.env.BASE_URL + '/api/public/usuarios/savenewpassword';
@@ -83,11 +87,14 @@ router.get(
                 getNewPasswordHtml({ id, token, url })
             );
         } catch (error) {
-            manageRouterError(res, error);
+            res.send(
+                getErrorPasswordHtml({ errorTxt: error.message, url: process.env.FRONT_LOGIN_URL })
+            );
         }
     }
 );
 
+// Devuelve HTML, la página del cambio del password está en el back.
 router.post(
     '/savenewpassword',
     checkSchema(regeneratePasswordSchema),
@@ -98,20 +105,24 @@ router.post(
 
             const validationResult = await validateTokenStr(token);
             if (!validationResult.ok) {
-                return res.status(401)
-                           .json({ errorMessage: validationResult.message });
+                return res.send(
+                            getErrorPasswordHtml({ errorTxt: validationResult.message, url: process.env.FRONT_LOGIN_URL })
+                       );
             }
 
             if (validationResult.user.id != id) { // Ponemos != en lugar de !== porque uno es cadena y el otro número.
-                return res.status(401)
-                           .json({ errorMessage: 'Identificador incorrecto' });
+                return res.send(
+                            getErrorPasswordHtml({ errorTxt: 'Identificador incorrecto', url: process.env.FRONT_LOGIN_URL })
+                       );
             }
 
             await updatePassword(id, bcrypt.hashSync(req.body.password, 8));
 
             res.redirect(process.env.FRONT_LOGIN_URL);
         } catch (error) {
-            manageRouterError(res, error);
+            res.send(
+                getErrorPasswordHtml({ errorTxt: error.message, url: process.env.FRONT_LOGIN_URL })
+            );
         }
     }
 );
