@@ -10,7 +10,7 @@
  *       - Authorization: []
  *     tags:
  *       - Usuarios
- *     description: Recupera los datos del usuario cuyo id va en la cabecera.
+ *     description: Recupera los datos del usuario cuyo id va en el token.
  *     responses:
  *       200:
  *         description: Indica que la operación se realizó con éxito.

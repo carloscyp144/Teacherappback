@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "aalamo@gmail.com",
+    "email": "thortala@gmail.com",
     "password": "123456"
 }
 
@@ -495,12 +495,19 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ##########################
 ### PRIVADO - MENSAJES ###
 ##########################
-### Mensaje --> POST Envía un mensaje del usuario del token al usuario indicado en idUsuarioDestino (un usuario será profesor y el otro un alumno)
+### Mensajes --> POST Envía un mensaje del usuario del token al usuario indicado en idUsuarioDestino (un usuario será profesor y el otro un alumno)
 POST http://localhost:3000/api/private/mensajes/send
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njk5NjIyOTMsImlhdCI6MTY2OTk0NDI5M30.s23494RrDjSt47m9qas8hdBWrgaV4tzVV7-i5ilymIM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjQsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDAzMzg3NiwiaWF0IjoxNjcwMDE1ODc2fQ.7YihNxy9w6-q4NGQ6_1g0d3apIc056An3TLp-5tnDfI
 
 {
-    "idUsuarioDestino": 68,
-    "texto": "Hola Mario Girón, soy Almudena Álamo."
+    "idUsuarioDestino": 79,
+    "texto": "Cuando quieras Almudena."
 }
+
+### Mensajes --> GET Devuelve todos los mensajes de un usuario (profesor o alumno) cuyo id va por en el token. ´
+### Las conversaciones se ordenan por fecha/hora del último mensaje (primero la conversación con el último mensaje más reciente).
+### Los mensajes dentro de una conversación se ordenan de más viejo a más nuevo.
+GET  http://localhost:3000/api/private/mensajes/allmessages
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjQsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDAzODI3MiwiaWF0IjoxNjcwMDIwMjcyfQ.s-0qjPOgVzQcI8ypvIwgWjUrMr8Tcygjehoia1vcMYc

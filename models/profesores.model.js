@@ -134,6 +134,16 @@ const addPuntuacionTrans = (db, { id, puntuacionTotal, numeroPuntuaciones }, pun
     );
 }
 
+const getCompleteProfesorById = (id) => {
+    return executeQueryOne(
+        `select p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama `+
+        'from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
+                             'inner join ramas as r on (p.ramaId = r.id) ' +
+        'where (p.id = ?)',
+        [ id ]
+    );
+}
+
 const searchFields = ['id', 'descripcion', 'precioHora', 'experiencia', 'telefono', 'validado', 'puntuacionMedia', 'puntuacionTotal', 
                      'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
@@ -197,4 +207,4 @@ const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, or
     ]);
 }
 
-module.exports = { create, validate, getById, getByUserId, getByRamaId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, lock, searchFields, searchFieldsPublic };
+module.exports = { create, validate, getById, getCompleteProfesorById, getByUserId, getByRamaId, updateConfigurationFieldsTrans, updatePuntuacionTrans, addPuntuacionTrans, search, searchByAlumnoId, searchPublic, lock, searchFields, searchFieldsPublic };

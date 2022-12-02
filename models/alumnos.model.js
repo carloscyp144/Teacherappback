@@ -41,11 +41,19 @@ const getByUserId = (usuariosId) => {
     );
 }
 
+const getCompleteAlumnoById = (alumnoId) => {
+    return executeQueryOne(
+        'select a.id as id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId, imagen ' +
+        `from alumnos as a inner join usuarios as u on (a.usuariosId = u.id) where (a.id = ?)`, 
+        [ alumnoId ]
+    );
+}
+
 const searchFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId', 'imagen'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
     const fieldsResult = 'a.id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId, imagen';
-    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';                         
+    let selectSentence = 'select ? from alumnos as a inner join usuarios as u on (a.usuariosId = u.id)';
     
     const whereClause   = getWhereClause(searchFields, searchConditions, 'a.');    
     const orderByClause = getOrderByClause(searchFields, orderByConditions, 'a.');
@@ -94,6 +102,7 @@ const logicUndelete = (id) => {
 module.exports = { 
     create,
     getByUserId,
+    getCompleteAlumnoById,
     search,
     searchByTeacherId,
     searchFields,
