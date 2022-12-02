@@ -17,7 +17,7 @@ const executeQuery = (sql, params = []) => {
     });
 }
 
-const executeQueryOne = (sql, params = []) => {    
+const executeQueryOne = (sql, params = []) => {
     return new Promise((resolve, reject) => {
         dbPool.query(sql, params, (err, result) => {
             if (err) return reject(err);

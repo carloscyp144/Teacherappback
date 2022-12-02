@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "mgiron@gmail.com",
+    "email": "aalamo@gmail.com",
     "password": "123456"
 }
 
@@ -491,3 +491,16 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 DELETE http://localhost:3000/api/private/ramas/18
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1pbiIsImV4cGlyYXRpb25fZGF0ZSI6MTY2OTA4Nzg4NywiaWF0IjoxNjY5MDY5ODg3fQ.KfrVb5yjb8ssM2PJ66xU5OvryCeAxGKpEPDAz2xCwX8
+
+##########################
+### PRIVADO - MENSAJES ###
+##########################
+### Mensaje --> POST Envía un mensaje del usuario del token al usuario indicado en idUsuarioDestino (un usuario será profesor y el otro un alumno)
+POST http://localhost:3000/api/private/mensajes/send
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2Njk5NjIyOTMsImlhdCI6MTY2OTk0NDI5M30.s23494RrDjSt47m9qas8hdBWrgaV4tzVV7-i5ilymIM
+
+{
+    "idUsuarioDestino": 68,
+    "texto": "Hola Mario Girón, soy Almudena Álamo."
+}
