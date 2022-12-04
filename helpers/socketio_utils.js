@@ -32,7 +32,6 @@ const startSocketIO = (server) => {
         socket.on('disconnect', () => {
             if ((userId) && usuariosSockets.has(userId)) {
                 usuariosSockets.delete(userId);
-                console.log('Quitado del map');
             }
         });
     });
