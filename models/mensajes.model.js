@@ -48,6 +48,13 @@ const create = async (profesoresId, alumnosId, autor, destinatario, texto) => {
     return (await getById(idMensaje));
 }
 
+const setLeido = (id, destinatario) => {
+    return executeQuery(
+        'update mensajes set leido=1 where (id = ?) and (destinatario = ?)', 
+        [ id, destinatario ]
+    );
+}
+
 const getMensajes = async (profesorId, alumnoId) => {
     let whereClause, profesorAlumnoId, getInterlocutor;
     if (profesorId !== null) {
@@ -134,4 +141,4 @@ const getMensajes = async (profesorId, alumnoId) => {
     return mensajesAgrupados;
 }
 
-module.exports = { create, getMensajes };
+module.exports = { create, getMensajes, setLeido };
