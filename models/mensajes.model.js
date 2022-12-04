@@ -1,6 +1,6 @@
 const dayjs = require('dayjs');
 const { executeQueryOne, executeQuery, executeQueryTrans, beginTransaction, commit, rollBack } = require('../helpers/mysql_utils');
-const { createTransConversacion, getByProfesorIdAlumnoIdTrans, undeleteTrans } = require('./conversaciones.model');
+const { createTransConversacion, getByProfesorIdAlumnoIdTrans, undeleteTrans, deleteTransConversacionAlumno, deleteTransConversacionProfesor } = require('./conversaciones.model');
 const { getCompleteAlumnoById } = require('./alumnos.model');
 const { getCompleteProfesorById } = require('./profesores.model');
 
@@ -46,6 +46,75 @@ const create = async (profesoresId, alumnosId, autor, destinatario, texto) => {
     }
     
     return (await getById(idMensaje));
+}
+
+const setLeido = (id, destinatario) => {
+    return executeQuery(
+        'update mensajes set leido=1 where (id = ?) and (destinatario = ?)', 
+        [ id, destinatario ]
+    );
+}
+
+const deleteMensajeAlumno = (id, alumnoId) => {
+    return executeQuery(
+        'update mensajes set borradoAlumno=1 where (id = ?) and ((autor = ?) or (destinatario = ?))', 
+        [ id, alumnoId, alumnoId ]
+    );
+}
+
+const deleteTransMensajesConversacionAlumno = (db, idConversacion, alumnoId) => {
+    return executeQueryTrans(
+        db,
+        'update mensajes set borradoAlumno=1 where (conversacionesId = ?) and ((autor = ?) or (destinatario = ?))', 
+        [ idConversacion, alumnoId, alumnoId ]
+    );
+}
+
+const deleteConversacionAlumno = async (id, alumnosId) => {
+    const db = await beginTransaction();
+    let result;
+    try {
+        await deleteTransMensajesConversacionAlumno(db, id, alumnosId);
+        result = await deleteTransConversacionAlumno(db, id, alumnosId);
+
+        await commit(db);
+    } catch(exception) {
+        await rollBack(db);
+        throw exception;
+    }
+    
+    return result;
+}
+
+const deleteMensajeProfesor = (id, profesorId) => {
+    return executeQuery(
+        'update mensajes set borradoProfesor=1 where (id = ?) and ((autor = ?) or (destinatario = ?))', 
+        [ id, profesorId, profesorId ]
+    );
+}
+
+const deleteTransMensajesConversacionProfesor = (db, idConversacion, profesorId) => {
+    return executeQueryTrans(
+        db,
+        'update mensajes set borradoProfesor=1 where (conversacionesId = ?) and ((autor = ?) or (destinatario = ?))', 
+        [ idConversacion, profesorId, profesorId ]
+    );
+}
+
+const deleteConversacionProfesor = async (id, profesoresId) => {
+    const db = await beginTransaction();
+    let result;
+    try {
+        await deleteTransMensajesConversacionProfesor(db, id, profesoresId);
+        result = await deleteTransConversacionProfesor(db, id, profesoresId);
+
+        await commit(db);
+    } catch(exception) {
+        await rollBack(db);
+        throw exception;
+    }
+    
+    return result;
 }
 
 const getMensajes = async (profesorId, alumnoId) => {
@@ -134,4 +203,4 @@ const getMensajes = async (profesorId, alumnoId) => {
     return mensajesAgrupados;
 }
 
-module.exports = { create, getMensajes };
+module.exports = { create, getMensajes, setLeido, deleteMensajeAlumno, deleteMensajeProfesor, deleteConversacionAlumno, deleteConversacionProfesor };

@@ -30,6 +30,9 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+// Creamos el servidor de socket.io
+require('../helpers/socketio_utils').startSocketIO(server);
+
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -49,6 +49,14 @@ const getCompleteAlumnoById = (alumnoId) => {
     );
 }
 
+const getCompleteAlumnoByUserId = (usuarioId) => {
+    return executeQueryOne(
+        'select a.id as id, borrado, usuariosId as usuarioId, userName, nombreCompleto, email, rolId, imagen ' +
+        `from alumnos as a inner join usuarios as u on (a.usuariosId = u.id) where (a.usuariosId = ?)`, 
+        [ usuarioId ]
+    );
+}
+
 const searchFields = ['id', 'borrado', 'usuariosId', 'userName', 'nombreCompleto', 'email', 'rolId', 'imagen'];
 const search = ({ searchConditions, orderByConditions }, page, limit) => {    
 
@@ -103,6 +111,7 @@ module.exports = {
     create,
     getByUserId,
     getCompleteAlumnoById,
+    getCompleteAlumnoByUserId,
     search,
     searchByTeacherId,
     searchFields,

@@ -12,7 +12,7 @@ POST http://localhost:3000/api/public/login
 Content-Type: application/json
 
 {
-    "email": "thortala@gmail.com",
+    "email": "aalamo@gmail.com",
     "password": "123456"
 }
 
@@ -496,18 +496,41 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsInJvbGUiOiJhZG1p
 ### PRIVADO - MENSAJES ###
 ##########################
 ### Mensajes --> POST Envía un mensaje del usuario del token al usuario indicado en idUsuarioDestino (un usuario será profesor y el otro un alumno)
-POST http://localhost:3000/api/private/mensajes/send
+POST http://localhost:3002/api/private/mensajes/send
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjQsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDAzMzg3NiwiaWF0IjoxNjcwMDE1ODc2fQ.7YihNxy9w6-q4NGQ6_1g0d3apIc056An3TLp-5tnDfI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDE5NjYwOCwiaWF0IjoxNjcwMTc4NjA4fQ.DU2K88wm54luaUTYDHt9m9dKx9W-RRwDNW1x-XP6rT0
 
 {
-    "idUsuarioDestino": 79,
-    "texto": "Cuando quieras Almudena."
+    "idUsuarioDestino": 49,
+    "texto": "Sí me llegó. Te respondo en un rato. Disculpa."
 }
 
-### Mensajes --> GET Devuelve todos los mensajes de un usuario (profesor o alumno) cuyo id va por en el token. ´
+### Mensajes --> GET Devuelve todos los mensajes de un usuario (profesor o alumno) cuyo id va por en el token.
 ### Las conversaciones se ordenan por fecha/hora del último mensaje (primero la conversación con el último mensaje más reciente).
 ### Los mensajes dentro de una conversación se ordenan de más viejo a más nuevo.
-GET  http://localhost:3000/api/private/mensajes/allmessages
+GET  http://localhost:3002/api/private/mensajes/allmessages
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjQsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDAzODI3MiwiaWF0IjoxNjcwMDIwMjcyfQ.s-0qjPOgVzQcI8ypvIwgWjUrMr8Tcygjehoia1vcMYc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDE5NjYwOCwiaWF0IjoxNjcwMTc4NjA4fQ.DU2K88wm54luaUTYDHt9m9dKx9W-RRwDNW1x-XP6rT0
+
+### Mensajes --> PUT Marca un mensaje como leído.
+### El id del token tiene que coincidir con el destinatario del mensaje cuyo id se indica como parámetro en la URL.
+PUT  http://localhost:3000/api/private/mensajes/setread/6
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksInJvbGUiOiJhbHVtbm8iLCJleHBpcmF0aW9uX2RhdGUiOjE2NzAxMDMxMDgsImlhdCI6MTY3MDA4NTEwOH0.KP3Mty6kOBMOjyaaCmoJ-jupQjzzSvbizoYpdxz41dE
+
+### Mensajes --> DELETE Marca un mensaje como borrado para el usuario que manda la petición, el otro interlocutor
+### lo puede seguir viendo mientras no lo borre el también.
+### El id del token tiene que coincidir con el id del autor o destintatario del mensaje se indica como parámetro en la URL.
+DELETE  http://localhost:3002/api/private/mensajes/delete/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDE5NjYwOCwiaWF0IjoxNjcwMTc4NjA4fQ.DU2K88wm54luaUTYDHt9m9dKx9W-RRwDNW1x-XP6rT0
+
+################################
+### PRIVADO - CONVERSACIONES ###
+################################
+### Mensajes --> DELETE Marca un conversacion como borrada para el usuario que manda la petición, el otro interlocutor
+### puede seguir viendo la conversación mientras no la borre el también.
+### El id del token tiene que ser el profesor o el alumno que participan en la conversación cuyo id va en la URL.
+DELETE  http://localhost:3002/api/private/conversaciones/delete/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjgsInJvbGUiOiJwcm9mZXNvciIsImV4cGlyYXRpb25fZGF0ZSI6MTY3MDE5NjYwOCwiaWF0IjoxNjcwMTc4NjA4fQ.DU2K88wm54luaUTYDHt9m9dKx9W-RRwDNW1x-XP6rT0
