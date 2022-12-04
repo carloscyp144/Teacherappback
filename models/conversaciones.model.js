@@ -23,9 +23,25 @@ const getByProfesorIdAlumnoIdTrans = (db, profesoresId, alumnosId) => {
 const undeleteTrans = (db, id) => {
     return executeQueryTrans(
         db,
-        `update conversaciones set borradaProfesor = ?, borradaAlumno = ? where (id = ?)`, 
-        [ 0, 0, id ]
+        `update conversaciones set borradaProfesor = 0, borradaAlumno = 0 where (id = ?)`, 
+        [ id ]
     );
 }
 
-module.exports = { createTransConversacion, getByProfesorIdAlumnoIdTrans, undeleteTrans };
+const deleteTransConversacionAlumno = (db, id, alumnosId) => {
+    return executeQueryTrans(
+        db,
+        `update conversaciones set borradaAlumno = 1 where (id = ?) and (alumnosId = ?)`, 
+        [ id, alumnosId ]
+    );
+}
+
+const deleteTransConversacionProfesor = (db, id, profesoresId) => {
+    return executeQueryTrans(
+        db,
+        `update conversaciones set borradaProfesor = 1 where (id = ?) and (profesoresId = ?)`, 
+        [ id, profesoresId ]
+    );
+}
+
+module.exports = { createTransConversacion, getByProfesorIdAlumnoIdTrans, undeleteTrans, deleteTransConversacionAlumno, deleteTransConversacionProfesor };
