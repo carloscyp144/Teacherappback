@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+const { google } = require('googleapis');
+const OAuth2     = google.auth.OAuth2;
+const { Mutex }  = require('async-mutex');
 
-const { remove } = require('../../models/emailspendientes.model');
+const { remove, getById } = require('../../models/emailspendientes.model');
 
 const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
 
@@ -42,30 +43,52 @@ const createSmtpTransport = async () => {
     return transport;
 }
 
+// La hacemos promesa, para que se envío y se borre estando
+// todo en el mutex (para no enviar más de una vez si el 
+// timeout de reintento es ridículamente pequeño).
+const sendMailPromise = (smtpTransport, mailOptions) => {
+    return new Promise( (resolve, reject) => {
+        smtpTransport.sendMail(mailOptions, async (error, info) => {
+            try {
+                if (error) {
+                    console.log('Error al enviar el correo electrónico:', error);
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            } catch(exception){
+                reject(exception);
+            }
+        }); 
+    });
+}
+
+const emailLock = new Mutex();
+
 const sendMail = async(id, mailOptions) => {
-    if (emailEnabled) {
-        try {            
-            if (mailOptions === null) {
-                console.log(`Tipo de email desconocido ${emailType}. Se borrará.`);
-                await remove(id);
-            }
-            else {
-                const smtpTransport = await createSmtpTransport();
-                smtpTransport.sendMail(mailOptions, async (error, info) => {
-                    try {
-                        if (error) {
-                            console.log('Error al enviar el correo electrónico:', error);
-                        } else {
-                            await remove(id);
-                        }
-                    } catch(exception){
-                        console.log('Error al enviar el correo electrónico:', exception);
+    const release = await emailLock.acquire();
+    try {
+        if (emailEnabled) {
+            // Nos aseguramos de que no se ha borrado por otro lado
+            const emailPendiente = await getById(id);
+            if (emailPendiente) {
+                try {            
+                    if (mailOptions === null) {
+                        console.log(`Tipo de email desconocido ${emailType}. Se borrará.`);
+                        await remove(id);
                     }
-                }); 
+                    else {
+                        const smtpTransport = await createSmtpTransport();
+                        await sendMailPromise(smtpTransport, mailOptions);
+                        await remove(id);
+                    }
+                } catch(exception){
+                    console.log('Error al enviar el correo electrónico:', exception);
+                }
             }
-        } catch(exception){
-            console.log('Error al enviar el correo electrónico:', exception);
         }
+    } finally {
+        release();
     }
 }
 

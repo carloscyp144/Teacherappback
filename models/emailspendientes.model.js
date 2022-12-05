@@ -17,6 +17,13 @@ const createTransEmailPendiente = (db, emailType, referenciaId) => {
     return executeQueryTrans(db, `insert into emailspendientes (${no_key_columns}) values (?, ?)`, [ emailType, referenciaId ]);
 }
 
+const getById = (id) => {    
+    return executeQueryOne(
+        `select ${columns} from emailspendientes where (id = ?)`, 
+        [ id ]
+    );
+}
+
 const getFrom = (fromId) => {
     //const fromIdStr = (fromId) ? `where (id > ${fromId})` : '';
     return executeQueryOne(
@@ -32,4 +39,4 @@ const remove = (id) => {
     );
 }
 
-module.exports = { create, createTransEmailPendiente, getFrom, remove, EmailTypes };
+module.exports = { create, createTransEmailPendiente, getById, getFrom, remove, EmailTypes };
