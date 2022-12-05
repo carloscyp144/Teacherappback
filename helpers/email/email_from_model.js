@@ -3,7 +3,7 @@ const { getMailNuevoPasswordOptions } = require('./templates/email_nuevo_passwor
 const { sendMail } = require('./email_utils');
 const { EmailTypes } = require('../../models/emailspendientes.model');
 
-const emailEnabled = process.env.EMAIL_ENABLED;
+const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
 
 const sendMailDataLoaded = async(id, emailType, data) => {
     if (emailEnabled) {

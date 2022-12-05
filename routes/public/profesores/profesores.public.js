@@ -2,8 +2,8 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { checkSchema } = require('express-validator');
 const { create, getById, searchPublic, searchFieldsPublic } = require('../../../models/profesores.model');
-const { getById: getUsuarioById } = require('../../../models/usuarios.model');
-const { checkValidationsResult } = require('../../../helpers/validator_utils');
+const { getById: getUsuarioById, updateImage } = require('../../../models/usuarios.model');
+const { checkValidationsResult, checkValidationsResultImage } = require('../../../helpers/validator_utils');
 const { manageRouterError } = require('../../../helpers/router_utils');
 const { getProfesorValidationSchema } = require('../../../helpers/validators/profesores.validator');
 const { publicTeacherSearchValidationSchema } = require('../../../helpers/validators/profesorespublic_search.validator');
@@ -12,20 +12,49 @@ const { formatSearchResult } = require('../../../helpers/searchUtils/searchresul
 const { validateToken } = require('../../../helpers/token_utils');
 const { opinionesPublicValidationSchema } = require('../../../helpers/validators/opinionespublic.validator');
 const { searchOpiniones, searchOpinionesFields } = require('../../../models/inscripciones.model');
+const { userImage, upload, checkUserImage } = require('../../../helpers/image_utils');
 
 // Creación de un nuevo profesor.
 router.post(
-    '/register', 
+    '/register',    
+    upload.single('imagen'),
     checkSchema(getProfesorValidationSchema(true)),
-    checkValidationsResult,
+    checkValidationsResultImage,
     async (req, res) => {
-        try {
+        try {            
             req.body.password = bcrypt.hashSync(req.body.password, 8);
+
+            if (req.file) {
+                const checkResult = checkUserImage(req.file);
+                if (!checkResult.ok) {
+                    return res.status(checkResult.statuscode)
+                              .json({ messageError: checkResult.messageError });
+                }
+            }
 
             const profesorId = await create(req.body);
             profesor = await getById(profesorId);
             usuario  = await getUsuarioById(profesor.usuarioId);
             delete usuario.id;
+
+            // Hace falta el id del usuario para tratar la imagen,
+            // por eso se actualiza fuera de la transacción de BD
+            // ese campo. Si falla, no se puede tratar como error
+            // porque el usuario ya se ha dado de alta en la BD.
+            // (Simplemente quedará sin avatar, lo podrá actuali-
+            //  zar después).
+            try {
+                if (req.file) {
+                    const imageResult = userImage(profesor.usuarioId, req.file);
+                    if (imageResult.ok) {
+                        await updateImage(profesor.usuarioId, imageResult.fileName);
+                        usuario.imagen = imageResult.fileName;
+                    }
+                }
+            } catch (error) {
+                console.log(`Usuario ${profesor.usuarioId} queda sin avatar [${error.message}].`)
+            }
+
             res.json({...usuario, ...profesor});
         } catch (error) {
             manageRouterError(res, error);

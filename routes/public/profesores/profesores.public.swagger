@@ -13,7 +13,7 @@
  *       description: Datos para dar de alta al alumno.
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/altaProfesor'
  *     responses:
@@ -161,7 +161,11 @@
  *        ramaId:
  *          type: int
  *          description: Identificador de la rama de conocimiento en la que quiere estar el profesor.
- *          example: 2
+ *          example: 2  
+ *        imagen:
+ *          type: string
+ *          format: binary
+ *          required: false
  *    profesorResponse:
  *      title: ProfesorResponse
  *      description: Datos de un alumno

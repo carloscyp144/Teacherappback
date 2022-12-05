@@ -23,7 +23,7 @@ router.post(
     checkValidationsResult,
     async (req, res) => {
         try {
-            const emailEnabled = process.env.EMAIL_ENABLED;
+            const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
             if (!emailEnabled) {
                 return res.status(503)
                           .json({ errorMessage: 'No está configurado el envío de correos electrónicos en el servidor' })

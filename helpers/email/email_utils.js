@@ -4,7 +4,7 @@ const OAuth2 = google.auth.OAuth2;
 
 const { remove } = require('../../models/emailspendientes.model');
 
-const emailEnabled = process.env.EMAIL_ENABLED;
+const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
 
 const createSmtpTransport = async () => {
     const oauth2Client = new OAuth2(
@@ -20,7 +20,8 @@ const createSmtpTransport = async () => {
     const accessToken = await new Promise((resolve, reject) => {
         oauth2Client.getAccessToken((err, token) => {
             if (err) {
-            reject("Failed to create access token :(");
+                console.log(err);
+                reject("Failed to create access token :(");
             }
             resolve(token);
         });
@@ -34,7 +35,7 @@ const createSmtpTransport = async () => {
             accessToken,
             clientId: process.env.EMAIL_CLIENT_ID,
             clientSecret: process.env.EMAIL_CLIENT_SECRET,
-            refreshToken: process.env.EMAIL_CLIENT_SECRET
+            refreshToken: process.env.EMAIL_REFRESH_TOKEN
         }
     });
 

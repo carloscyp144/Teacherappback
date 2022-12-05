@@ -27,7 +27,7 @@ const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora,
 }
 
 const create = async (fields) => {
-    const emailEnabled = process.env.EMAIL_ENABLED;
+    const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
 
     let profesorId, emailId;
     const db = await beginTransaction();
@@ -49,7 +49,7 @@ const create = async (fields) => {
         await rollBack(db);
         throw error;
     }
-
+    
     if (emailEnabled) {
         // No esperamos la resolución de la promesa, ni tratamos el error aquí
         // (quedaría anotado en la tabla que está pendiente, y el proceso encargado
