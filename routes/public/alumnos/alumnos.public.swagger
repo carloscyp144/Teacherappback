@@ -13,7 +13,7 @@
  *       description: Datos para dar de alta al alumno.
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/altaAlumno'
  *     responses:
@@ -60,6 +60,10 @@
  *          type: string
  *          description: Clave de acceso del alumno
  *          example: 123456 
+ *        imagen:
+ *          type: string
+ *          format: binary
+ *          required: false
  *    alumnoResponse:
  *      title: Alumno
  *      description: Datos de un alumno
