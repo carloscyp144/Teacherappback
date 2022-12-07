@@ -196,7 +196,7 @@ const searchFieldsPublic = ['id', 'descripcion', 'precioHora', 'experiencia', 't
                             'numeroPuntuaciones', 'usuarioId', 'ramaId', 'userName', 'nombreCompleto', 'email', 'imagen', 'rolId', 'distancia'];
 const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, orderByConditions }, bLogged, page, limit) => {    
 
-    let fieldsResult = `p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama, ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) as distancia `;
+    let fieldsResult = `p.id, userName, nombreCompleto, email, imagen, rolId, ${no_key_columnsLonLat}, nombre as nombreRama, (ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) / 1000) as distancia `;
 
     if (!bLogged) { // Estos campos solo aparecen en el resultado si está logeado el usuario.
         fieldsResult = fieldsResult.replace(', email',    '')
@@ -206,7 +206,7 @@ const searchPublic = ({ latitud, longitud, maximaDistancia, searchConditions, or
     let selectSentence = 'select ? from profesores as p inner join usuarios as u on (p.usuarioId = u.id) ' +
                                                        'inner join ramas as r on (p.ramaId = r.id)';
     
-    const whereClause   = getWhereClause(searchFieldsPublic, searchConditions, 'p.', `(validado = 1) and (ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) <= ${maximaDistancia})`);
+    const whereClause   = getWhereClause(searchFieldsPublic, searchConditions, 'p.', `(validado = 1) and ((ST_Distance_Sphere(point(${longitud}, ${latitud}), coordenadas) / 1000) <= ${maximaDistancia})`);
     const orderByClause = getOrderByClause(searchFieldsPublic, orderByConditions, 'p.');
     const limitClause   = getLimitClause(limit, page);
 
