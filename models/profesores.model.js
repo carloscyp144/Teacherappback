@@ -2,6 +2,7 @@ const { executeQueryTrans, executeQueryOne, beginTransaction, rollBack, commit, 
 const { createTransUsuario } = require('./usuarios.model');
 const { createTransEmailPendiente, EmailTypes } = require('./emailspendientes.model');
 const { profesorRoleId } = require('./roles.model');
+const { getById: getRamaById } = require('./ramas.model');
 const { getWhereClause, getOrderByClause, getLimitClause } = require('../helpers/searchUtils/whereclause_utils');
 const { getPagesCountClause } = require('../helpers/searchUtils/countpages_utils');
 const { sendMailDataLoaded } = require('../helpers/email/email_from_model');
@@ -29,10 +30,9 @@ const updateConfigurationFieldsTrans = async (db, { id, descripcion, precioHora,
 const create = async (fields) => {
     const emailEnabled = ((process.env.EMAIL_ENABLED) && (process.env.EMAIL_ENABLED !== '0'));
 
-    let profesorId, emailId;
+    let profesorId, emailId, ramaId = 1;
     const db = await beginTransaction();
-    try {         
-        let ramaId = 1;
+    try {
         if (fields.ramaId) {
             ramaId = fields.ramaId;
         }
@@ -54,10 +54,12 @@ const create = async (fields) => {
         // No esperamos la resolución de la promesa, ni tratamos el error aquí
         // (quedaría anotado en la tabla que está pendiente, y el proceso encargado
         //  de enviar los pendientes lo hará cuando pueda).
+        const rama       = getRamaById(ramaId);
+        const nombreRama = rama ? rama.nombre : 'Rama desconocida';
         sendMailDataLoaded(
             emailId,
             EmailTypes.ALTA_PROFESOR,
-            { id: profesorId, ...fields }
+            { id: profesorId, ...fields, nombreRama }
         )
         .then()
         .catch();
