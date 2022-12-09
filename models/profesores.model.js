@@ -54,7 +54,7 @@ const create = async (fields) => {
         // No esperamos la resolución de la promesa, ni tratamos el error aquí
         // (quedaría anotado en la tabla que está pendiente, y el proceso encargado
         //  de enviar los pendientes lo hará cuando pueda).
-        const rama       = getRamaById(ramaId);
+        const rama       = await getRamaById(ramaId);
         const nombreRama = rama ? rama.nombre : 'Rama desconocida';
         sendMailDataLoaded(
             emailId,
